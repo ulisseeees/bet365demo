@@ -1,0 +1,3962 @@
+[
+  {
+    "id": "odds-f1ab0f69832972a329243522ceaa7804",
+    "sport": "Futebol",
+    "country": "Mundo",
+    "league": "FIFA World Cup",
+    "home": "Germany",
+    "away": "Ivory Coast",
+    "homeCode": "GER",
+    "awayCode": "IVO",
+    "kickoff": "20/06, 17:00",
+    "kickoffAt": "2026-06-20T20:00:00Z",
+    "status": "upcoming",
+    "source": "the-odds-api",
+    "markets": [
+      {
+        "id": "odds-h2h",
+        "name": "Resultado da partida",
+        "options": [
+          {
+            "id": "0-germany",
+            "label": "Germany",
+            "price": 1.57
+          },
+          {
+            "id": "1-ivory-coast",
+            "label": "Ivory Coast",
+            "price": 6
+          },
+          {
+            "id": "2-empate",
+            "label": "Empate",
+            "price": 4.72
+          }
+        ]
+      },
+      {
+        "id": "odds-spreads",
+        "name": "Handicap",
+        "options": [
+          {
+            "id": "0-germany-1-5",
+            "label": "Germany -1.5",
+            "price": 2.44
+          },
+          {
+            "id": "1-ivory-coast-1-5",
+            "label": "Ivory Coast +1.5",
+            "price": 1.6
+          }
+        ]
+      },
+      {
+        "id": "odds-totals",
+        "name": "Total de gols",
+        "options": [
+          {
+            "id": "0-mais-de-2-5",
+            "label": "Mais de 2.5",
+            "price": 1.66
+          },
+          {
+            "id": "1-menos-de-2-5",
+            "label": "Menos de 2.5",
+            "price": 2.3
+          }
+        ]
+      },
+      {
+        "id": "odds-btts",
+        "name": "Ambas marcam",
+        "options": [
+          {
+            "id": "0-sim",
+            "label": "Sim",
+            "price": 1.71
+          },
+          {
+            "id": "1-nao",
+            "label": "Não",
+            "price": 2.04
+          }
+        ]
+      },
+      {
+        "id": "odds-double_chance",
+        "name": "Double Chance",
+        "options": [
+          {
+            "id": "0-germany-or-draw",
+            "label": "Germany or Draw",
+            "price": 1.16
+          },
+          {
+            "id": "1-ivory-coast-or-draw",
+            "label": "Ivory Coast or Draw",
+            "price": 2.57
+          },
+          {
+            "id": "2-germany-or-ivory-coast",
+            "label": "Germany or Ivory Coast",
+            "price": 1.23
+          }
+        ]
+      },
+      {
+        "id": "odds-h2h_3_way",
+        "name": "H2h 3 Way",
+        "options": [
+          {
+            "id": "0-germany",
+            "label": "Germany",
+            "price": 1.57
+          },
+          {
+            "id": "1-ivory-coast",
+            "label": "Ivory Coast",
+            "price": 6
+          },
+          {
+            "id": "2-empate",
+            "label": "Empate",
+            "price": 4.72
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_spreads",
+        "name": "Handicaps alternativos",
+        "options": [
+          {
+            "id": "0-germany-3-5",
+            "label": "Germany -3.5",
+            "price": 8.3
+          },
+          {
+            "id": "1-germany-3",
+            "label": "Germany -3",
+            "price": 7.6
+          },
+          {
+            "id": "2-germany-2-5",
+            "label": "Germany -2.5",
+            "price": 4.25
+          },
+          {
+            "id": "3-germany-2",
+            "label": "Germany -2",
+            "price": 3.5
+          },
+          {
+            "id": "4-germany-1-5",
+            "label": "Germany -1.5",
+            "price": 2.44
+          },
+          {
+            "id": "5-germany-1",
+            "label": "Germany -1",
+            "price": 1.85
+          },
+          {
+            "id": "6-germany-0",
+            "label": "Germany 0",
+            "price": 1.17
+          },
+          {
+            "id": "7-germany-1",
+            "label": "Germany +1",
+            "price": 1.04
+          },
+          {
+            "id": "8-germany-1-5",
+            "label": "Germany +1.5",
+            "price": 1.03
+          },
+          {
+            "id": "9-ivory-coast-3-5",
+            "label": "Ivory Coast +3.5",
+            "price": 1.01
+          },
+          {
+            "id": "10-ivory-coast-3",
+            "label": "Ivory Coast +3",
+            "price": 1.03
+          },
+          {
+            "id": "11-ivory-coast-2-5",
+            "label": "Ivory Coast +2.5",
+            "price": 1.16
+          },
+          {
+            "id": "12-ivory-coast-2",
+            "label": "Ivory Coast +2",
+            "price": 1.25
+          },
+          {
+            "id": "13-ivory-coast-1-5",
+            "label": "Ivory Coast +1.5",
+            "price": 1.6
+          },
+          {
+            "id": "14-ivory-coast-1",
+            "label": "Ivory Coast +1",
+            "price": 1.98
+          },
+          {
+            "id": "15-ivory-coast-0",
+            "label": "Ivory Coast 0",
+            "price": 4.4
+          },
+          {
+            "id": "16-ivory-coast-1",
+            "label": "Ivory Coast -1",
+            "price": 11
+          },
+          {
+            "id": "17-ivory-coast-1-5",
+            "label": "Ivory Coast -1.5",
+            "price": 12.5
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_spreads_h1",
+        "name": "Alternate Spreads H1",
+        "options": [
+          {
+            "id": "0-germany-2",
+            "label": "Germany -2",
+            "price": 11
+          },
+          {
+            "id": "1-germany-1-5",
+            "label": "Germany -1.5",
+            "price": 4.8
+          },
+          {
+            "id": "2-germany-1",
+            "label": "Germany -1",
+            "price": 3.56
+          },
+          {
+            "id": "3-germany-0",
+            "label": "Germany 0",
+            "price": 1.26
+          },
+          {
+            "id": "4-ivory-coast-2",
+            "label": "Ivory Coast +2",
+            "price": 1.02
+          },
+          {
+            "id": "5-ivory-coast-1-5",
+            "label": "Ivory Coast +1.5",
+            "price": 1.11
+          },
+          {
+            "id": "6-ivory-coast-1",
+            "label": "Ivory Coast +1",
+            "price": 1.23
+          },
+          {
+            "id": "7-ivory-coast-0",
+            "label": "Ivory Coast 0",
+            "price": 3.48
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_spreads_h2",
+        "name": "Alternate Spreads H2",
+        "options": [
+          {
+            "id": "0-germany-2-5",
+            "label": "Germany -2.5",
+            "price": 9.2
+          },
+          {
+            "id": "1-germany-2",
+            "label": "Germany -2",
+            "price": 8.3
+          },
+          {
+            "id": "2-germany-1-5",
+            "label": "Germany -1.5",
+            "price": 3.84
+          },
+          {
+            "id": "3-germany-1",
+            "label": "Germany -1",
+            "price": 2.84
+          },
+          {
+            "id": "4-germany-0",
+            "label": "Germany 0",
+            "price": 1.24
+          },
+          {
+            "id": "6-ivory-coast-2",
+            "label": "Ivory Coast +2",
+            "price": 1.02
+          },
+          {
+            "id": "7-ivory-coast-1-5",
+            "label": "Ivory Coast +1.5",
+            "price": 1.21
+          },
+          {
+            "id": "8-ivory-coast-1",
+            "label": "Ivory Coast +1",
+            "price": 1.37
+          },
+          {
+            "id": "9-ivory-coast-0",
+            "label": "Ivory Coast 0",
+            "price": 3.48
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_totals",
+        "name": "Totais alternativos",
+        "options": [
+          {
+            "id": "0-mais-de-0-5",
+            "label": "Mais de 0.5",
+            "price": 1.01
+          },
+          {
+            "id": "1-mais-de-1",
+            "label": "Mais de 1",
+            "price": 1.04
+          },
+          {
+            "id": "2-mais-de-1-5",
+            "label": "Mais de 1.5",
+            "price": 1.16
+          },
+          {
+            "id": "3-mais-de-2",
+            "label": "Mais de 2",
+            "price": 1.26
+          },
+          {
+            "id": "4-mais-de-2-5",
+            "label": "Mais de 2.5",
+            "price": 1.66
+          },
+          {
+            "id": "5-mais-de-3",
+            "label": "Mais de 3",
+            "price": 1.99
+          },
+          {
+            "id": "6-mais-de-3-5",
+            "label": "Mais de 3.5",
+            "price": 2.5
+          },
+          {
+            "id": "7-mais-de-4",
+            "label": "Mais de 4",
+            "price": 3.68
+          },
+          {
+            "id": "8-mais-de-4-5",
+            "label": "Mais de 4.5",
+            "price": 4.4
+          },
+          {
+            "id": "9-mais-de-5",
+            "label": "Mais de 5",
+            "price": 7.6
+          },
+          {
+            "id": "10-mais-de-5-5",
+            "label": "Mais de 5.5",
+            "price": 8.3
+          },
+          {
+            "id": "11-mais-de-6-5",
+            "label": "Mais de 6.5",
+            "price": 19
+          },
+          {
+            "id": "12-mais-de-7-5",
+            "label": "Mais de 7.5",
+            "price": 41
+          },
+          {
+            "id": "13-menos-de-0-5",
+            "label": "Menos de 0.5",
+            "price": 15
+          },
+          {
+            "id": "14-menos-de-1",
+            "label": "Menos de 1",
+            "price": 11.5
+          },
+          {
+            "id": "15-menos-de-1-5",
+            "label": "Menos de 1.5",
+            "price": 4.45
+          },
+          {
+            "id": "16-menos-de-2",
+            "label": "Menos de 2",
+            "price": 3.56
+          },
+          {
+            "id": "17-menos-de-2-5",
+            "label": "Menos de 2.5",
+            "price": 2.3
+          },
+          {
+            "id": "18-menos-de-3",
+            "label": "Menos de 3",
+            "price": 1.75
+          },
+          {
+            "id": "19-menos-de-3-5",
+            "label": "Menos de 3.5",
+            "price": 1.46
+          },
+          {
+            "id": "20-menos-de-4",
+            "label": "Menos de 4",
+            "price": 1.21
+          },
+          {
+            "id": "21-menos-de-4-5",
+            "label": "Menos de 4.5",
+            "price": 1.14
+          },
+          {
+            "id": "22-menos-de-5",
+            "label": "Menos de 5",
+            "price": 1.03
+          },
+          {
+            "id": "23-menos-de-5-5",
+            "label": "Menos de 5.5",
+            "price": 1.02
+          },
+          {
+            "id": "24-menos-de-6-5",
+            "label": "Menos de 6.5",
+            "price": 1.02
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_totals_h1",
+        "name": "Alternate Totals H1",
+        "options": [
+          {
+            "id": "0-mais-de-0-5",
+            "label": "Mais de 0.5",
+            "price": 1.29
+          },
+          {
+            "id": "1-mais-de-1",
+            "label": "Mais de 1",
+            "price": 1.6
+          },
+          {
+            "id": "2-mais-de-1-5",
+            "label": "Mais de 1.5",
+            "price": 2.39
+          },
+          {
+            "id": "3-mais-de-2",
+            "label": "Mais de 2",
+            "price": 4.4
+          },
+          {
+            "id": "4-mais-de-2-5",
+            "label": "Mais de 2.5",
+            "price": 5.45
+          },
+          {
+            "id": "5-mais-de-3",
+            "label": "Mais de 3",
+            "price": 9.1
+          },
+          {
+            "id": "6-mais-de-3-5",
+            "label": "Mais de 3.5",
+            "price": 15
+          },
+          {
+            "id": "7-mais-de-4-5",
+            "label": "Mais de 4.5",
+            "price": 41
+          },
+          {
+            "id": "8-menos-de-0-5",
+            "label": "Menos de 0.5",
+            "price": 3.58
+          },
+          {
+            "id": "9-menos-de-1",
+            "label": "Menos de 1",
+            "price": 2.39
+          },
+          {
+            "id": "10-menos-de-1-5",
+            "label": "Menos de 1.5",
+            "price": 1.57
+          },
+          {
+            "id": "11-menos-de-2",
+            "label": "Menos de 2",
+            "price": 1.19
+          },
+          {
+            "id": "12-menos-de-2-5",
+            "label": "Menos de 2.5",
+            "price": 1.12
+          },
+          {
+            "id": "13-menos-de-3",
+            "label": "Menos de 3",
+            "price": 1.03
+          },
+          {
+            "id": "14-menos-de-3-5",
+            "label": "Menos de 3.5",
+            "price": 1.01
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_totals_h2",
+        "name": "Alternate Totals H2",
+        "options": [
+          {
+            "id": "0-mais-de-0-5",
+            "label": "Mais de 0.5",
+            "price": 1.17
+          },
+          {
+            "id": "1-mais-de-1",
+            "label": "Mais de 1",
+            "price": 1.32
+          },
+          {
+            "id": "2-mais-de-1-5",
+            "label": "Mais de 1.5",
+            "price": 1.92
+          },
+          {
+            "id": "3-mais-de-2",
+            "label": "Mais de 2",
+            "price": 2.85
+          },
+          {
+            "id": "4-mais-de-2-5",
+            "label": "Mais de 2.5",
+            "price": 3.75
+          },
+          {
+            "id": "5-mais-de-3-5",
+            "label": "Mais de 3.5",
+            "price": 7.5
+          },
+          {
+            "id": "6-mais-de-4-5",
+            "label": "Mais de 4.5",
+            "price": 23
+          },
+          {
+            "id": "7-menos-de-0-5",
+            "label": "Menos de 0.5",
+            "price": 4.75
+          },
+          {
+            "id": "8-menos-de-1",
+            "label": "Menos de 1",
+            "price": 3.36
+          },
+          {
+            "id": "9-menos-de-1-5",
+            "label": "Menos de 1.5",
+            "price": 1.92
+          },
+          {
+            "id": "10-menos-de-2",
+            "label": "Menos de 2",
+            "price": 1.42
+          },
+          {
+            "id": "11-menos-de-2-5",
+            "label": "Menos de 2.5",
+            "price": 1.25
+          },
+          {
+            "id": "12-menos-de-3-5",
+            "label": "Menos de 3.5",
+            "price": 1.06
+          },
+          {
+            "id": "13-menos-de-4-5",
+            "label": "Menos de 4.5",
+            "price": 1.01
+          }
+        ]
+      },
+      {
+        "id": "odds-btts_h1",
+        "name": "Ambas marcam - 1º tempo",
+        "options": [
+          {
+            "id": "0-sim",
+            "label": "Sim",
+            "price": 4.1
+          },
+          {
+            "id": "1-nao",
+            "label": "Não",
+            "price": 1.2
+          }
+        ]
+      },
+      {
+        "id": "odds-btts_h2",
+        "name": "Btts H2",
+        "options": [
+          {
+            "id": "0-sim",
+            "label": "Sim",
+            "price": 3.14
+          },
+          {
+            "id": "1-nao",
+            "label": "Não",
+            "price": 1.32
+          }
+        ]
+      },
+      {
+        "id": "odds-double_chance_h1",
+        "name": "Double Chance H1",
+        "options": [
+          {
+            "id": "0-germany-or-draw",
+            "label": "Germany or Draw",
+            "price": 1.1
+          },
+          {
+            "id": "1-ivory-coast-or-draw",
+            "label": "Ivory Coast or Draw",
+            "price": 1.72
+          },
+          {
+            "id": "2-germany-or-ivory-coast",
+            "label": "Germany or Ivory Coast",
+            "price": 1.47
+          }
+        ]
+      },
+      {
+        "id": "odds-double_chance_h2",
+        "name": "Double Chance H2",
+        "options": [
+          {
+            "id": "0-germany-or-draw",
+            "label": "Germany or Draw",
+            "price": 1.12
+          },
+          {
+            "id": "1-ivory-coast-or-draw",
+            "label": "Ivory Coast or Draw",
+            "price": 1.87
+          },
+          {
+            "id": "2-germany-or-ivory-coast",
+            "label": "Germany or Ivory Coast",
+            "price": 1.36
+          }
+        ]
+      },
+      {
+        "id": "odds-h2h_3_way_h1",
+        "name": "H2h 3 Way H1",
+        "options": [
+          {
+            "id": "0-germany",
+            "label": "Germany",
+            "price": 2.02
+          },
+          {
+            "id": "1-ivory-coast",
+            "label": "Ivory Coast",
+            "price": 5.59
+          },
+          {
+            "id": "2-empate",
+            "label": "Empate",
+            "price": 2.52
+          }
+        ]
+      },
+      {
+        "id": "odds-h2h_3_way_h2",
+        "name": "H2h 3 Way H2",
+        "options": [
+          {
+            "id": "0-germany",
+            "label": "Germany",
+            "price": 1.85
+          },
+          {
+            "id": "1-ivory-coast",
+            "label": "Ivory Coast",
+            "price": 5.34
+          },
+          {
+            "id": "2-empate",
+            "label": "Empate",
+            "price": 2.92
+          }
+        ]
+      },
+      {
+        "id": "odds-player_first_goal_scorer",
+        "name": "Player First Goal Scorer",
+        "options": [
+          {
+            "id": "0-deniz-undav-sim",
+            "label": "Deniz Undav - Sim",
+            "price": 5
+          },
+          {
+            "id": "1-nick-woltemade-sim",
+            "label": "Nick Woltemade - Sim",
+            "price": 5.2
+          },
+          {
+            "id": "2-kai-havertz-sim",
+            "label": "Kai Havertz - Sim",
+            "price": 5.5
+          },
+          {
+            "id": "3-maximilian-beier-sim",
+            "label": "Maximilian Beier - Sim",
+            "price": 5.8
+          },
+          {
+            "id": "4-jamal-musiala-sim",
+            "label": "Jamal Musiala - Sim",
+            "price": 7.5
+          },
+          {
+            "id": "5-leroy-sane-sim",
+            "label": "Leroy Sane - Sim",
+            "price": 7.6
+          },
+          {
+            "id": "6-florian-wirtz-sim",
+            "label": "Florian Wirtz - Sim",
+            "price": 7.6
+          },
+          {
+            "id": "7-jamie-leweling-sim",
+            "label": "Jamie Leweling - Sim",
+            "price": 8.4
+          },
+          {
+            "id": "8-ange-yoan-bonny-sim",
+            "label": "Ange-Yoan Bonny - Sim",
+            "price": 9
+          },
+          {
+            "id": "9-amad-diallo-sim",
+            "label": "Amad Diallo - Sim",
+            "price": 9.4
+          },
+          {
+            "id": "10-evann-guessand-sim",
+            "label": "Evann Guessand - Sim",
+            "price": 9.4
+          },
+          {
+            "id": "11-nadiem-amiri-sim",
+            "label": "Nadiem Amiri - Sim",
+            "price": 9.4
+          },
+          {
+            "id": "12-leon-goretzka-sim",
+            "label": "Leon Goretzka - Sim",
+            "price": 11
+          },
+          {
+            "id": "13-nicolas-pepe-sim",
+            "label": "Nicolas Pepe - Sim",
+            "price": 11.5
+          },
+          {
+            "id": "14-oumar-diakite-sim",
+            "label": "Oumar Diakite - Sim",
+            "price": 12
+          },
+          {
+            "id": "15-simon-adingra-sim",
+            "label": "Simon Adingra - Sim",
+            "price": 12
+          },
+          {
+            "id": "16-yan-diomande-sim",
+            "label": "Yan Diomande - Sim",
+            "price": 12
+          },
+          {
+            "id": "17-sepe-elye-wahi-sim",
+            "label": "Sepe Elye Wahi - Sim",
+            "price": 12
+          },
+          {
+            "id": "18-felix-nmecha-sim",
+            "label": "Felix Nmecha - Sim",
+            "price": 12.5
+          },
+          {
+            "id": "19-angelo-stiller-sim",
+            "label": "Angelo Stiller - Sim",
+            "price": 14
+          },
+          {
+            "id": "20-parfait-guiagon-sim",
+            "label": "Parfait Guiagon - Sim",
+            "price": 15
+          },
+          {
+            "id": "21-pascal-gross-sim",
+            "label": "Pascal Gross - Sim",
+            "price": 16
+          },
+          {
+            "id": "22-ibrahim-sangare-sim",
+            "label": "Ibrahim Sangare - Sim",
+            "price": 16
+          },
+          {
+            "id": "23-joshua-kimmich-sim",
+            "label": "Joshua Kimmich - Sim",
+            "price": 16.5
+          },
+          {
+            "id": "24-bazoumana-toure-sim",
+            "label": "Bazoumana Toure - Sim",
+            "price": 19
+          },
+          {
+            "id": "25-aleksandar-pavlovic-sim",
+            "label": "Aleksandar Pavlovic - Sim",
+            "price": 19
+          },
+          {
+            "id": "26-christ-ravynel-inao-oulai-sim",
+            "label": "Christ Ravynel Inao Oulai - Sim",
+            "price": 20
+          },
+          {
+            "id": "27-david-raum-sim",
+            "label": "David Raum - Sim",
+            "price": 20
+          },
+          {
+            "id": "28-jean-michael-seri-sim",
+            "label": "Jean Michael Seri - Sim",
+            "price": 20
+          },
+          {
+            "id": "29-franck-kessie-sim",
+            "label": "Franck Kessie - Sim",
+            "price": 20
+          },
+          {
+            "id": "30-seko-fofana-sim",
+            "label": "Seko Fofana - Sim",
+            "price": 21
+          },
+          {
+            "id": "31-jonathan-tah-sim",
+            "label": "Jonathan Tah - Sim",
+            "price": 21
+          },
+          {
+            "id": "32-nico-schlotterbeck-sim",
+            "label": "Nico Schlotterbeck - Sim",
+            "price": 21
+          },
+          {
+            "id": "33-nathaniel-brown-sim",
+            "label": "Nathaniel Brown - Sim",
+            "price": 22
+          },
+          {
+            "id": "34-antonio-rudiger-sim",
+            "label": "Antonio Rudiger - Sim",
+            "price": 24
+          },
+          {
+            "id": "35-malick-thiaw-sim",
+            "label": "Malick Thiaw - Sim",
+            "price": 24
+          },
+          {
+            "id": "36-waldemar-anton-sim",
+            "label": "Waldemar Anton - Sim",
+            "price": 24
+          },
+          {
+            "id": "37-ghislain-niclomande-konan-sim",
+            "label": "Ghislain Niclomande Konan - Sim",
+            "price": 32
+          },
+          {
+            "id": "38-ousmane-diomande-sim",
+            "label": "Ousmane Diomande - Sim",
+            "price": 34
+          },
+          {
+            "id": "39-evan-ndicka-sim",
+            "label": "Evan Ndicka - Sim",
+            "price": 34
+          },
+          {
+            "id": "40-guela-doue-sim",
+            "label": "Guela Doue - Sim",
+            "price": 40
+          },
+          {
+            "id": "41-wilfried-stephane-singo-sim",
+            "label": "Wilfried Stephane Singo - Sim",
+            "price": 40
+          },
+          {
+            "id": "42-christopher-operi-sim",
+            "label": "Christopher Operi - Sim",
+            "price": 41
+          },
+          {
+            "id": "43-odilon-kossounou-sim",
+            "label": "Odilon Kossounou - Sim",
+            "price": 46
+          },
+          {
+            "id": "44-emmanuel-agbadou-sim",
+            "label": "Emmanuel Agbadou - Sim",
+            "price": 55
+          }
+        ]
+      },
+      {
+        "id": "odds-player_goal_scorer_anytime",
+        "name": "Player Goal Scorer Anytime",
+        "options": [
+          {
+            "id": "0-deniz-undav-sim",
+            "label": "Deniz Undav - Sim",
+            "price": 2.3
+          },
+          {
+            "id": "1-kai-havertz-sim",
+            "label": "Kai Havertz - Sim",
+            "price": 2.32
+          },
+          {
+            "id": "2-nick-woltemade-sim",
+            "label": "Nick Woltemade - Sim",
+            "price": 2.5
+          },
+          {
+            "id": "3-maximilian-beier-sim",
+            "label": "Maximilian Beier - Sim",
+            "price": 2.62
+          },
+          {
+            "id": "4-jamal-musiala-sim",
+            "label": "Jamal Musiala - Sim",
+            "price": 3.1
+          },
+          {
+            "id": "5-florian-wirtz-sim",
+            "label": "Florian Wirtz - Sim",
+            "price": 3.1
+          },
+          {
+            "id": "6-leroy-sane-sim",
+            "label": "Leroy Sane - Sim",
+            "price": 3.1
+          },
+          {
+            "id": "7-jamie-leweling-sim",
+            "label": "Jamie Leweling - Sim",
+            "price": 4
+          },
+          {
+            "id": "8-evann-guessand-sim",
+            "label": "Evann Guessand - Sim",
+            "price": 4
+          },
+          {
+            "id": "9-ange-yoan-bonny-sim",
+            "label": "Ange-Yoan Bonny - Sim",
+            "price": 4
+          },
+          {
+            "id": "10-oumar-diakite-sim",
+            "label": "Oumar Diakite - Sim",
+            "price": 4.33
+          },
+          {
+            "id": "11-amad-diallo-sim",
+            "label": "Amad Diallo - Sim",
+            "price": 4.5
+          },
+          {
+            "id": "12-yan-diomande-sim",
+            "label": "Yan Diomande - Sim",
+            "price": 4.5
+          },
+          {
+            "id": "13-sepe-elye-wahi-sim",
+            "label": "Sepe Elye Wahi - Sim",
+            "price": 4.5
+          },
+          {
+            "id": "14-nicolas-pepe-sim",
+            "label": "Nicolas Pepe - Sim",
+            "price": 4.5
+          },
+          {
+            "id": "15-simon-adingra-sim",
+            "label": "Simon Adingra - Sim",
+            "price": 4.8
+          },
+          {
+            "id": "16-felix-nmecha-sim",
+            "label": "Felix Nmecha - Sim",
+            "price": 4.9
+          },
+          {
+            "id": "17-nadiem-amiri-sim",
+            "label": "Nadiem Amiri - Sim",
+            "price": 5
+          },
+          {
+            "id": "18-leon-goretzka-sim",
+            "label": "Leon Goretzka - Sim",
+            "price": 5
+          },
+          {
+            "id": "19-parfait-guiagon-sim",
+            "label": "Parfait Guiagon - Sim",
+            "price": 5
+          },
+          {
+            "id": "20-pascal-gross-sim",
+            "label": "Pascal Gross - Sim",
+            "price": 6.5
+          },
+          {
+            "id": "21-joshua-kimmich-sim",
+            "label": "Joshua Kimmich - Sim",
+            "price": 6.7
+          },
+          {
+            "id": "22-bazoumana-toure-sim",
+            "label": "Bazoumana Toure - Sim",
+            "price": 7.4
+          },
+          {
+            "id": "23-christ-ravynel-inao-oulai-sim",
+            "label": "Christ Ravynel Inao Oulai - Sim",
+            "price": 7.5
+          },
+          {
+            "id": "24-aleksandar-pavlovic-sim",
+            "label": "Aleksandar Pavlovic - Sim",
+            "price": 7.6
+          },
+          {
+            "id": "25-franck-kessie-sim",
+            "label": "Franck Kessie - Sim",
+            "price": 7.9
+          },
+          {
+            "id": "26-seko-fofana-sim",
+            "label": "Seko Fofana - Sim",
+            "price": 8.5
+          },
+          {
+            "id": "27-nico-schlotterbeck-sim",
+            "label": "Nico Schlotterbeck - Sim",
+            "price": 8.9
+          },
+          {
+            "id": "28-jonathan-tah-sim",
+            "label": "Jonathan Tah - Sim",
+            "price": 8.9
+          },
+          {
+            "id": "29-nathaniel-brown-sim",
+            "label": "Nathaniel Brown - Sim",
+            "price": 8.9
+          },
+          {
+            "id": "30-angelo-stiller-sim",
+            "label": "Angelo Stiller - Sim",
+            "price": 9
+          },
+          {
+            "id": "31-david-raum-sim",
+            "label": "David Raum - Sim",
+            "price": 9
+          },
+          {
+            "id": "32-ibrahim-sangare-sim",
+            "label": "Ibrahim Sangare - Sim",
+            "price": 9.5
+          },
+          {
+            "id": "33-christopher-operi-sim",
+            "label": "Christopher Operi - Sim",
+            "price": 9.5
+          },
+          {
+            "id": "34-jean-michael-seri-sim",
+            "label": "Jean Michael Seri - Sim",
+            "price": 11
+          },
+          {
+            "id": "35-malick-thiaw-sim",
+            "label": "Malick Thiaw - Sim",
+            "price": 11
+          },
+          {
+            "id": "36-antonio-rudiger-sim",
+            "label": "Antonio Rudiger - Sim",
+            "price": 12
+          },
+          {
+            "id": "37-ghislain-niclomande-konan-sim",
+            "label": "Ghislain Niclomande Konan - Sim",
+            "price": 12.5
+          },
+          {
+            "id": "38-waldemar-anton-sim",
+            "label": "Waldemar Anton - Sim",
+            "price": 13
+          },
+          {
+            "id": "39-evan-ndicka-sim",
+            "label": "Evan Ndicka - Sim",
+            "price": 15
+          },
+          {
+            "id": "40-odilon-kossounou-sim",
+            "label": "Odilon Kossounou - Sim",
+            "price": 17
+          },
+          {
+            "id": "41-ousmane-diomande-sim",
+            "label": "Ousmane Diomande - Sim",
+            "price": 17
+          },
+          {
+            "id": "42-guela-doue-sim",
+            "label": "Guela Doue - Sim",
+            "price": 17
+          },
+          {
+            "id": "43-wilfried-stephane-singo-sim",
+            "label": "Wilfried Stephane Singo - Sim",
+            "price": 17
+          },
+          {
+            "id": "44-emmanuel-agbadou-sim",
+            "label": "Emmanuel Agbadou - Sim",
+            "price": 25
+          }
+        ]
+      },
+      {
+        "id": "odds-player_goalie_saves_alternate",
+        "name": "Player Goalie Saves Alternate",
+        "options": [
+          {
+            "id": "0-alexander-nubel-mais-de-0-5",
+            "label": "Alexander Nubel - Mais de 0.5",
+            "price": 1.04
+          },
+          {
+            "id": "1-manuel-neuer-mais-de-0-5",
+            "label": "Manuel Neuer - Mais de 0.5",
+            "price": 1.04
+          },
+          {
+            "id": "2-oliver-baumann-mais-de-0-5",
+            "label": "Oliver Baumann - Mais de 0.5",
+            "price": 1.04
+          },
+          {
+            "id": "3-yahia-fofana-mais-de-1-5",
+            "label": "Yahia Fofana - Mais de 1.5",
+            "price": 1.05
+          },
+          {
+            "id": "4-alban-lafont-mais-de-1-5",
+            "label": "Alban Lafont - Mais de 1.5",
+            "price": 1.05
+          },
+          {
+            "id": "5-mohamed-kone-mais-de-1-5",
+            "label": "Mohamed Kone - Mais de 1.5",
+            "price": 1.05
+          },
+          {
+            "id": "6-oliver-baumann-mais-de-1-5",
+            "label": "Oliver Baumann - Mais de 1.5",
+            "price": 1.32
+          },
+          {
+            "id": "7-alexander-nubel-mais-de-1-5",
+            "label": "Alexander Nubel - Mais de 1.5",
+            "price": 1.32
+          },
+          {
+            "id": "8-manuel-neuer-mais-de-1-5",
+            "label": "Manuel Neuer - Mais de 1.5",
+            "price": 1.33
+          },
+          {
+            "id": "9-yahia-fofana-mais-de-2-5",
+            "label": "Yahia Fofana - Mais de 2.5",
+            "price": 1.26
+          },
+          {
+            "id": "10-alban-lafont-mais-de-2-5",
+            "label": "Alban Lafont - Mais de 2.5",
+            "price": 1.26
+          },
+          {
+            "id": "11-mohamed-kone-mais-de-2-5",
+            "label": "Mohamed Kone - Mais de 2.5",
+            "price": 1.26
+          },
+          {
+            "id": "12-manuel-neuer-mais-de-2-5",
+            "label": "Manuel Neuer - Mais de 2.5",
+            "price": 1.98
+          },
+          {
+            "id": "13-alexander-nubel-mais-de-2-5",
+            "label": "Alexander Nubel - Mais de 2.5",
+            "price": 1.98
+          },
+          {
+            "id": "14-oliver-baumann-mais-de-2-5",
+            "label": "Oliver Baumann - Mais de 2.5",
+            "price": 1.98
+          },
+          {
+            "id": "15-yahia-fofana-mais-de-3-5",
+            "label": "Yahia Fofana - Mais de 3.5",
+            "price": 1.65
+          },
+          {
+            "id": "16-alban-lafont-mais-de-3-5",
+            "label": "Alban Lafont - Mais de 3.5",
+            "price": 1.65
+          },
+          {
+            "id": "17-mohamed-kone-mais-de-3-5",
+            "label": "Mohamed Kone - Mais de 3.5",
+            "price": 1.68
+          },
+          {
+            "id": "18-alexander-nubel-mais-de-3-5",
+            "label": "Alexander Nubel - Mais de 3.5",
+            "price": 3.33
+          },
+          {
+            "id": "19-oliver-baumann-mais-de-3-5",
+            "label": "Oliver Baumann - Mais de 3.5",
+            "price": 3.33
+          },
+          {
+            "id": "20-manuel-neuer-mais-de-3-5",
+            "label": "Manuel Neuer - Mais de 3.5",
+            "price": 3.42
+          },
+          {
+            "id": "21-alban-lafont-mais-de-4-5",
+            "label": "Alban Lafont - Mais de 4.5",
+            "price": 2.44
+          },
+          {
+            "id": "22-yahia-fofana-mais-de-4-5",
+            "label": "Yahia Fofana - Mais de 4.5",
+            "price": 2.44
+          },
+          {
+            "id": "23-mohamed-kone-mais-de-4-5",
+            "label": "Mohamed Kone - Mais de 4.5",
+            "price": 2.49
+          },
+          {
+            "id": "24-oliver-baumann-mais-de-4-5",
+            "label": "Oliver Baumann - Mais de 4.5",
+            "price": 6.52
+          },
+          {
+            "id": "25-alexander-nubel-mais-de-4-5",
+            "label": "Alexander Nubel - Mais de 4.5",
+            "price": 6.52
+          },
+          {
+            "id": "26-manuel-neuer-mais-de-4-5",
+            "label": "Manuel Neuer - Mais de 4.5",
+            "price": 6.95
+          }
+        ]
+      },
+      {
+        "id": "odds-player_goals_alternate",
+        "name": "Player Goals Alternate",
+        "options": [
+          {
+            "id": "0-kai-havertz-mais-de-1-5",
+            "label": "Kai Havertz - Mais de 1.5",
+            "price": 9.3
+          },
+          {
+            "id": "1-florian-wirtz-mais-de-1-5",
+            "label": "Florian Wirtz - Mais de 1.5",
+            "price": 17
+          },
+          {
+            "id": "2-jamal-musiala-mais-de-1-5",
+            "label": "Jamal Musiala - Mais de 1.5",
+            "price": 17
+          },
+          {
+            "id": "3-leroy-sane-mais-de-1-5",
+            "label": "Leroy Sane - Mais de 1.5",
+            "price": 17
+          },
+          {
+            "id": "4-felix-nmecha-mais-de-1-5",
+            "label": "Felix Nmecha - Mais de 1.5",
+            "price": 36
+          },
+          {
+            "id": "5-kai-havertz-mais-de-2-5",
+            "label": "Kai Havertz - Mais de 2.5",
+            "price": 41
+          },
+          {
+            "id": "6-deniz-undav-mais-de-2-5",
+            "label": "Deniz Undav - Mais de 2.5",
+            "price": 60
+          },
+          {
+            "id": "7-nick-woltemade-mais-de-2-5",
+            "label": "Nick Woltemade - Mais de 2.5",
+            "price": 70
+          },
+          {
+            "id": "8-maximilian-beier-mais-de-2-5",
+            "label": "Maximilian Beier - Mais de 2.5",
+            "price": 90
+          },
+          {
+            "id": "9-aleksandar-pavlovic-mais-de-2-5",
+            "label": "Aleksandar Pavlovic - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "10-amad-diallo-mais-de-2-5",
+            "label": "Amad Diallo - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "11-ange-yoan-bonny-mais-de-2-5",
+            "label": "Ange-Yoan Bonny - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "12-angelo-stiller-mais-de-2-5",
+            "label": "Angelo Stiller - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "13-antonio-rudiger-mais-de-2-5",
+            "label": "Antonio Rudiger - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "14-bazoumana-toure-mais-de-2-5",
+            "label": "Bazoumana Toure - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "15-christ-ravynel-inao-oulai-mais-de-2-5",
+            "label": "Christ Ravynel Inao Oulai - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "16-christopher-operi-mais-de-2-5",
+            "label": "Christopher Operi - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "17-david-raum-mais-de-2-5",
+            "label": "David Raum - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "18-emmanuel-agbadou-mais-de-2-5",
+            "label": "Emmanuel Agbadou - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "19-evan-ndicka-mais-de-2-5",
+            "label": "Evan Ndicka - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "20-evann-guessand-mais-de-2-5",
+            "label": "Evann Guessand - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "21-franck-kessie-mais-de-2-5",
+            "label": "Franck Kessie - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "22-ghislain-niclomande-konan-mais-de-2-5",
+            "label": "Ghislain Niclomande Konan - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "23-guela-doue-mais-de-2-5",
+            "label": "Guela Doue - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "24-ibrahim-sangare-mais-de-2-5",
+            "label": "Ibrahim Sangare - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "25-jamie-leweling-mais-de-2-5",
+            "label": "Jamie Leweling - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "26-jean-michael-seri-mais-de-2-5",
+            "label": "Jean Michael Seri - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "27-jonathan-tah-mais-de-2-5",
+            "label": "Jonathan Tah - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "28-joshua-kimmich-mais-de-2-5",
+            "label": "Joshua Kimmich - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "29-leon-goretzka-mais-de-2-5",
+            "label": "Leon Goretzka - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "30-malick-thiaw-mais-de-2-5",
+            "label": "Malick Thiaw - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "31-nadiem-amiri-mais-de-2-5",
+            "label": "Nadiem Amiri - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "32-nathaniel-brown-mais-de-2-5",
+            "label": "Nathaniel Brown - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "33-nico-schlotterbeck-mais-de-2-5",
+            "label": "Nico Schlotterbeck - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "34-nicolas-pepe-mais-de-2-5",
+            "label": "Nicolas Pepe - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "35-odilon-kossounou-mais-de-2-5",
+            "label": "Odilon Kossounou - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "36-oumar-diakite-mais-de-2-5",
+            "label": "Oumar Diakite - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "37-ousmane-diomande-mais-de-2-5",
+            "label": "Ousmane Diomande - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "38-parfait-guiagon-mais-de-2-5",
+            "label": "Parfait Guiagon - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "39-pascal-gross-mais-de-2-5",
+            "label": "Pascal Gross - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "40-seko-fofana-mais-de-2-5",
+            "label": "Seko Fofana - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "41-sepe-elye-wahi-mais-de-2-5",
+            "label": "Sepe Elye Wahi - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "42-simon-adingra-mais-de-2-5",
+            "label": "Simon Adingra - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "43-waldemar-anton-mais-de-2-5",
+            "label": "Waldemar Anton - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "44-wilfried-stephane-singo-mais-de-2-5",
+            "label": "Wilfried Stephane Singo - Mais de 2.5",
+            "price": 100
+          },
+          {
+            "id": "45-yan-diomande-mais-de-2-5",
+            "label": "Yan Diomande - Mais de 2.5",
+            "price": 100
+          }
+        ]
+      },
+      {
+        "id": "odds-player_last_goal_scorer",
+        "name": "Player Last Goal Scorer",
+        "options": [
+          {
+            "id": "0-deniz-undav-sim",
+            "label": "Deniz Undav - Sim",
+            "price": 5
+          },
+          {
+            "id": "1-nick-woltemade-sim",
+            "label": "Nick Woltemade - Sim",
+            "price": 5.2
+          },
+          {
+            "id": "2-kai-havertz-sim",
+            "label": "Kai Havertz - Sim",
+            "price": 5.5
+          },
+          {
+            "id": "3-maximilian-beier-sim",
+            "label": "Maximilian Beier - Sim",
+            "price": 5.8
+          },
+          {
+            "id": "4-jamal-musiala-sim",
+            "label": "Jamal Musiala - Sim",
+            "price": 7.6
+          },
+          {
+            "id": "5-leroy-sane-sim",
+            "label": "Leroy Sane - Sim",
+            "price": 7.7
+          },
+          {
+            "id": "6-florian-wirtz-sim",
+            "label": "Florian Wirtz - Sim",
+            "price": 7.7
+          },
+          {
+            "id": "7-jamie-leweling-sim",
+            "label": "Jamie Leweling - Sim",
+            "price": 8.4
+          },
+          {
+            "id": "8-ange-yoan-bonny-sim",
+            "label": "Ange-Yoan Bonny - Sim",
+            "price": 9
+          },
+          {
+            "id": "9-nadiem-amiri-sim",
+            "label": "Nadiem Amiri - Sim",
+            "price": 9.4
+          },
+          {
+            "id": "10-evann-guessand-sim",
+            "label": "Evann Guessand - Sim",
+            "price": 9.4
+          },
+          {
+            "id": "11-amad-diallo-sim",
+            "label": "Amad Diallo - Sim",
+            "price": 9.4
+          },
+          {
+            "id": "12-leon-goretzka-sim",
+            "label": "Leon Goretzka - Sim",
+            "price": 11
+          },
+          {
+            "id": "13-nicolas-pepe-sim",
+            "label": "Nicolas Pepe - Sim",
+            "price": 11.5
+          },
+          {
+            "id": "14-yan-diomande-sim",
+            "label": "Yan Diomande - Sim",
+            "price": 11.5
+          },
+          {
+            "id": "15-sepe-elye-wahi-sim",
+            "label": "Sepe Elye Wahi - Sim",
+            "price": 12
+          },
+          {
+            "id": "16-oumar-diakite-sim",
+            "label": "Oumar Diakite - Sim",
+            "price": 12
+          },
+          {
+            "id": "17-simon-adingra-sim",
+            "label": "Simon Adingra - Sim",
+            "price": 12
+          },
+          {
+            "id": "18-felix-nmecha-sim",
+            "label": "Felix Nmecha - Sim",
+            "price": 12.5
+          },
+          {
+            "id": "19-angelo-stiller-sim",
+            "label": "Angelo Stiller - Sim",
+            "price": 14
+          },
+          {
+            "id": "20-parfait-guiagon-sim",
+            "label": "Parfait Guiagon - Sim",
+            "price": 15
+          },
+          {
+            "id": "21-ibrahim-sangare-sim",
+            "label": "Ibrahim Sangare - Sim",
+            "price": 16
+          },
+          {
+            "id": "22-pascal-gross-sim",
+            "label": "Pascal Gross - Sim",
+            "price": 16
+          },
+          {
+            "id": "23-joshua-kimmich-sim",
+            "label": "Joshua Kimmich - Sim",
+            "price": 16.5
+          },
+          {
+            "id": "24-bazoumana-toure-sim",
+            "label": "Bazoumana Toure - Sim",
+            "price": 18
+          },
+          {
+            "id": "25-franck-kessie-sim",
+            "label": "Franck Kessie - Sim",
+            "price": 19
+          },
+          {
+            "id": "26-aleksandar-pavlovic-sim",
+            "label": "Aleksandar Pavlovic - Sim",
+            "price": 19
+          },
+          {
+            "id": "27-seko-fofana-sim",
+            "label": "Seko Fofana - Sim",
+            "price": 20
+          },
+          {
+            "id": "28-jean-michael-seri-sim",
+            "label": "Jean Michael Seri - Sim",
+            "price": 20
+          },
+          {
+            "id": "29-david-raum-sim",
+            "label": "David Raum - Sim",
+            "price": 20
+          },
+          {
+            "id": "30-christ-ravynel-inao-oulai-sim",
+            "label": "Christ Ravynel Inao Oulai - Sim",
+            "price": 20
+          },
+          {
+            "id": "31-jonathan-tah-sim",
+            "label": "Jonathan Tah - Sim",
+            "price": 22
+          },
+          {
+            "id": "32-nathaniel-brown-sim",
+            "label": "Nathaniel Brown - Sim",
+            "price": 22
+          },
+          {
+            "id": "33-nico-schlotterbeck-sim",
+            "label": "Nico Schlotterbeck - Sim",
+            "price": 22
+          },
+          {
+            "id": "34-antonio-rudiger-sim",
+            "label": "Antonio Rudiger - Sim",
+            "price": 24
+          },
+          {
+            "id": "35-waldemar-anton-sim",
+            "label": "Waldemar Anton - Sim",
+            "price": 24
+          },
+          {
+            "id": "36-malick-thiaw-sim",
+            "label": "Malick Thiaw - Sim",
+            "price": 24
+          },
+          {
+            "id": "37-ghislain-niclomande-konan-sim",
+            "label": "Ghislain Niclomande Konan - Sim",
+            "price": 31
+          },
+          {
+            "id": "38-evan-ndicka-sim",
+            "label": "Evan Ndicka - Sim",
+            "price": 34
+          },
+          {
+            "id": "39-ousmane-diomande-sim",
+            "label": "Ousmane Diomande - Sim",
+            "price": 34
+          },
+          {
+            "id": "40-wilfried-stephane-singo-sim",
+            "label": "Wilfried Stephane Singo - Sim",
+            "price": 41
+          },
+          {
+            "id": "41-christopher-operi-sim",
+            "label": "Christopher Operi - Sim",
+            "price": 41
+          },
+          {
+            "id": "42-guela-doue-sim",
+            "label": "Guela Doue - Sim",
+            "price": 41
+          },
+          {
+            "id": "43-odilon-kossounou-sim",
+            "label": "Odilon Kossounou - Sim",
+            "price": 46
+          },
+          {
+            "id": "44-emmanuel-agbadou-sim",
+            "label": "Emmanuel Agbadou - Sim",
+            "price": 55
+          }
+        ]
+      },
+      {
+        "id": "odds-player_shots",
+        "name": "Player Shots",
+        "options": [
+          {
+            "id": "0-jamal-musiala-mais-de-0-5",
+            "label": "Jamal Musiala - Mais de 0.5",
+            "price": 1.01
+          },
+          {
+            "id": "1-kai-havertz-mais-de-0-5",
+            "label": "Kai Havertz - Mais de 0.5",
+            "price": 1.01
+          },
+          {
+            "id": "2-florian-wirtz-mais-de-0-5",
+            "label": "Florian Wirtz - Mais de 0.5",
+            "price": 1.02
+          },
+          {
+            "id": "3-leroy-sane-mais-de-0-5",
+            "label": "Leroy Sane - Mais de 0.5",
+            "price": 1.03
+          },
+          {
+            "id": "4-maximilian-beier-mais-de-0-5",
+            "label": "Maximilian Beier - Mais de 0.5",
+            "price": 1.04
+          },
+          {
+            "id": "5-nick-woltemade-mais-de-0-5",
+            "label": "Nick Woltemade - Mais de 0.5",
+            "price": 1.05
+          },
+          {
+            "id": "6-amad-diallo-mais-de-0-5",
+            "label": "Amad Diallo - Mais de 0.5",
+            "price": 1.06
+          },
+          {
+            "id": "7-jamie-leweling-mais-de-0-5",
+            "label": "Jamie Leweling - Mais de 0.5",
+            "price": 1.06
+          },
+          {
+            "id": "8-evann-guessand-mais-de-0-5",
+            "label": "Evann Guessand - Mais de 0.5",
+            "price": 1.08
+          },
+          {
+            "id": "9-ange-yoan-bonny-mais-de-0-5",
+            "label": "Ange-Yoan Bonny - Mais de 0.5",
+            "price": 1.08
+          },
+          {
+            "id": "10-sepe-elye-wahi-mais-de-0-5",
+            "label": "Sepe Elye Wahi - Mais de 0.5",
+            "price": 1.09
+          },
+          {
+            "id": "11-nadiem-amiri-mais-de-0-5",
+            "label": "Nadiem Amiri - Mais de 0.5",
+            "price": 1.1
+          },
+          {
+            "id": "12-nicolas-pepe-mais-de-0-5",
+            "label": "Nicolas Pepe - Mais de 0.5",
+            "price": 1.15
+          },
+          {
+            "id": "13-felix-nmecha-mais-de-0-5",
+            "label": "Felix Nmecha - Mais de 0.5",
+            "price": 1.2
+          },
+          {
+            "id": "14-yan-diomande-mais-de-0-5",
+            "label": "Yan Diomande - Mais de 0.5",
+            "price": 1.22
+          },
+          {
+            "id": "15-simon-adingra-mais-de-0-5",
+            "label": "Simon Adingra - Mais de 0.5",
+            "price": 1.25
+          },
+          {
+            "id": "16-leon-goretzka-mais-de-0-5",
+            "label": "Leon Goretzka - Mais de 0.5",
+            "price": 1.25
+          },
+          {
+            "id": "17-oumar-diakite-mais-de-0-5",
+            "label": "Oumar Diakite - Mais de 0.5",
+            "price": 1.3
+          },
+          {
+            "id": "18-nico-schlotterbeck-mais-de-0-5",
+            "label": "Nico Schlotterbeck - Mais de 0.5",
+            "price": 1.3
+          },
+          {
+            "id": "19-joshua-kimmich-mais-de-0-5",
+            "label": "Joshua Kimmich - Mais de 0.5",
+            "price": 1.3
+          },
+          {
+            "id": "20-seko-fofana-mais-de-0-5",
+            "label": "Seko Fofana - Mais de 0.5",
+            "price": 1.33
+          },
+          {
+            "id": "21-angelo-stiller-mais-de-0-5",
+            "label": "Angelo Stiller - Mais de 0.5",
+            "price": 1.4
+          },
+          {
+            "id": "22-bazoumana-toure-mais-de-0-5",
+            "label": "Bazoumana Toure - Mais de 0.5",
+            "price": 1.44
+          },
+          {
+            "id": "23-nathaniel-brown-mais-de-0-5",
+            "label": "Nathaniel Brown - Mais de 0.5",
+            "price": 1.44
+          },
+          {
+            "id": "24-pascal-gross-mais-de-0-5",
+            "label": "Pascal Gross - Mais de 0.5",
+            "price": 1.5
+          },
+          {
+            "id": "25-parfait-guiagon-mais-de-0-5",
+            "label": "Parfait Guiagon - Mais de 0.5",
+            "price": 1.5
+          },
+          {
+            "id": "26-ibrahim-sangare-mais-de-0-5",
+            "label": "Ibrahim Sangare - Mais de 0.5",
+            "price": 1.5
+          },
+          {
+            "id": "27-franck-kessie-mais-de-0-5",
+            "label": "Franck Kessie - Mais de 0.5",
+            "price": 1.5
+          },
+          {
+            "id": "28-aleksandar-pavlovic-mais-de-0-5",
+            "label": "Aleksandar Pavlovic - Mais de 0.5",
+            "price": 1.57
+          },
+          {
+            "id": "29-jean-michael-seri-mais-de-0-5",
+            "label": "Jean Michael Seri - Mais de 0.5",
+            "price": 1.7
+          },
+          {
+            "id": "30-david-raum-mais-de-0-5",
+            "label": "David Raum - Mais de 0.5",
+            "price": 1.75
+          },
+          {
+            "id": "31-malick-thiaw-mais-de-0-5",
+            "label": "Malick Thiaw - Mais de 0.5",
+            "price": 1.75
+          },
+          {
+            "id": "32-christ-ravynel-inao-oulai-mais-de-0-5",
+            "label": "Christ Ravynel Inao Oulai - Mais de 0.5",
+            "price": 1.75
+          },
+          {
+            "id": "33-antonio-rudiger-mais-de-0-5",
+            "label": "Antonio Rudiger - Mais de 0.5",
+            "price": 1.75
+          },
+          {
+            "id": "34-jonathan-tah-mais-de-0-5",
+            "label": "Jonathan Tah - Mais de 0.5",
+            "price": 1.75
+          },
+          {
+            "id": "35-waldemar-anton-mais-de-0-5",
+            "label": "Waldemar Anton - Mais de 0.5",
+            "price": 1.75
+          },
+          {
+            "id": "36-emmanuel-agbadou-mais-de-0-5",
+            "label": "Emmanuel Agbadou - Mais de 0.5",
+            "price": 2.1
+          },
+          {
+            "id": "37-wilfried-stephane-singo-mais-de-0-5",
+            "label": "Wilfried Stephane Singo - Mais de 0.5",
+            "price": 2.1
+          },
+          {
+            "id": "38-christopher-operi-mais-de-0-5",
+            "label": "Christopher Operi - Mais de 0.5",
+            "price": 2.1
+          },
+          {
+            "id": "39-ousmane-diomande-mais-de-0-5",
+            "label": "Ousmane Diomande - Mais de 0.5",
+            "price": 2.3
+          },
+          {
+            "id": "40-evan-ndicka-mais-de-0-5",
+            "label": "Evan Ndicka - Mais de 0.5",
+            "price": 2.5
+          },
+          {
+            "id": "41-guela-doue-mais-de-0-5",
+            "label": "Guela Doue - Mais de 0.5",
+            "price": 2.62
+          },
+          {
+            "id": "42-ghislain-niclomande-konan-mais-de-0-5",
+            "label": "Ghislain Niclomande Konan - Mais de 0.5",
+            "price": 2.62
+          },
+          {
+            "id": "43-odilon-kossounou-mais-de-0-5",
+            "label": "Odilon Kossounou - Mais de 0.5",
+            "price": 2.75
+          },
+          {
+            "id": "44-deniz-undav-mais-de-1-5",
+            "label": "Deniz Undav - Mais de 1.5",
+            "price": 1.11
+          },
+          {
+            "id": "45-kai-havertz-mais-de-1-5",
+            "label": "Kai Havertz - Mais de 1.5",
+            "price": 1.14
+          },
+          {
+            "id": "46-jamal-musiala-mais-de-1-5",
+            "label": "Jamal Musiala - Mais de 1.5",
+            "price": 1.21
+          },
+          {
+            "id": "47-maximilian-beier-mais-de-1-5",
+            "label": "Maximilian Beier - Mais de 1.5",
+            "price": 1.21
+          },
+          {
+            "id": "48-nick-woltemade-mais-de-1-5",
+            "label": "Nick Woltemade - Mais de 1.5",
+            "price": 1.27
+          },
+          {
+            "id": "49-amad-diallo-mais-de-1-5",
+            "label": "Amad Diallo - Mais de 1.5",
+            "price": 1.4
+          },
+          {
+            "id": "50-florian-wirtz-mais-de-1-5",
+            "label": "Florian Wirtz - Mais de 1.5",
+            "price": 1.4
+          },
+          {
+            "id": "51-jamie-leweling-mais-de-1-5",
+            "label": "Jamie Leweling - Mais de 1.5",
+            "price": 1.4
+          },
+          {
+            "id": "52-leroy-sane-mais-de-1-5",
+            "label": "Leroy Sane - Mais de 1.5",
+            "price": 1.44
+          },
+          {
+            "id": "53-nadiem-amiri-mais-de-1-5",
+            "label": "Nadiem Amiri - Mais de 1.5",
+            "price": 1.44
+          },
+          {
+            "id": "54-sepe-elye-wahi-mais-de-1-5",
+            "label": "Sepe Elye Wahi - Mais de 1.5",
+            "price": 1.45
+          },
+          {
+            "id": "55-ange-yoan-bonny-mais-de-1-5",
+            "label": "Ange-Yoan Bonny - Mais de 1.5",
+            "price": 1.6
+          },
+          {
+            "id": "56-evann-guessand-mais-de-1-5",
+            "label": "Evann Guessand - Mais de 1.5",
+            "price": 1.6
+          },
+          {
+            "id": "57-nicolas-pepe-mais-de-1-5",
+            "label": "Nicolas Pepe - Mais de 1.5",
+            "price": 1.67
+          },
+          {
+            "id": "58-felix-nmecha-mais-de-1-5",
+            "label": "Felix Nmecha - Mais de 1.5",
+            "price": 1.91
+          },
+          {
+            "id": "59-yan-diomande-mais-de-1-5",
+            "label": "Yan Diomande - Mais de 1.5",
+            "price": 2
+          },
+          {
+            "id": "60-simon-adingra-mais-de-1-5",
+            "label": "Simon Adingra - Mais de 1.5",
+            "price": 2.1
+          },
+          {
+            "id": "61-leon-goretzka-mais-de-1-5",
+            "label": "Leon Goretzka - Mais de 1.5",
+            "price": 2.15
+          },
+          {
+            "id": "62-oumar-diakite-mais-de-1-5",
+            "label": "Oumar Diakite - Mais de 1.5",
+            "price": 2.3
+          },
+          {
+            "id": "63-nico-schlotterbeck-mais-de-1-5",
+            "label": "Nico Schlotterbeck - Mais de 1.5",
+            "price": 2.3
+          },
+          {
+            "id": "64-joshua-kimmich-mais-de-1-5",
+            "label": "Joshua Kimmich - Mais de 1.5",
+            "price": 2.3
+          },
+          {
+            "id": "65-seko-fofana-mais-de-1-5",
+            "label": "Seko Fofana - Mais de 1.5",
+            "price": 2.4
+          },
+          {
+            "id": "66-angelo-stiller-mais-de-1-5",
+            "label": "Angelo Stiller - Mais de 1.5",
+            "price": 2.75
+          },
+          {
+            "id": "67-bazoumana-toure-mais-de-1-5",
+            "label": "Bazoumana Toure - Mais de 1.5",
+            "price": 2.9
+          },
+          {
+            "id": "68-nathaniel-brown-mais-de-1-5",
+            "label": "Nathaniel Brown - Mais de 1.5",
+            "price": 2.9
+          },
+          {
+            "id": "69-parfait-guiagon-mais-de-1-5",
+            "label": "Parfait Guiagon - Mais de 1.5",
+            "price": 3
+          },
+          {
+            "id": "70-pascal-gross-mais-de-1-5",
+            "label": "Pascal Gross - Mais de 1.5",
+            "price": 3
+          },
+          {
+            "id": "71-franck-kessie-mais-de-1-5",
+            "label": "Franck Kessie - Mais de 1.5",
+            "price": 3
+          },
+          {
+            "id": "72-ibrahim-sangare-mais-de-1-5",
+            "label": "Ibrahim Sangare - Mais de 1.5",
+            "price": 3
+          },
+          {
+            "id": "73-aleksandar-pavlovic-mais-de-1-5",
+            "label": "Aleksandar Pavlovic - Mais de 1.5",
+            "price": 3.4
+          },
+          {
+            "id": "74-jean-michael-seri-mais-de-1-5",
+            "label": "Jean Michael Seri - Mais de 1.5",
+            "price": 3.9
+          },
+          {
+            "id": "75-david-raum-mais-de-1-5",
+            "label": "David Raum - Mais de 1.5",
+            "price": 4
+          },
+          {
+            "id": "76-malick-thiaw-mais-de-1-5",
+            "label": "Malick Thiaw - Mais de 1.5",
+            "price": 4
+          },
+          {
+            "id": "77-antonio-rudiger-mais-de-1-5",
+            "label": "Antonio Rudiger - Mais de 1.5",
+            "price": 4
+          },
+          {
+            "id": "78-waldemar-anton-mais-de-1-5",
+            "label": "Waldemar Anton - Mais de 1.5",
+            "price": 4
+          },
+          {
+            "id": "79-jonathan-tah-mais-de-1-5",
+            "label": "Jonathan Tah - Mais de 1.5",
+            "price": 4
+          },
+          {
+            "id": "80-christ-ravynel-inao-oulai-mais-de-1-5",
+            "label": "Christ Ravynel Inao Oulai - Mais de 1.5",
+            "price": 4
+          },
+          {
+            "id": "81-emmanuel-agbadou-mais-de-1-5",
+            "label": "Emmanuel Agbadou - Mais de 1.5",
+            "price": 6
+          },
+          {
+            "id": "82-christopher-operi-mais-de-1-5",
+            "label": "Christopher Operi - Mais de 1.5",
+            "price": 6
+          },
+          {
+            "id": "83-wilfried-stephane-singo-mais-de-1-5",
+            "label": "Wilfried Stephane Singo - Mais de 1.5",
+            "price": 6
+          },
+          {
+            "id": "84-ousmane-diomande-mais-de-1-5",
+            "label": "Ousmane Diomande - Mais de 1.5",
+            "price": 7
+          },
+          {
+            "id": "85-evan-ndicka-mais-de-1-5",
+            "label": "Evan Ndicka - Mais de 1.5",
+            "price": 8.5
+          },
+          {
+            "id": "86-guela-doue-mais-de-1-5",
+            "label": "Guela Doue - Mais de 1.5",
+            "price": 9
+          },
+          {
+            "id": "87-ghislain-niclomande-konan-mais-de-1-5",
+            "label": "Ghislain Niclomande Konan - Mais de 1.5",
+            "price": 9
+          },
+          {
+            "id": "88-odilon-kossounou-mais-de-1-5",
+            "label": "Odilon Kossounou - Mais de 1.5",
+            "price": 9.5
+          },
+          {
+            "id": "89-nick-woltemade-mais-de-2-5",
+            "label": "Nick Woltemade - Mais de 2.5",
+            "price": 1.44
+          },
+          {
+            "id": "90-deniz-undav-mais-de-2-5",
+            "label": "Deniz Undav - Mais de 2.5",
+            "price": 1.44
+          },
+          {
+            "id": "91-jamal-musiala-mais-de-2-5",
+            "label": "Jamal Musiala - Mais de 2.5",
+            "price": 1.5
+          },
+          {
+            "id": "92-kai-havertz-mais-de-2-5",
+            "label": "Kai Havertz - Mais de 2.5",
+            "price": 1.5
+          },
+          {
+            "id": "93-maximilian-beier-mais-de-2-5",
+            "label": "Maximilian Beier - Mais de 2.5",
+            "price": 1.5
+          },
+          {
+            "id": "94-jamie-leweling-mais-de-2-5",
+            "label": "Jamie Leweling - Mais de 2.5",
+            "price": 2.1
+          },
+          {
+            "id": "95-florian-wirtz-mais-de-2-5",
+            "label": "Florian Wirtz - Mais de 2.5",
+            "price": 2.1
+          },
+          {
+            "id": "96-amad-diallo-mais-de-2-5",
+            "label": "Amad Diallo - Mais de 2.5",
+            "price": 2.1
+          },
+          {
+            "id": "97-nadiem-amiri-mais-de-2-5",
+            "label": "Nadiem Amiri - Mais de 2.5",
+            "price": 2.3
+          },
+          {
+            "id": "98-leroy-sane-mais-de-2-5",
+            "label": "Leroy Sane - Mais de 2.5",
+            "price": 2.3
+          },
+          {
+            "id": "99-sepe-elye-wahi-mais-de-2-5",
+            "label": "Sepe Elye Wahi - Mais de 2.5",
+            "price": 2.35
+          },
+          {
+            "id": "100-evann-guessand-mais-de-2-5",
+            "label": "Evann Guessand - Mais de 2.5",
+            "price": 2.62
+          },
+          {
+            "id": "101-ange-yoan-bonny-mais-de-2-5",
+            "label": "Ange-Yoan Bonny - Mais de 2.5",
+            "price": 2.62
+          },
+          {
+            "id": "102-nicolas-pepe-mais-de-2-5",
+            "label": "Nicolas Pepe - Mais de 2.5",
+            "price": 2.8
+          },
+          {
+            "id": "103-felix-nmecha-mais-de-2-5",
+            "label": "Felix Nmecha - Mais de 2.5",
+            "price": 3.6
+          },
+          {
+            "id": "104-yan-diomande-mais-de-2-5",
+            "label": "Yan Diomande - Mais de 2.5",
+            "price": 3.9
+          },
+          {
+            "id": "105-simon-adingra-mais-de-2-5",
+            "label": "Simon Adingra - Mais de 2.5",
+            "price": 4
+          },
+          {
+            "id": "106-leon-goretzka-mais-de-2-5",
+            "label": "Leon Goretzka - Mais de 2.5",
+            "price": 4.2
+          },
+          {
+            "id": "107-nico-schlotterbeck-mais-de-2-5",
+            "label": "Nico Schlotterbeck - Mais de 2.5",
+            "price": 4.75
+          },
+          {
+            "id": "108-joshua-kimmich-mais-de-2-5",
+            "label": "Joshua Kimmich - Mais de 2.5",
+            "price": 4.75
+          },
+          {
+            "id": "109-oumar-diakite-mais-de-2-5",
+            "label": "Oumar Diakite - Mais de 2.5",
+            "price": 4.75
+          },
+          {
+            "id": "110-seko-fofana-mais-de-2-5",
+            "label": "Seko Fofana - Mais de 2.5",
+            "price": 5
+          },
+          {
+            "id": "111-angelo-stiller-mais-de-2-5",
+            "label": "Angelo Stiller - Mais de 2.5",
+            "price": 6
+          },
+          {
+            "id": "112-bazoumana-toure-mais-de-2-5",
+            "label": "Bazoumana Toure - Mais de 2.5",
+            "price": 6.5
+          },
+          {
+            "id": "113-nathaniel-brown-mais-de-2-5",
+            "label": "Nathaniel Brown - Mais de 2.5",
+            "price": 6.5
+          },
+          {
+            "id": "114-franck-kessie-mais-de-2-5",
+            "label": "Franck Kessie - Mais de 2.5",
+            "price": 7
+          },
+          {
+            "id": "115-ibrahim-sangare-mais-de-2-5",
+            "label": "Ibrahim Sangare - Mais de 2.5",
+            "price": 7
+          },
+          {
+            "id": "116-pascal-gross-mais-de-2-5",
+            "label": "Pascal Gross - Mais de 2.5",
+            "price": 7
+          },
+          {
+            "id": "117-parfait-guiagon-mais-de-2-5",
+            "label": "Parfait Guiagon - Mais de 2.5",
+            "price": 7
+          },
+          {
+            "id": "118-aleksandar-pavlovic-mais-de-2-5",
+            "label": "Aleksandar Pavlovic - Mais de 2.5",
+            "price": 8
+          },
+          {
+            "id": "119-jean-michael-seri-mais-de-2-5",
+            "label": "Jean Michael Seri - Mais de 2.5",
+            "price": 9.5
+          },
+          {
+            "id": "120-malick-thiaw-mais-de-2-5",
+            "label": "Malick Thiaw - Mais de 2.5",
+            "price": 10
+          },
+          {
+            "id": "121-david-raum-mais-de-2-5",
+            "label": "David Raum - Mais de 2.5",
+            "price": 10
+          },
+          {
+            "id": "122-jonathan-tah-mais-de-2-5",
+            "label": "Jonathan Tah - Mais de 2.5",
+            "price": 10
+          },
+          {
+            "id": "123-christ-ravynel-inao-oulai-mais-de-2-5",
+            "label": "Christ Ravynel Inao Oulai - Mais de 2.5",
+            "price": 10
+          },
+          {
+            "id": "124-waldemar-anton-mais-de-2-5",
+            "label": "Waldemar Anton - Mais de 2.5",
+            "price": 10
+          },
+          {
+            "id": "125-antonio-rudiger-mais-de-2-5",
+            "label": "Antonio Rudiger - Mais de 2.5",
+            "price": 10
+          },
+          {
+            "id": "126-wilfried-stephane-singo-mais-de-2-5",
+            "label": "Wilfried Stephane Singo - Mais de 2.5",
+            "price": 15
+          },
+          {
+            "id": "127-emmanuel-agbadou-mais-de-2-5",
+            "label": "Emmanuel Agbadou - Mais de 2.5",
+            "price": 15
+          },
+          {
+            "id": "128-christopher-operi-mais-de-2-5",
+            "label": "Christopher Operi - Mais de 2.5",
+            "price": 15
+          },
+          {
+            "id": "129-guela-doue-mais-de-2-5",
+            "label": "Guela Doue - Mais de 2.5",
+            "price": 17
+          },
+          {
+            "id": "130-ghislain-niclomande-konan-mais-de-2-5",
+            "label": "Ghislain Niclomande Konan - Mais de 2.5",
+            "price": 23
+          },
+          {
+            "id": "131-ousmane-diomande-mais-de-2-5",
+            "label": "Ousmane Diomande - Mais de 2.5",
+            "price": 26
+          },
+          {
+            "id": "132-evan-ndicka-mais-de-2-5",
+            "label": "Evan Ndicka - Mais de 2.5",
+            "price": 29
+          },
+          {
+            "id": "133-nick-woltemade-mais-de-3-5",
+            "label": "Nick Woltemade - Mais de 3.5",
+            "price": 2.05
+          },
+          {
+            "id": "134-deniz-undav-mais-de-3-5",
+            "label": "Deniz Undav - Mais de 3.5",
+            "price": 2.05
+          },
+          {
+            "id": "135-maximilian-beier-mais-de-3-5",
+            "label": "Maximilian Beier - Mais de 3.5",
+            "price": 2.15
+          },
+          {
+            "id": "136-kai-havertz-mais-de-3-5",
+            "label": "Kai Havertz - Mais de 3.5",
+            "price": 2.15
+          },
+          {
+            "id": "137-jamal-musiala-mais-de-3-5",
+            "label": "Jamal Musiala - Mais de 3.5",
+            "price": 2.15
+          },
+          {
+            "id": "138-jamie-leweling-mais-de-3-5",
+            "label": "Jamie Leweling - Mais de 3.5",
+            "price": 3.6
+          },
+          {
+            "id": "139-amad-diallo-mais-de-3-5",
+            "label": "Amad Diallo - Mais de 3.5",
+            "price": 3.6
+          },
+          {
+            "id": "140-florian-wirtz-mais-de-3-5",
+            "label": "Florian Wirtz - Mais de 3.5",
+            "price": 3.6
+          },
+          {
+            "id": "141-leroy-sane-mais-de-3-5",
+            "label": "Leroy Sane - Mais de 3.5",
+            "price": 4
+          },
+          {
+            "id": "142-nadiem-amiri-mais-de-3-5",
+            "label": "Nadiem Amiri - Mais de 3.5",
+            "price": 4
+          },
+          {
+            "id": "143-sepe-elye-wahi-mais-de-3-5",
+            "label": "Sepe Elye Wahi - Mais de 3.5",
+            "price": 4.6
+          },
+          {
+            "id": "144-ange-yoan-bonny-mais-de-3-5",
+            "label": "Ange-Yoan Bonny - Mais de 3.5",
+            "price": 4.8
+          },
+          {
+            "id": "145-evann-guessand-mais-de-3-5",
+            "label": "Evann Guessand - Mais de 3.5",
+            "price": 4.8
+          },
+          {
+            "id": "146-nicolas-pepe-mais-de-3-5",
+            "label": "Nicolas Pepe - Mais de 3.5",
+            "price": 5
+          },
+          {
+            "id": "147-felix-nmecha-mais-de-3-5",
+            "label": "Felix Nmecha - Mais de 3.5",
+            "price": 7
+          },
+          {
+            "id": "148-yan-diomande-mais-de-3-5",
+            "label": "Yan Diomande - Mais de 3.5",
+            "price": 8
+          },
+          {
+            "id": "149-simon-adingra-mais-de-3-5",
+            "label": "Simon Adingra - Mais de 3.5",
+            "price": 8.5
+          },
+          {
+            "id": "150-leon-goretzka-mais-de-3-5",
+            "label": "Leon Goretzka - Mais de 3.5",
+            "price": 9
+          },
+          {
+            "id": "151-nico-schlotterbeck-mais-de-3-5",
+            "label": "Nico Schlotterbeck - Mais de 3.5",
+            "price": 10
+          },
+          {
+            "id": "152-seko-fofana-mais-de-3-5",
+            "label": "Seko Fofana - Mais de 3.5",
+            "price": 10
+          },
+          {
+            "id": "153-oumar-diakite-mais-de-3-5",
+            "label": "Oumar Diakite - Mais de 3.5",
+            "price": 10
+          },
+          {
+            "id": "154-joshua-kimmich-mais-de-3-5",
+            "label": "Joshua Kimmich - Mais de 3.5",
+            "price": 10
+          },
+          {
+            "id": "155-nathaniel-brown-mais-de-3-5",
+            "label": "Nathaniel Brown - Mais de 3.5",
+            "price": 13
+          },
+          {
+            "id": "156-bazoumana-toure-mais-de-3-5",
+            "label": "Bazoumana Toure - Mais de 3.5",
+            "price": 13
+          },
+          {
+            "id": "157-angelo-stiller-mais-de-3-5",
+            "label": "Angelo Stiller - Mais de 3.5",
+            "price": 13
+          },
+          {
+            "id": "158-ibrahim-sangare-mais-de-3-5",
+            "label": "Ibrahim Sangare - Mais de 3.5",
+            "price": 15
+          },
+          {
+            "id": "159-franck-kessie-mais-de-3-5",
+            "label": "Franck Kessie - Mais de 3.5",
+            "price": 15
+          },
+          {
+            "id": "160-parfait-guiagon-mais-de-3-5",
+            "label": "Parfait Guiagon - Mais de 3.5",
+            "price": 15
+          },
+          {
+            "id": "161-pascal-gross-mais-de-3-5",
+            "label": "Pascal Gross - Mais de 3.5",
+            "price": 15
+          },
+          {
+            "id": "162-aleksandar-pavlovic-mais-de-3-5",
+            "label": "Aleksandar Pavlovic - Mais de 3.5",
+            "price": 19
+          },
+          {
+            "id": "163-antonio-rudiger-mais-de-3-5",
+            "label": "Antonio Rudiger - Mais de 3.5",
+            "price": 23
+          },
+          {
+            "id": "164-waldemar-anton-mais-de-3-5",
+            "label": "Waldemar Anton - Mais de 3.5",
+            "price": 23
+          },
+          {
+            "id": "165-jonathan-tah-mais-de-3-5",
+            "label": "Jonathan Tah - Mais de 3.5",
+            "price": 23
+          },
+          {
+            "id": "166-malick-thiaw-mais-de-3-5",
+            "label": "Malick Thiaw - Mais de 3.5",
+            "price": 23
+          },
+          {
+            "id": "167-christ-ravynel-inao-oulai-mais-de-3-5",
+            "label": "Christ Ravynel Inao Oulai - Mais de 3.5",
+            "price": 23
+          },
+          {
+            "id": "168-david-raum-mais-de-3-5",
+            "label": "David Raum - Mais de 3.5",
+            "price": 23
+          },
+          {
+            "id": "169-jean-michael-seri-mais-de-3-5",
+            "label": "Jean Michael Seri - Mais de 3.5",
+            "price": 23
+          },
+          {
+            "id": "170-christopher-operi-mais-de-3-5",
+            "label": "Christopher Operi - Mais de 3.5",
+            "price": 41
+          },
+          {
+            "id": "171-wilfried-stephane-singo-mais-de-3-5",
+            "label": "Wilfried Stephane Singo - Mais de 3.5",
+            "price": 41
+          },
+          {
+            "id": "172-emmanuel-agbadou-mais-de-3-5",
+            "label": "Emmanuel Agbadou - Mais de 3.5",
+            "price": 41
+          },
+          {
+            "id": "173-nick-woltemade-mais-de-4-5",
+            "label": "Nick Woltemade - Mais de 4.5",
+            "price": 3.2
+          },
+          {
+            "id": "174-deniz-undav-mais-de-4-5",
+            "label": "Deniz Undav - Mais de 4.5",
+            "price": 3.2
+          },
+          {
+            "id": "175-jamal-musiala-mais-de-4-5",
+            "label": "Jamal Musiala - Mais de 4.5",
+            "price": 3.4
+          },
+          {
+            "id": "176-kai-havertz-mais-de-4-5",
+            "label": "Kai Havertz - Mais de 4.5",
+            "price": 3.4
+          },
+          {
+            "id": "177-maximilian-beier-mais-de-4-5",
+            "label": "Maximilian Beier - Mais de 4.5",
+            "price": 3.4
+          },
+          {
+            "id": "178-jamie-leweling-mais-de-4-5",
+            "label": "Jamie Leweling - Mais de 4.5",
+            "price": 6
+          },
+          {
+            "id": "179-florian-wirtz-mais-de-4-5",
+            "label": "Florian Wirtz - Mais de 4.5",
+            "price": 6
+          },
+          {
+            "id": "180-amad-diallo-mais-de-4-5",
+            "label": "Amad Diallo - Mais de 4.5",
+            "price": 6
+          },
+          {
+            "id": "181-leroy-sane-mais-de-4-5",
+            "label": "Leroy Sane - Mais de 4.5",
+            "price": 7.5
+          },
+          {
+            "id": "182-nadiem-amiri-mais-de-4-5",
+            "label": "Nadiem Amiri - Mais de 4.5",
+            "price": 7.5
+          },
+          {
+            "id": "183-evann-guessand-mais-de-4-5",
+            "label": "Evann Guessand - Mais de 4.5",
+            "price": 9.5
+          },
+          {
+            "id": "184-ange-yoan-bonny-mais-de-4-5",
+            "label": "Ange-Yoan Bonny - Mais de 4.5",
+            "price": 9.5
+          },
+          {
+            "id": "185-yan-diomande-mais-de-4-5",
+            "label": "Yan Diomande - Mais de 4.5",
+            "price": 10.5
+          },
+          {
+            "id": "186-sepe-elye-wahi-mais-de-4-5",
+            "label": "Sepe Elye Wahi - Mais de 4.5",
+            "price": 10.5
+          },
+          {
+            "id": "187-nicolas-pepe-mais-de-4-5",
+            "label": "Nicolas Pepe - Mais de 4.5",
+            "price": 18
+          },
+          {
+            "id": "188-oumar-diakite-mais-de-4-5",
+            "label": "Oumar Diakite - Mais de 4.5",
+            "price": 19
+          },
+          {
+            "id": "189-felix-nmecha-mais-de-4-5",
+            "label": "Felix Nmecha - Mais de 4.5",
+            "price": 21
+          },
+          {
+            "id": "190-simon-adingra-mais-de-4-5",
+            "label": "Simon Adingra - Mais de 4.5",
+            "price": 23
+          },
+          {
+            "id": "191-bazoumana-toure-mais-de-4-5",
+            "label": "Bazoumana Toure - Mais de 4.5",
+            "price": 26
+          },
+          {
+            "id": "192-joshua-kimmich-mais-de-4-5",
+            "label": "Joshua Kimmich - Mais de 4.5",
+            "price": 31
+          },
+          {
+            "id": "193-deniz-undav-mais-de-5-5",
+            "label": "Deniz Undav - Mais de 5.5",
+            "price": 5
+          },
+          {
+            "id": "194-nick-woltemade-mais-de-5-5",
+            "label": "Nick Woltemade - Mais de 5.5",
+            "price": 5
+          },
+          {
+            "id": "195-jamal-musiala-mais-de-5-5",
+            "label": "Jamal Musiala - Mais de 5.5",
+            "price": 5.5
+          },
+          {
+            "id": "196-kai-havertz-mais-de-5-5",
+            "label": "Kai Havertz - Mais de 5.5",
+            "price": 5.5
+          },
+          {
+            "id": "197-maximilian-beier-mais-de-5-5",
+            "label": "Maximilian Beier - Mais de 5.5",
+            "price": 5.5
+          },
+          {
+            "id": "198-leroy-sane-mais-de-5-5",
+            "label": "Leroy Sane - Mais de 5.5",
+            "price": 9.5
+          },
+          {
+            "id": "199-florian-wirtz-mais-de-5-5",
+            "label": "Florian Wirtz - Mais de 5.5",
+            "price": 12
+          },
+          {
+            "id": "200-jamie-leweling-mais-de-5-5",
+            "label": "Jamie Leweling - Mais de 5.5",
+            "price": 16
+          },
+          {
+            "id": "201-sepe-elye-wahi-mais-de-5-5",
+            "label": "Sepe Elye Wahi - Mais de 5.5",
+            "price": 26
+          },
+          {
+            "id": "202-yan-diomande-mais-de-5-5",
+            "label": "Yan Diomande - Mais de 5.5",
+            "price": 26
+          },
+          {
+            "id": "203-nadiem-amiri-mais-de-5-5",
+            "label": "Nadiem Amiri - Mais de 5.5",
+            "price": 26
+          }
+        ]
+      },
+      {
+        "id": "odds-player_shots_on_target",
+        "name": "Player Shots On Target",
+        "options": [
+          {
+            "id": "0-antonio-rudiger-mais-de-0-5",
+            "label": "Antonio Rudiger - Mais de 0.5",
+            "price": 4.6
+          },
+          {
+            "id": "1-antonio-rudiger-mais-de-1-5",
+            "label": "Antonio Rudiger - Mais de 1.5",
+            "price": 31
+          },
+          {
+            "id": "2-leroy-sane-mais-de-0-5",
+            "label": "Leroy Sane - Mais de 0.5",
+            "price": 1.4
+          },
+          {
+            "id": "3-leroy-sane-mais-de-1-5",
+            "label": "Leroy Sane - Mais de 1.5",
+            "price": 2.85
+          },
+          {
+            "id": "4-leroy-sane-mais-de-2-5",
+            "label": "Leroy Sane - Mais de 2.5",
+            "price": 12
+          },
+          {
+            "id": "5-leroy-sane-mais-de-3-5",
+            "label": "Leroy Sane - Mais de 3.5",
+            "price": 23
+          },
+          {
+            "id": "6-leon-goretzka-mais-de-0-5",
+            "label": "Leon Goretzka - Mais de 0.5",
+            "price": 2.3
+          },
+          {
+            "id": "7-leon-goretzka-mais-de-1-5",
+            "label": "Leon Goretzka - Mais de 1.5",
+            "price": 8.5
+          },
+          {
+            "id": "8-leon-goretzka-mais-de-2-5",
+            "label": "Leon Goretzka - Mais de 2.5",
+            "price": 23
+          },
+          {
+            "id": "9-nathaniel-brown-mais-de-0-5",
+            "label": "Nathaniel Brown - Mais de 0.5",
+            "price": 3.1
+          },
+          {
+            "id": "10-nathaniel-brown-mais-de-1-5",
+            "label": "Nathaniel Brown - Mais de 1.5",
+            "price": 16
+          },
+          {
+            "id": "11-seko-fofana-mais-de-0-5",
+            "label": "Seko Fofana - Mais de 0.5",
+            "price": 3.2
+          },
+          {
+            "id": "12-seko-fofana-mais-de-1-5",
+            "label": "Seko Fofana - Mais de 1.5",
+            "price": 17
+          },
+          {
+            "id": "13-nadiem-amiri-mais-de-0-5",
+            "label": "Nadiem Amiri - Mais de 0.5",
+            "price": 1.9
+          },
+          {
+            "id": "14-nadiem-amiri-mais-de-1-5",
+            "label": "Nadiem Amiri - Mais de 1.5",
+            "price": 5.5
+          },
+          {
+            "id": "15-nadiem-amiri-mais-de-2-5",
+            "label": "Nadiem Amiri - Mais de 2.5",
+            "price": 21
+          },
+          {
+            "id": "16-waldemar-anton-mais-de-0-5",
+            "label": "Waldemar Anton - Mais de 0.5",
+            "price": 4.1
+          },
+          {
+            "id": "17-waldemar-anton-mais-de-1-5",
+            "label": "Waldemar Anton - Mais de 1.5",
+            "price": 26
+          },
+          {
+            "id": "18-jonathan-tah-mais-de-0-5",
+            "label": "Jonathan Tah - Mais de 0.5",
+            "price": 4
+          },
+          {
+            "id": "19-jonathan-tah-mais-de-1-5",
+            "label": "Jonathan Tah - Mais de 1.5",
+            "price": 26
+          },
+          {
+            "id": "20-ibrahim-sangare-mais-de-0-5",
+            "label": "Ibrahim Sangare - Mais de 0.5",
+            "price": 2.65
+          },
+          {
+            "id": "21-ibrahim-sangare-mais-de-1-5",
+            "label": "Ibrahim Sangare - Mais de 1.5",
+            "price": 12
+          },
+          {
+            "id": "22-nicolas-pepe-mais-de-0-5",
+            "label": "Nicolas Pepe - Mais de 0.5",
+            "price": 2.05
+          },
+          {
+            "id": "23-nicolas-pepe-mais-de-1-5",
+            "label": "Nicolas Pepe - Mais de 1.5",
+            "price": 6.5
+          },
+          {
+            "id": "24-nicolas-pepe-mais-de-2-5",
+            "label": "Nicolas Pepe - Mais de 2.5",
+            "price": 17
+          },
+          {
+            "id": "25-christopher-operi-mais-de-0-5",
+            "label": "Christopher Operi - Mais de 0.5",
+            "price": 5.5
+          },
+          {
+            "id": "26-franck-kessie-mais-de-0-5",
+            "label": "Franck Kessie - Mais de 0.5",
+            "price": 3.1
+          },
+          {
+            "id": "27-franck-kessie-mais-de-1-5",
+            "label": "Franck Kessie - Mais de 1.5",
+            "price": 16
+          },
+          {
+            "id": "28-franck-kessie-mais-de-2-5",
+            "label": "Franck Kessie - Mais de 2.5",
+            "price": 65
+          },
+          {
+            "id": "29-evan-ndicka-mais-de-0-5",
+            "label": "Evan Ndicka - Mais de 0.5",
+            "price": 5.25
+          },
+          {
+            "id": "30-joshua-kimmich-mais-de-0-5",
+            "label": "Joshua Kimmich - Mais de 0.5",
+            "price": 2.15
+          },
+          {
+            "id": "31-joshua-kimmich-mais-de-1-5",
+            "label": "Joshua Kimmich - Mais de 1.5",
+            "price": 7.5
+          },
+          {
+            "id": "32-joshua-kimmich-mais-de-2-5",
+            "label": "Joshua Kimmich - Mais de 2.5",
+            "price": 41
+          },
+          {
+            "id": "33-jean-michael-seri-mais-de-0-5",
+            "label": "Jean Michael Seri - Mais de 0.5",
+            "price": 3.6
+          },
+          {
+            "id": "34-jean-michael-seri-mais-de-1-5",
+            "label": "Jean Michael Seri - Mais de 1.5",
+            "price": 21
+          },
+          {
+            "id": "35-felix-nmecha-mais-de-0-5",
+            "label": "Felix Nmecha - Mais de 0.5",
+            "price": 2.45
+          },
+          {
+            "id": "36-felix-nmecha-mais-de-1-5",
+            "label": "Felix Nmecha - Mais de 1.5",
+            "price": 10
+          },
+          {
+            "id": "37-felix-nmecha-mais-de-2-5",
+            "label": "Felix Nmecha - Mais de 2.5",
+            "price": 23
+          },
+          {
+            "id": "38-ghislain-niclomande-konan-mais-de-0-5",
+            "label": "Ghislain Niclomande Konan - Mais de 0.5",
+            "price": 5
+          },
+          {
+            "id": "39-wilfried-stephane-singo-mais-de-0-5",
+            "label": "Wilfried Stephane Singo - Mais de 0.5",
+            "price": 5.75
+          },
+          {
+            "id": "40-odilon-kossounou-mais-de-0-5",
+            "label": "Odilon Kossounou - Mais de 0.5",
+            "price": 6
+          },
+          {
+            "id": "41-angelo-stiller-mais-de-0-5",
+            "label": "Angelo Stiller - Mais de 0.5",
+            "price": 2.7
+          },
+          {
+            "id": "42-angelo-stiller-mais-de-1-5",
+            "label": "Angelo Stiller - Mais de 1.5",
+            "price": 12
+          },
+          {
+            "id": "43-jamie-leweling-mais-de-0-5",
+            "label": "Jamie Leweling - Mais de 0.5",
+            "price": 1.54
+          },
+          {
+            "id": "44-jamie-leweling-mais-de-1-5",
+            "label": "Jamie Leweling - Mais de 1.5",
+            "price": 3.5
+          },
+          {
+            "id": "45-jamie-leweling-mais-de-2-5",
+            "label": "Jamie Leweling - Mais de 2.5",
+            "price": 10.5
+          },
+          {
+            "id": "46-nico-schlotterbeck-mais-de-0-5",
+            "label": "Nico Schlotterbeck - Mais de 0.5",
+            "price": 2.85
+          },
+          {
+            "id": "47-nico-schlotterbeck-mais-de-1-5",
+            "label": "Nico Schlotterbeck - Mais de 1.5",
+            "price": 13
+          },
+          {
+            "id": "48-evann-guessand-mais-de-0-5",
+            "label": "Evann Guessand - Mais de 0.5",
+            "price": 2.1
+          },
+          {
+            "id": "49-evann-guessand-mais-de-1-5",
+            "label": "Evann Guessand - Mais de 1.5",
+            "price": 7
+          },
+          {
+            "id": "50-evann-guessand-mais-de-2-5",
+            "label": "Evann Guessand - Mais de 2.5",
+            "price": 23
+          },
+          {
+            "id": "51-nick-woltemade-mais-de-0-5",
+            "label": "Nick Woltemade - Mais de 0.5",
+            "price": 1.43
+          },
+          {
+            "id": "52-nick-woltemade-mais-de-1-5",
+            "label": "Nick Woltemade - Mais de 1.5",
+            "price": 3
+          },
+          {
+            "id": "53-nick-woltemade-mais-de-2-5",
+            "label": "Nick Woltemade - Mais de 2.5",
+            "price": 8
+          },
+          {
+            "id": "54-nick-woltemade-mais-de-3-5",
+            "label": "Nick Woltemade - Mais de 3.5",
+            "price": 26
+          },
+          {
+            "id": "55-malick-thiaw-mais-de-0-5",
+            "label": "Malick Thiaw - Mais de 0.5",
+            "price": 3.05
+          },
+          {
+            "id": "56-malick-thiaw-mais-de-1-5",
+            "label": "Malick Thiaw - Mais de 1.5",
+            "price": 15
+          },
+          {
+            "id": "57-florian-wirtz-mais-de-0-5",
+            "label": "Florian Wirtz - Mais de 0.5",
+            "price": 1.55
+          },
+          {
+            "id": "58-florian-wirtz-mais-de-1-5",
+            "label": "Florian Wirtz - Mais de 1.5",
+            "price": 3.65
+          },
+          {
+            "id": "59-florian-wirtz-mais-de-2-5",
+            "label": "Florian Wirtz - Mais de 2.5",
+            "price": 9
+          },
+          {
+            "id": "60-jamal-musiala-mais-de-0-5",
+            "label": "Jamal Musiala - Mais de 0.5",
+            "price": 1.4
+          },
+          {
+            "id": "61-jamal-musiala-mais-de-1-5",
+            "label": "Jamal Musiala - Mais de 1.5",
+            "price": 2.85
+          },
+          {
+            "id": "62-jamal-musiala-mais-de-2-5",
+            "label": "Jamal Musiala - Mais de 2.5",
+            "price": 8.5
+          },
+          {
+            "id": "63-jamal-musiala-mais-de-3-5",
+            "label": "Jamal Musiala - Mais de 3.5",
+            "price": 23
+          },
+          {
+            "id": "64-emmanuel-agbadou-mais-de-0-5",
+            "label": "Emmanuel Agbadou - Mais de 0.5",
+            "price": 4.4
+          },
+          {
+            "id": "65-emmanuel-agbadou-mais-de-1-5",
+            "label": "Emmanuel Agbadou - Mais de 1.5",
+            "price": 31
+          },
+          {
+            "id": "66-ange-yoan-bonny-mais-de-0-5",
+            "label": "Ange-Yoan Bonny - Mais de 0.5",
+            "price": 1.76
+          },
+          {
+            "id": "67-ange-yoan-bonny-mais-de-1-5",
+            "label": "Ange-Yoan Bonny - Mais de 1.5",
+            "price": 5
+          },
+          {
+            "id": "68-ange-yoan-bonny-mais-de-2-5",
+            "label": "Ange-Yoan Bonny - Mais de 2.5",
+            "price": 21
+          },
+          {
+            "id": "69-sepe-elye-wahi-mais-de-0-5",
+            "label": "Sepe Elye Wahi - Mais de 0.5",
+            "price": 1.71
+          },
+          {
+            "id": "70-sepe-elye-wahi-mais-de-1-5",
+            "label": "Sepe Elye Wahi - Mais de 1.5",
+            "price": 4.6
+          },
+          {
+            "id": "71-sepe-elye-wahi-mais-de-2-5",
+            "label": "Sepe Elye Wahi - Mais de 2.5",
+            "price": 16
+          },
+          {
+            "id": "72-david-raum-mais-de-0-5",
+            "label": "David Raum - Mais de 0.5",
+            "price": 3.1
+          },
+          {
+            "id": "73-david-raum-mais-de-1-5",
+            "label": "David Raum - Mais de 1.5",
+            "price": 15
+          },
+          {
+            "id": "74-deniz-undav-mais-de-0-5",
+            "label": "Deniz Undav - Mais de 0.5",
+            "price": 1.22
+          },
+          {
+            "id": "75-deniz-undav-mais-de-1-5",
+            "label": "Deniz Undav - Mais de 1.5",
+            "price": 2
+          },
+          {
+            "id": "76-deniz-undav-mais-de-2-5",
+            "label": "Deniz Undav - Mais de 2.5",
+            "price": 4.3
+          },
+          {
+            "id": "77-deniz-undav-mais-de-3-5",
+            "label": "Deniz Undav - Mais de 3.5",
+            "price": 11
+          },
+          {
+            "id": "78-amad-diallo-mais-de-0-5",
+            "label": "Amad Diallo - Mais de 0.5",
+            "price": 2
+          },
+          {
+            "id": "79-amad-diallo-mais-de-1-5",
+            "label": "Amad Diallo - Mais de 1.5",
+            "price": 6
+          },
+          {
+            "id": "80-amad-diallo-mais-de-2-5",
+            "label": "Amad Diallo - Mais de 2.5",
+            "price": 15
+          },
+          {
+            "id": "81-simon-adingra-mais-de-0-5",
+            "label": "Simon Adingra - Mais de 0.5",
+            "price": 2.1
+          },
+          {
+            "id": "82-simon-adingra-mais-de-1-5",
+            "label": "Simon Adingra - Mais de 1.5",
+            "price": 7
+          },
+          {
+            "id": "83-simon-adingra-mais-de-2-5",
+            "label": "Simon Adingra - Mais de 2.5",
+            "price": 26
+          },
+          {
+            "id": "84-kai-havertz-mais-de-0-5",
+            "label": "Kai Havertz - Mais de 0.5",
+            "price": 1.27
+          },
+          {
+            "id": "85-kai-havertz-mais-de-1-5",
+            "label": "Kai Havertz - Mais de 1.5",
+            "price": 2.25
+          },
+          {
+            "id": "86-kai-havertz-mais-de-2-5",
+            "label": "Kai Havertz - Mais de 2.5",
+            "price": 5.5
+          },
+          {
+            "id": "87-kai-havertz-mais-de-3-5",
+            "label": "Kai Havertz - Mais de 3.5",
+            "price": 14
+          },
+          {
+            "id": "88-pascal-gross-mais-de-0-5",
+            "label": "Pascal Gross - Mais de 0.5",
+            "price": 2.5
+          },
+          {
+            "id": "89-pascal-gross-mais-de-1-5",
+            "label": "Pascal Gross - Mais de 1.5",
+            "price": 10
+          },
+          {
+            "id": "90-ousmane-diomande-mais-de-0-5",
+            "label": "Ousmane Diomande - Mais de 0.5",
+            "price": 6.5
+          },
+          {
+            "id": "91-parfait-guiagon-mais-de-0-5",
+            "label": "Parfait Guiagon - Mais de 0.5",
+            "price": 2.1
+          },
+          {
+            "id": "92-parfait-guiagon-mais-de-1-5",
+            "label": "Parfait Guiagon - Mais de 1.5",
+            "price": 7.5
+          },
+          {
+            "id": "93-parfait-guiagon-mais-de-2-5",
+            "label": "Parfait Guiagon - Mais de 2.5",
+            "price": 31
+          },
+          {
+            "id": "94-maximilian-beier-mais-de-0-5",
+            "label": "Maximilian Beier - Mais de 0.5",
+            "price": 1.46
+          },
+          {
+            "id": "95-maximilian-beier-mais-de-1-5",
+            "label": "Maximilian Beier - Mais de 1.5",
+            "price": 3.15
+          },
+          {
+            "id": "96-maximilian-beier-mais-de-2-5",
+            "label": "Maximilian Beier - Mais de 2.5",
+            "price": 8.5
+          },
+          {
+            "id": "97-maximilian-beier-mais-de-3-5",
+            "label": "Maximilian Beier - Mais de 3.5",
+            "price": 29
+          },
+          {
+            "id": "98-oumar-diakite-mais-de-0-5",
+            "label": "Oumar Diakite - Mais de 0.5",
+            "price": 1.8
+          },
+          {
+            "id": "99-oumar-diakite-mais-de-1-5",
+            "label": "Oumar Diakite - Mais de 1.5",
+            "price": 5
+          },
+          {
+            "id": "100-oumar-diakite-mais-de-2-5",
+            "label": "Oumar Diakite - Mais de 2.5",
+            "price": 19
+          },
+          {
+            "id": "101-aleksandar-pavlovic-mais-de-0-5",
+            "label": "Aleksandar Pavlovic - Mais de 0.5",
+            "price": 3.05
+          },
+          {
+            "id": "102-aleksandar-pavlovic-mais-de-1-5",
+            "label": "Aleksandar Pavlovic - Mais de 1.5",
+            "price": 15
+          },
+          {
+            "id": "103-guela-doue-mais-de-0-5",
+            "label": "Guela Doue - Mais de 0.5",
+            "price": 4.4
+          },
+          {
+            "id": "104-guela-doue-mais-de-1-5",
+            "label": "Guela Doue - Mais de 1.5",
+            "price": 31
+          },
+          {
+            "id": "105-bazoumana-toure-mais-de-0-5",
+            "label": "Bazoumana Toure - Mais de 0.5",
+            "price": 2.15
+          },
+          {
+            "id": "106-bazoumana-toure-mais-de-1-5",
+            "label": "Bazoumana Toure - Mais de 1.5",
+            "price": 7.5
+          },
+          {
+            "id": "107-bazoumana-toure-mais-de-2-5",
+            "label": "Bazoumana Toure - Mais de 2.5",
+            "price": 41
+          },
+          {
+            "id": "108-christ-ravynel-inao-oulai-mais-de-0-5",
+            "label": "Christ Ravynel Inao Oulai - Mais de 0.5",
+            "price": 2.5
+          },
+          {
+            "id": "109-christ-ravynel-inao-oulai-mais-de-1-5",
+            "label": "Christ Ravynel Inao Oulai - Mais de 1.5",
+            "price": 10.5
+          },
+          {
+            "id": "110-yan-diomande-mais-de-0-5",
+            "label": "Yan Diomande - Mais de 0.5",
+            "price": 1.95
+          },
+          {
+            "id": "111-yan-diomande-mais-de-1-5",
+            "label": "Yan Diomande - Mais de 1.5",
+            "price": 6
+          },
+          {
+            "id": "112-yan-diomande-mais-de-2-5",
+            "label": "Yan Diomande - Mais de 2.5",
+            "price": 34
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "odds-ef0f74a991d3e35798ae5af77667bce1",
+    "sport": "Futebol",
+    "country": "Mundo",
+    "league": "FIFA World Cup",
+    "home": "Brazil",
+    "away": "Haiti",
+    "homeCode": "BRA",
+    "awayCode": "HAI",
+    "kickoff": "19/06, 21:30",
+    "kickoffAt": "2026-06-20T00:30:00Z",
+    "status": "upcoming",
+    "source": "the-odds-api",
+    "markets": [
+      {
+        "id": "odds-h2h",
+        "name": "Resultado da partida",
+        "options": [
+          {
+            "id": "0-brazil",
+            "label": "Brazil",
+            "price": 1.1
+          },
+          {
+            "id": "1-haiti",
+            "label": "Haiti",
+            "price": 20.2
+          },
+          {
+            "id": "2-empate",
+            "label": "Empate",
+            "price": 10.78
+          }
+        ]
+      },
+      {
+        "id": "odds-spreads",
+        "name": "Handicap",
+        "options": [
+          {
+            "id": "0-brazil-2-5",
+            "label": "Brazil -2.5",
+            "price": 1.88
+          },
+          {
+            "id": "1-haiti-2-5",
+            "label": "Haiti +2.5",
+            "price": 1.98
+          }
+        ]
+      },
+      {
+        "id": "odds-totals",
+        "name": "Total de gols",
+        "options": [
+          {
+            "id": "0-mais-de-3-5",
+            "label": "Mais de 3.5",
+            "price": 1.84
+          },
+          {
+            "id": "1-menos-de-3-5",
+            "label": "Menos de 3.5",
+            "price": 2.02
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_spreads",
+        "name": "Handicaps alternativos",
+        "options": [
+          {
+            "id": "0-brazil-2-5",
+            "label": "Brazil -2.5",
+            "price": 1.88
+          },
+          {
+            "id": "1-brazil-3",
+            "label": "Brazil -3",
+            "price": 2.36
+          },
+          {
+            "id": "2-brazil-2-75",
+            "label": "Brazil -2.75",
+            "price": 2.07
+          },
+          {
+            "id": "3-brazil-2-25",
+            "label": "Brazil -2.25",
+            "price": 1.67
+          },
+          {
+            "id": "4-brazil-2",
+            "label": "Brazil -2",
+            "price": 1.46
+          },
+          {
+            "id": "5-haiti-2-5",
+            "label": "Haiti +2.5",
+            "price": 1.98
+          },
+          {
+            "id": "6-haiti-3",
+            "label": "Haiti +3",
+            "price": 1.58
+          },
+          {
+            "id": "7-haiti-2-75",
+            "label": "Haiti +2.75",
+            "price": 1.78
+          },
+          {
+            "id": "8-haiti-2-25",
+            "label": "Haiti +2.25",
+            "price": 2.23
+          },
+          {
+            "id": "9-haiti-2",
+            "label": "Haiti +2",
+            "price": 2.68
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_totals",
+        "name": "Totais alternativos",
+        "options": [
+          {
+            "id": "0-mais-de-3-5",
+            "label": "Mais de 3.5",
+            "price": 1.84
+          },
+          {
+            "id": "1-mais-de-3",
+            "label": "Mais de 3",
+            "price": 1.46
+          },
+          {
+            "id": "2-mais-de-3-25",
+            "label": "Mais de 3.25",
+            "price": 1.65
+          },
+          {
+            "id": "3-mais-de-3-75",
+            "label": "Mais de 3.75",
+            "price": 2.03
+          },
+          {
+            "id": "4-mais-de-4",
+            "label": "Mais de 4",
+            "price": 2.35
+          },
+          {
+            "id": "5-menos-de-3-5",
+            "label": "Menos de 3.5",
+            "price": 2.02
+          },
+          {
+            "id": "6-menos-de-3",
+            "label": "Menos de 3",
+            "price": 2.7
+          },
+          {
+            "id": "7-menos-de-3-25",
+            "label": "Menos de 3.25",
+            "price": 2.27
+          },
+          {
+            "id": "8-menos-de-3-75",
+            "label": "Menos de 3.75",
+            "price": 1.8
+          },
+          {
+            "id": "9-menos-de-4",
+            "label": "Menos de 4",
+            "price": 1.58
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_spreads_cards",
+        "name": "Alternate Spreads Cards",
+        "options": [
+          {
+            "id": "0-brazil-0-5",
+            "label": "Brazil +0.5",
+            "price": 2.03
+          },
+          {
+            "id": "1-brazil-0",
+            "label": "Brazil 0",
+            "price": 3.43
+          },
+          {
+            "id": "2-brazil-1",
+            "label": "Brazil +1",
+            "price": 1.61
+          },
+          {
+            "id": "3-haiti-0-5",
+            "label": "Haiti -0.5",
+            "price": 1.79
+          },
+          {
+            "id": "4-haiti-0",
+            "label": "Haiti 0",
+            "price": 1.3
+          },
+          {
+            "id": "5-haiti-1",
+            "label": "Haiti -1",
+            "price": 2.27
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_spreads_corners",
+        "name": "Alternate Spreads Corners",
+        "options": [
+          {
+            "id": "0-brazil-5-5",
+            "label": "Brazil -5.5",
+            "price": 1.95
+          },
+          {
+            "id": "1-brazil-6-5",
+            "label": "Brazil -6.5",
+            "price": 2.44
+          },
+          {
+            "id": "2-brazil-6",
+            "label": "Brazil -6",
+            "price": 2.2
+          },
+          {
+            "id": "3-brazil-5",
+            "label": "Brazil -5",
+            "price": 1.73
+          },
+          {
+            "id": "4-brazil-4-5",
+            "label": "Brazil -4.5",
+            "price": 1.58
+          },
+          {
+            "id": "5-haiti-5-5",
+            "label": "Haiti +5.5",
+            "price": 1.85
+          },
+          {
+            "id": "6-haiti-6-5",
+            "label": "Haiti +6.5",
+            "price": 1.49
+          },
+          {
+            "id": "7-haiti-6",
+            "label": "Haiti +6",
+            "price": 1.62
+          },
+          {
+            "id": "8-haiti-5",
+            "label": "Haiti +5",
+            "price": 2.04
+          },
+          {
+            "id": "9-haiti-4-5",
+            "label": "Haiti +4.5",
+            "price": 2.23
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_totals_cards",
+        "name": "Alternate Totals Cards",
+        "options": [
+          {
+            "id": "0-mais-de-2-5",
+            "label": "Mais de 2.5",
+            "price": 1.82
+          },
+          {
+            "id": "1-mais-de-2",
+            "label": "Mais de 2",
+            "price": 1.37
+          },
+          {
+            "id": "2-mais-de-3",
+            "label": "Mais de 3",
+            "price": 2.29
+          },
+          {
+            "id": "3-menos-de-2-5",
+            "label": "Menos de 2.5",
+            "price": 1.99
+          },
+          {
+            "id": "4-menos-de-2",
+            "label": "Menos de 2",
+            "price": 3.03
+          },
+          {
+            "id": "5-menos-de-3",
+            "label": "Menos de 3",
+            "price": 1.6
+          }
+        ]
+      },
+      {
+        "id": "odds-alternate_totals_corners",
+        "name": "Alternate Totals Corners",
+        "options": [
+          {
+            "id": "0-mais-de-9-5",
+            "label": "Mais de 9.5",
+            "price": 1.87
+          },
+          {
+            "id": "1-mais-de-7-5",
+            "label": "Mais de 7.5",
+            "price": 1.21
+          },
+          {
+            "id": "2-mais-de-8",
+            "label": "Mais de 8",
+            "price": 1.27
+          },
+          {
+            "id": "3-mais-de-8-5",
+            "label": "Mais de 8.5",
+            "price": 1.45
+          },
+          {
+            "id": "4-mais-de-9",
+            "label": "Mais de 9",
+            "price": 1.6
+          },
+          {
+            "id": "5-mais-de-10",
+            "label": "Mais de 10",
+            "price": 2.09
+          },
+          {
+            "id": "6-mais-de-10-5",
+            "label": "Mais de 10.5",
+            "price": 2.33
+          },
+          {
+            "id": "7-mais-de-11",
+            "label": "Mais de 11",
+            "price": 2.72
+          },
+          {
+            "id": "8-mais-de-11-5",
+            "label": "Mais de 11.5",
+            "price": 2.96
+          },
+          {
+            "id": "9-menos-de-9-5",
+            "label": "Menos de 9.5",
+            "price": 1.93
+          },
+          {
+            "id": "10-menos-de-7-5",
+            "label": "Menos de 7.5",
+            "price": 3.69
+          },
+          {
+            "id": "11-menos-de-8",
+            "label": "Menos de 8",
+            "price": 3.31
+          },
+          {
+            "id": "12-menos-de-8-5",
+            "label": "Menos de 8.5",
+            "price": 2.56
+          },
+          {
+            "id": "13-menos-de-9",
+            "label": "Menos de 9",
+            "price": 2.25
+          },
+          {
+            "id": "14-menos-de-10",
+            "label": "Menos de 10",
+            "price": 1.69
+          },
+          {
+            "id": "15-menos-de-10-5",
+            "label": "Menos de 10.5",
+            "price": 1.54
+          },
+          {
+            "id": "16-menos-de-11",
+            "label": "Menos de 11",
+            "price": 1.39
+          },
+          {
+            "id": "17-menos-de-11-5",
+            "label": "Menos de 11.5",
+            "price": 1.32
+          }
+        ]
+      },
+      {
+        "id": "odds-btts",
+        "name": "Ambas marcam",
+        "options": [
+          {
+            "id": "0-sim",
+            "label": "Sim",
+            "price": 2.5
+          },
+          {
+            "id": "1-nao",
+            "label": "Não",
+            "price": 1.49
+          }
+        ]
+      },
+      {
+        "id": "odds-draw_no_bet",
+        "name": "Empate anula aposta",
+        "options": [
+          {
+            "id": "0-brazil",
+            "label": "Brazil",
+            "price": 1.02
+          },
+          {
+            "id": "1-haiti",
+            "label": "Haiti",
+            "price": 16.87
+          }
+        ]
+      },
+      {
+        "id": "odds-team_totals",
+        "name": "Total de gols da equipe",
+        "options": [
+          {
+            "id": "0-brazil-mais-de-3-5",
+            "label": "Brazil - Mais de 3.5",
+            "price": 2.32
+          },
+          {
+            "id": "1-brazil-menos-de-3-5",
+            "label": "Brazil - Menos de 3.5",
+            "price": 1.56
+          },
+          {
+            "id": "2-haiti-mais-de-0-5",
+            "label": "Haiti - Mais de 0.5",
+            "price": 2.34
+          },
+          {
+            "id": "3-haiti-menos-de-0-5",
+            "label": "Haiti - Menos de 0.5",
+            "price": 1.56
+          }
+        ]
+      },
+      {
+        "id": "odds-totals_h1",
+        "name": "Total de gols - 1º tempo",
+        "options": [
+          {
+            "id": "0-mais-de-1-5",
+            "label": "Mais de 1.5",
+            "price": 1.92
+          },
+          {
+            "id": "1-menos-de-1-5",
+            "label": "Menos de 1.5",
+            "price": 1.87
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "odds-065b3573e875f8d23803357f73e5b99e",
+    "sport": "Futebol",
+    "country": "Mundo",
+    "league": "FIFA World Cup",
+    "home": "USA",
+    "away": "Australia",
+    "homeCode": "USA",
+    "awayCode": "AUS",
+    "kickoff": "19/06, 16:00",
+    "kickoffAt": "2026-06-19T19:00:00Z",
+    "status": "upcoming",
+    "source": "the-odds-api",
+    "markets": [
+      {
+        "id": "odds-h2h",
+        "name": "Resultado da partida",
+        "options": [
+          {
+            "id": "0-australia",
+            "label": "Australia",
+            "price": 5.7
+          },
+          {
+            "id": "1-usa",
+            "label": "USA",
+            "price": 1.65
+          },
+          {
+            "id": "2-empate",
+            "label": "Empate",
+            "price": 4.4
+          }
+        ]
+      },
+      {
+        "id": "odds-h2h_lay",
+        "name": "H2h Lay",
+        "options": [
+          {
+            "id": "0-australia",
+            "label": "Australia",
+            "price": 5.9
+          },
+          {
+            "id": "1-usa",
+            "label": "USA",
+            "price": 1.66
+          },
+          {
+            "id": "2-empate",
+            "label": "Empate",
+            "price": 4.5
+          }
+        ]
+      },
+      {
+        "id": "odds-spreads",
+        "name": "Handicap",
+        "options": [
+          {
+            "id": "0-australia-1",
+            "label": "Australia +1",
+            "price": 1.84
+          },
+          {
+            "id": "1-usa-1",
+            "label": "USA -1",
+            "price": 2.14
+          }
+        ]
+      },
+      {
+        "id": "odds-totals",
+        "name": "Total de gols",
+        "options": [
+          {
+            "id": "0-mais-de-2-5",
+            "label": "Mais de 2.5",
+            "price": 2.02
+          },
+          {
+            "id": "1-menos-de-2-5",
+            "label": "Menos de 2.5",
+            "price": 1.97
+          }
+        ]
+      }
+    ]
+  }
+]

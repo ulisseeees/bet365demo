@@ -1,0 +1,5530 @@
+{
+  "matches": [
+    {
+      "id": "odds-065b3573e875f8d23803357f73e5b99e",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "USA",
+      "away": "Australia",
+      "homeCode": "USA",
+      "awayCode": "AUS",
+      "kickoff": "19/06, 16:00",
+      "kickoffAt": "2026-06-19T19:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-australia",
+              "label": "Australia",
+              "price": 5.7
+            },
+            {
+              "id": "1-usa",
+              "label": "USA",
+              "price": 1.65
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.4
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-australia",
+              "label": "Australia",
+              "price": 5.9
+            },
+            {
+              "id": "1-usa",
+              "label": "USA",
+              "price": 1.66
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.5
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-australia-1",
+              "label": "Australia +1",
+              "price": 1.83
+            },
+            {
+              "id": "1-usa-1",
+              "label": "USA -1",
+              "price": 2.16
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.02
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.97
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-4cd769aa7bae0ad9762bd69b80ef2903",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Scotland",
+      "away": "Morocco",
+      "homeCode": "SCO",
+      "awayCode": "MOR",
+      "kickoff": "19/06, 19:00",
+      "kickoffAt": "2026-06-19T22:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-morocco",
+              "label": "Morocco",
+              "price": 1.78
+            },
+            {
+              "id": "1-scotland",
+              "label": "Scotland",
+              "price": 4.97
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.59
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-morocco-0-5",
+              "label": "Morocco -0.5",
+              "price": 1.73
+            },
+            {
+              "id": "1-scotland-0-5",
+              "label": "Scotland +0.5",
+              "price": 2.07
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.2
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.66
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-ef0f74a991d3e35798ae5af77667bce1",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Brazil",
+      "away": "Haiti",
+      "homeCode": "BRA",
+      "awayCode": "HAI",
+      "kickoff": "19/06, 21:30",
+      "kickoffAt": "2026-06-20T00:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-brazil",
+              "label": "Brazil",
+              "price": 1.13
+            },
+            {
+              "id": "1-haiti",
+              "label": "Haiti",
+              "price": 28
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 11.5
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-brazil",
+              "label": "Brazil",
+              "price": 1.14
+            },
+            {
+              "id": "1-haiti",
+              "label": "Haiti",
+              "price": 29
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 12.5
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-brazil-2-5",
+              "label": "Brazil -2.5",
+              "price": 1.93
+            },
+            {
+              "id": "1-haiti-2-5",
+              "label": "Haiti +2.5",
+              "price": 2.04
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-3-5",
+              "label": "Mais de 3.5",
+              "price": 1.89
+            },
+            {
+              "id": "1-menos-de-3-5",
+              "label": "Menos de 3.5",
+              "price": 2.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-f955d4b3395ce6e3b5ac1031ca52ca4e",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Turkey",
+      "away": "Paraguay",
+      "homeCode": "TUR",
+      "awayCode": "PAR",
+      "kickoff": "20/06, 00:00",
+      "kickoffAt": "2026-06-20T03:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-paraguay",
+              "label": "Paraguay",
+              "price": 4.1
+            },
+            {
+              "id": "1-turkey",
+              "label": "Turkey",
+              "price": 2.1
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.5
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-paraguay",
+              "label": "Paraguay",
+              "price": 4.2
+            },
+            {
+              "id": "1-turkey",
+              "label": "Turkey",
+              "price": 2.12
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.55
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-paraguay-0-5",
+              "label": "Paraguay +0.5",
+              "price": 1.89
+            },
+            {
+              "id": "1-turkey-0-5",
+              "label": "Turkey -0.5",
+              "price": 2.1
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.16
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.84
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-4f0c518545b0096c68326daf25bffc1e",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Netherlands",
+      "away": "Sweden",
+      "homeCode": "NET",
+      "awayCode": "SWE",
+      "kickoff": "20/06, 14:00",
+      "kickoffAt": "2026-06-20T17:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-netherlands",
+              "label": "Netherlands",
+              "price": 1.82
+            },
+            {
+              "id": "1-sweden",
+              "label": "Sweden",
+              "price": 4.9
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.95
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-netherlands",
+              "label": "Netherlands",
+              "price": 1.83
+            },
+            {
+              "id": "1-sweden",
+              "label": "Sweden",
+              "price": 5
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-netherlands-0-75",
+              "label": "Netherlands -0.75",
+              "price": 2.04
+            },
+            {
+              "id": "1-sweden-0-75",
+              "label": "Sweden +0.75",
+              "price": 1.92
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.86
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-f1ab0f69832972a329243522ceaa7804",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Germany",
+      "away": "Ivory Coast",
+      "homeCode": "GER",
+      "awayCode": "IVO",
+      "kickoff": "20/06, 17:00",
+      "kickoffAt": "2026-06-20T20:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-germany",
+              "label": "Germany",
+              "price": 1.57
+            },
+            {
+              "id": "1-ivory-coast",
+              "label": "Ivory Coast",
+              "price": 6.2
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.8
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-germany",
+              "label": "Germany",
+              "price": 1.58
+            },
+            {
+              "id": "1-ivory-coast",
+              "label": "Ivory Coast",
+              "price": 6.4
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.9
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-germany-1",
+              "label": "Germany -1",
+              "price": 1.92
+            },
+            {
+              "id": "1-ivory-coast-1",
+              "label": "Ivory Coast +1",
+              "price": 2.04
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.66
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.46
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-681895f294b670b4c7b14495dfb583bc",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Ecuador",
+      "away": "Curaçao",
+      "homeCode": "ECU",
+      "awayCode": "CUR",
+      "kickoff": "20/06, 21:00",
+      "kickoffAt": "2026-06-21T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-curacao",
+              "label": "Curaçao",
+              "price": 24.89
+            },
+            {
+              "id": "1-ecuador",
+              "label": "Ecuador",
+              "price": 1.14
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 9.59
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-curacao-2-5",
+              "label": "Curaçao +2.5",
+              "price": 1.81
+            },
+            {
+              "id": "1-ecuador-2-5",
+              "label": "Ecuador -2.5",
+              "price": 1.98
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-3-5",
+              "label": "Mais de 3.5",
+              "price": 2.25
+            },
+            {
+              "id": "1-menos-de-3-5",
+              "label": "Menos de 3.5",
+              "price": 1.62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-dfc5202cf1b8ae002cf952cd04f235b9",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Tunisia",
+      "away": "Japan",
+      "homeCode": "TUN",
+      "awayCode": "JAP",
+      "kickoff": "21/06, 01:00",
+      "kickoffAt": "2026-06-21T04:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-japan",
+              "label": "Japan",
+              "price": 1.61
+            },
+            {
+              "id": "1-tunisia",
+              "label": "Tunisia",
+              "price": 6.59
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.99
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-japan-0-5",
+              "label": "Japan -0.5",
+              "price": 1.54
+            },
+            {
+              "id": "1-tunisia-0-5",
+              "label": "Tunisia +0.5",
+              "price": 2.43
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.07
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-73529a242e319a86bf3d00ddb4accc37",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Spain",
+      "away": "Saudi Arabia",
+      "homeCode": "SPA",
+      "awayCode": "SAU",
+      "kickoff": "21/06, 13:00",
+      "kickoffAt": "2026-06-21T16:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-saudi-arabia",
+              "label": "Saudi Arabia",
+              "price": 27
+            },
+            {
+              "id": "1-spain",
+              "label": "Spain",
+              "price": 1.13
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 11.5
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-saudi-arabia",
+              "label": "Saudi Arabia",
+              "price": 28
+            },
+            {
+              "id": "1-spain",
+              "label": "Spain",
+              "price": 1.14
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 12
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-saudi-arabia-2-5",
+              "label": "Saudi Arabia +2.5",
+              "price": 1.9
+            },
+            {
+              "id": "1-spain-2-5",
+              "label": "Spain -2.5",
+              "price": 2.06
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-3-5",
+              "label": "Mais de 3.5",
+              "price": 2.28
+            },
+            {
+              "id": "1-menos-de-3-5",
+              "label": "Menos de 3.5",
+              "price": 1.74
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-5f92f257386ec5bf7c6e2498a21f3a61",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Belgium",
+      "away": "Iran",
+      "homeCode": "BEL",
+      "awayCode": "IRA",
+      "kickoff": "21/06, 16:00",
+      "kickoffAt": "2026-06-21T19:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-belgium",
+              "label": "Belgium",
+              "price": 1.48
+            },
+            {
+              "id": "1-iran",
+              "label": "Iran",
+              "price": 8.4
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.8
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-belgium",
+              "label": "Belgium",
+              "price": 1.49
+            },
+            {
+              "id": "1-iran",
+              "label": "Iran",
+              "price": 8.6
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.9
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-belgium-1-25",
+              "label": "Belgium -1.25",
+              "price": 2.12
+            },
+            {
+              "id": "1-iran-1-25",
+              "label": "Iran +1.25",
+              "price": 1.87
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.9
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.08
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-852a3abe6d46820720febc0fedebff9a",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Uruguay",
+      "away": "Cape Verde",
+      "homeCode": "URU",
+      "awayCode": "CAP",
+      "kickoff": "21/06, 19:00",
+      "kickoffAt": "2026-06-21T22:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-cape-verde",
+              "label": "Cape Verde",
+              "price": 7.36
+            },
+            {
+              "id": "1-uruguay",
+              "label": "Uruguay",
+              "price": 1.47
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.01
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-cape-verde-1-5",
+              "label": "Cape Verde +1.5",
+              "price": 1.55
+            },
+            {
+              "id": "1-uruguay-1-5",
+              "label": "Uruguay -1.5",
+              "price": 2.47
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.21
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.65
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-c1ec9a65f4b4cf74477b368a7d6282de",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "New Zealand",
+      "away": "Egypt",
+      "homeCode": "NEW",
+      "awayCode": "EGY",
+      "kickoff": "21/06, 22:00",
+      "kickoffAt": "2026-06-22T01:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-egypt",
+              "label": "Egypt",
+              "price": 1.64
+            },
+            {
+              "id": "1-new-zealand",
+              "label": "New Zealand",
+              "price": 5.69
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.89
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-egypt-0-5",
+              "label": "Egypt -0.5",
+              "price": 1.61
+            },
+            {
+              "id": "1-new-zealand-0-5",
+              "label": "New Zealand +0.5",
+              "price": 2.29
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.21
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.65
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-be6c63f416c67bca1300a98f5b89c3af",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Argentina",
+      "away": "Austria",
+      "homeCode": "ARG",
+      "awayCode": "AUS",
+      "kickoff": "22/06, 14:00",
+      "kickoffAt": "2026-06-22T17:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-argentina",
+              "label": "Argentina",
+              "price": 1.63
+            },
+            {
+              "id": "1-austria",
+              "label": "Austria",
+              "price": 6.4
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.2
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-argentina",
+              "label": "Argentina",
+              "price": 1.64
+            },
+            {
+              "id": "1-austria",
+              "label": "Austria",
+              "price": 6.6
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.3
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-argentina-1",
+              "label": "Argentina -1",
+              "price": 2.12
+            },
+            {
+              "id": "1-austria-1",
+              "label": "Austria +1",
+              "price": 1.85
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.02
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.92
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-7ad7a0ce2ef2618bb59b066da5642f70",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "France",
+      "away": "Iraq",
+      "homeCode": "FRA",
+      "awayCode": "IRA",
+      "kickoff": "22/06, 18:00",
+      "kickoffAt": "2026-06-22T21:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-france",
+              "label": "France",
+              "price": 1.12
+            },
+            {
+              "id": "1-iraq",
+              "label": "Iraq",
+              "price": 36
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 12
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-france",
+              "label": "France",
+              "price": 1.13
+            },
+            {
+              "id": "1-iraq",
+              "label": "Iraq",
+              "price": 40
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 12.5
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-france-2-75",
+              "label": "France -2.75",
+              "price": 2.06
+            },
+            {
+              "id": "1-iraq-2-75",
+              "label": "Iraq +2.75",
+              "price": 1.88
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-3-5",
+              "label": "Mais de 3.5",
+              "price": 2.06
+            },
+            {
+              "id": "1-menos-de-3-5",
+              "label": "Menos de 3.5",
+              "price": 1.9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-3f48473742ca0fd2a85930554720c75e",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Norway",
+      "away": "Senegal",
+      "homeCode": "NOR",
+      "awayCode": "SEN",
+      "kickoff": "22/06, 21:00",
+      "kickoffAt": "2026-06-23T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-norway",
+              "label": "Norway",
+              "price": 2.42
+            },
+            {
+              "id": "1-senegal",
+              "label": "Senegal",
+              "price": 3.15
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.6
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-norway",
+              "label": "Norway",
+              "price": 2.46
+            },
+            {
+              "id": "1-senegal",
+              "label": "Senegal",
+              "price": 3.2
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.7
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-norway-0-25",
+              "label": "Norway -0.25",
+              "price": 2.08
+            },
+            {
+              "id": "1-senegal-0-25",
+              "label": "Senegal +0.25",
+              "price": 1.89
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.97
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-fd8533b650e655030f6a7946f8795db2",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Jordan",
+      "away": "Algeria",
+      "homeCode": "JOR",
+      "awayCode": "ALG",
+      "kickoff": "23/06, 00:00",
+      "kickoffAt": "2026-06-23T03:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-algeria",
+              "label": "Algeria",
+              "price": 1.62
+            },
+            {
+              "id": "1-jordan",
+              "label": "Jordan",
+              "price": 6.4
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.3
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-algeria",
+              "label": "Algeria",
+              "price": 1.63
+            },
+            {
+              "id": "1-jordan",
+              "label": "Jordan",
+              "price": 6.8
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.4
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-algeria-1",
+              "label": "Algeria -1",
+              "price": 2.06
+            },
+            {
+              "id": "1-jordan-1",
+              "label": "Jordan +1",
+              "price": 1.89
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.96
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-8ba93d190f1f934e33862a97a6353a6e",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Portugal",
+      "away": "Uzbekistan",
+      "homeCode": "POR",
+      "awayCode": "UZB",
+      "kickoff": "23/06, 14:00",
+      "kickoffAt": "2026-06-23T17:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-portugal",
+              "label": "Portugal",
+              "price": 1.21
+            },
+            {
+              "id": "1-uzbekistan",
+              "label": "Uzbekistan",
+              "price": 19
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 7.29
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-portugal-1-5",
+              "label": "Portugal -1.5",
+              "price": 1.67
+            },
+            {
+              "id": "1-uzbekistan-1-5",
+              "label": "Uzbekistan +1.5",
+              "price": 2.29
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.62
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.38
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-2f49dd8deae3079dc4eb2d634d18a99c",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "England",
+      "away": "Ghana",
+      "homeCode": "ENG",
+      "awayCode": "GHA",
+      "kickoff": "23/06, 17:00",
+      "kickoffAt": "2026-06-23T20:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-england",
+              "label": "England",
+              "price": 1.25
+            },
+            {
+              "id": "1-ghana",
+              "label": "Ghana",
+              "price": 14.63
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 6.13
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-england-1-5",
+              "label": "England -1.5",
+              "price": 1.67
+            },
+            {
+              "id": "1-ghana-1-5",
+              "label": "Ghana +1.5",
+              "price": 2.12
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.69
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.21
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-c1bc8c26480cd42b89a0de5329581314",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Panama",
+      "away": "Croatia",
+      "homeCode": "PAN",
+      "awayCode": "CRO",
+      "kickoff": "23/06, 20:00",
+      "kickoffAt": "2026-06-23T23:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-croatia",
+              "label": "Croatia",
+              "price": 1.58
+            },
+            {
+              "id": "1-panama",
+              "label": "Panama",
+              "price": 7.4
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.1
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-croatia",
+              "label": "Croatia",
+              "price": 1.59
+            },
+            {
+              "id": "1-panama",
+              "label": "Panama",
+              "price": 7.6
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.2
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-croatia-1",
+              "label": "Croatia -1",
+              "price": 1.99
+            },
+            {
+              "id": "1-panama-1",
+              "label": "Panama +1",
+              "price": 1.97
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.94
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-68bfc965eb267508e04d8e8d75c1a0ae",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Colombia",
+      "away": "DR Congo",
+      "homeCode": "COL",
+      "awayCode": "DRC",
+      "kickoff": "23/06, 23:00",
+      "kickoffAt": "2026-06-24T02:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-colombia",
+              "label": "Colombia",
+              "price": 1.5
+            },
+            {
+              "id": "1-dr-congo",
+              "label": "DR Congo",
+              "price": 7.32
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.1
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-colombia-1-5",
+              "label": "Colombia -1.5",
+              "price": 2.44
+            },
+            {
+              "id": "1-dr-congo-1-5",
+              "label": "DR Congo +1.5",
+              "price": 1.54
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.18
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.66
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-512ac18beb5aa936a59f7ea3e497ada2",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Bosnia & Herzegovina",
+      "away": "Qatar",
+      "homeCode": "BOS",
+      "awayCode": "QAT",
+      "kickoff": "24/06, 16:00",
+      "kickoffAt": "2026-06-24T19:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-bosnia-herzegovina",
+              "label": "Bosnia & Herzegovina",
+              "price": 1.45
+            },
+            {
+              "id": "1-qatar",
+              "label": "Qatar",
+              "price": 7.85
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.07
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-bosnia-herzegovina-1-5",
+              "label": "Bosnia & Herzegovina -1.5",
+              "price": 2.15
+            },
+            {
+              "id": "1-qatar-1-5",
+              "label": "Qatar +1.5",
+              "price": 1.75
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.71
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-c9ef5822ee64fd5275f7c73251bb56c7",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Switzerland",
+      "away": "Canada",
+      "homeCode": "SWI",
+      "awayCode": "CAN",
+      "kickoff": "24/06, 16:00",
+      "kickoffAt": "2026-06-24T19:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-canada",
+              "label": "Canada",
+              "price": 3.35
+            },
+            {
+              "id": "1-switzerland",
+              "label": "Switzerland",
+              "price": 2.5
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.25
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-canada",
+              "label": "Canada",
+              "price": 3.4
+            },
+            {
+              "id": "1-switzerland",
+              "label": "Switzerland",
+              "price": 2.52
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.3
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-canada-0-25",
+              "label": "Canada +0.25",
+              "price": 1.88
+            },
+            {
+              "id": "1-switzerland-0-25",
+              "label": "Switzerland -0.25",
+              "price": 2.1
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.12
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.84
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-885ba95805db310a7bcc3fb1a7a6dd28",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Scotland",
+      "away": "Brazil",
+      "homeCode": "SCO",
+      "awayCode": "BRA",
+      "kickoff": "24/06, 19:00",
+      "kickoffAt": "2026-06-24T22:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-brazil",
+              "label": "Brazil",
+              "price": 1.44
+            },
+            {
+              "id": "1-scotland",
+              "label": "Scotland",
+              "price": 7.8
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.3
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-brazil",
+              "label": "Brazil",
+              "price": 1.46
+            },
+            {
+              "id": "1-scotland",
+              "label": "Scotland",
+              "price": 8
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.5
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-brazil-1-25",
+              "label": "Brazil -1.25",
+              "price": 2
+            },
+            {
+              "id": "1-scotland-1-25",
+              "label": "Scotland +1.25",
+              "price": 1.93
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.87
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.06
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-d1279ce7f33136a33e99ad442fc855e8",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Morocco",
+      "away": "Haiti",
+      "homeCode": "MOR",
+      "awayCode": "HAI",
+      "kickoff": "24/06, 19:00",
+      "kickoffAt": "2026-06-24T22:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-haiti",
+              "label": "Haiti",
+              "price": 11.09
+            },
+            {
+              "id": "1-morocco",
+              "label": "Morocco",
+              "price": 1.29
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.35
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-haiti-1-5",
+              "label": "Haiti +1.5",
+              "price": 2.02
+            },
+            {
+              "id": "1-morocco-1-5",
+              "label": "Morocco -1.5",
+              "price": 1.82
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.61
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-5993bd5196ca09f83990f0c3261e442e",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Czech Republic",
+      "away": "Mexico",
+      "homeCode": "CZE",
+      "awayCode": "MEX",
+      "kickoff": "24/06, 22:00",
+      "kickoffAt": "2026-06-25T01:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-czech-republic",
+              "label": "Czech Republic",
+              "price": 3.15
+            },
+            {
+              "id": "1-mexico",
+              "label": "Mexico",
+              "price": 2.34
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.8
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-czech-republic",
+              "label": "Czech Republic",
+              "price": 3.2
+            },
+            {
+              "id": "1-mexico",
+              "label": "Mexico",
+              "price": 2.4
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.85
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-czech-republic-0-25",
+              "label": "Czech Republic +0.25",
+              "price": 1.92
+            },
+            {
+              "id": "1-mexico-0-25",
+              "label": "Mexico -0.25",
+              "price": 2.04
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.36
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.69
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-c0355dfc6e26ec327e379b6ef5824a5f",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "South Africa",
+      "away": "South Korea",
+      "homeCode": "SOU",
+      "awayCode": "SOU",
+      "kickoff": "24/06, 22:00",
+      "kickoffAt": "2026-06-25T01:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-south-africa",
+              "label": "South Africa",
+              "price": 6
+            },
+            {
+              "id": "1-south-korea",
+              "label": "South Korea",
+              "price": 1.7
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-south-africa",
+              "label": "South Africa",
+              "price": 6.2
+            },
+            {
+              "id": "1-south-korea",
+              "label": "South Korea",
+              "price": 1.71
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.1
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-south-africa-0-75",
+              "label": "South Africa +0.75",
+              "price": 2.06
+            },
+            {
+              "id": "1-south-korea-0-75",
+              "label": "South Korea -0.75",
+              "price": 1.9
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.1
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.87
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-a5a0b544a984ab16e564264f3e859b43",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Curaçao",
+      "away": "Ivory Coast",
+      "homeCode": "CUR",
+      "awayCode": "IVO",
+      "kickoff": "25/06, 17:00",
+      "kickoffAt": "2026-06-25T20:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-curacao",
+              "label": "Curaçao",
+              "price": 20.99
+            },
+            {
+              "id": "1-ivory-coast",
+              "label": "Ivory Coast",
+              "price": 1.17
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 8.04
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-curacao-2-5",
+              "label": "Curaçao +2.5",
+              "price": 1.72
+            },
+            {
+              "id": "1-ivory-coast-2-5",
+              "label": "Ivory Coast -2.5",
+              "price": 2.09
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-3-5",
+              "label": "Mais de 3.5",
+              "price": 2.2
+            },
+            {
+              "id": "1-menos-de-3-5",
+              "label": "Menos de 3.5",
+              "price": 1.66
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-0ec28b84ec399bd4dffbe8d1bc72b3c4",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Ecuador",
+      "away": "Germany",
+      "homeCode": "ECU",
+      "awayCode": "GER",
+      "kickoff": "25/06, 17:00",
+      "kickoffAt": "2026-06-25T20:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-ecuador",
+              "label": "Ecuador",
+              "price": 5.3
+            },
+            {
+              "id": "1-germany",
+              "label": "Germany",
+              "price": 1.73
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.2
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-ecuador",
+              "label": "Ecuador",
+              "price": 5.4
+            },
+            {
+              "id": "1-germany",
+              "label": "Germany",
+              "price": 1.75
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.3
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-ecuador-0-75",
+              "label": "Ecuador +0.75",
+              "price": 2.02
+            },
+            {
+              "id": "1-germany-0-75",
+              "label": "Germany -0.75",
+              "price": 1.92
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.96
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.96
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-0ed0233bddc4eafc8507f86a9c17b998",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Japan",
+      "away": "Sweden",
+      "homeCode": "JAP",
+      "awayCode": "SWE",
+      "kickoff": "25/06, 20:00",
+      "kickoffAt": "2026-06-25T23:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-japan",
+              "label": "Japan",
+              "price": 2.16
+            },
+            {
+              "id": "1-sweden",
+              "label": "Sweden",
+              "price": 3.35
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.35
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-japan",
+              "label": "Japan",
+              "price": 2.4
+            },
+            {
+              "id": "1-sweden",
+              "label": "Sweden",
+              "price": 3.8
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.4
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-japan-0-25",
+              "label": "Japan -0.25",
+              "price": 1.86
+            },
+            {
+              "id": "1-sweden-0-25",
+              "label": "Sweden +0.25",
+              "price": 1.96
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.86
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.82
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-f3c4657daa143a0c5bd62cb370d01ce4",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Tunisia",
+      "away": "Netherlands",
+      "homeCode": "TUN",
+      "awayCode": "NET",
+      "kickoff": "25/06, 20:00",
+      "kickoffAt": "2026-06-25T23:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-netherlands",
+              "label": "Netherlands",
+              "price": 1.33
+            },
+            {
+              "id": "1-tunisia",
+              "label": "Tunisia",
+              "price": 7.4
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.6
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-netherlands",
+              "label": "Netherlands",
+              "price": 1.41
+            },
+            {
+              "id": "1-tunisia",
+              "label": "Tunisia",
+              "price": 12.5
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 6.8
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-netherlands-1-5",
+              "label": "Netherlands -1.5",
+              "price": 1.89
+            },
+            {
+              "id": "1-tunisia-1-5",
+              "label": "Tunisia +1.5",
+              "price": 1.9
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.7
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.14
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-22f6ac06dfcc88a847920f62633e6459",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Paraguay",
+      "away": "Australia",
+      "homeCode": "PAR",
+      "awayCode": "AUS",
+      "kickoff": "25/06, 23:00",
+      "kickoffAt": "2026-06-26T02:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-australia",
+              "label": "Australia",
+              "price": 3.1
+            },
+            {
+              "id": "1-paraguay",
+              "label": "Paraguay",
+              "price": 2.06
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.1
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-australia",
+              "label": "Australia",
+              "price": 4.3
+            },
+            {
+              "id": "1-paraguay",
+              "label": "Paraguay",
+              "price": 2.56
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.3
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-australia-0-25",
+              "label": "Australia +0.25",
+              "price": 1.85
+            },
+            {
+              "id": "1-paraguay-0-25",
+              "label": "Paraguay -0.25",
+              "price": 1.78
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.24
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.58
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-f41aeac9a8343a84b4950f15ea25fba2",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Turkey",
+      "away": "USA",
+      "homeCode": "TUR",
+      "awayCode": "USA",
+      "kickoff": "25/06, 23:00",
+      "kickoffAt": "2026-06-26T02:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-turkey",
+              "label": "Turkey",
+              "price": 2.71
+            },
+            {
+              "id": "1-usa",
+              "label": "USA",
+              "price": 2.46
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.6
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-turkey-0-5",
+              "label": "Turkey +0.5",
+              "price": 1.56
+            },
+            {
+              "id": "1-usa-0-5",
+              "label": "USA -0.5",
+              "price": 2.39
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.84
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.93
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-b86b4d60f773e9e3c46c00e9a6496e79",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Norway",
+      "away": "France",
+      "homeCode": "NOR",
+      "awayCode": "FRA",
+      "kickoff": "26/06, 16:00",
+      "kickoffAt": "2026-06-26T19:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-france",
+              "label": "France",
+              "price": 1.78
+            },
+            {
+              "id": "1-norway",
+              "label": "Norway",
+              "price": 4.39
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.66
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-france-0-5",
+              "label": "France -0.5",
+              "price": 1.8
+            },
+            {
+              "id": "1-norway-0-5",
+              "label": "Norway +0.5",
+              "price": 1.98
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.85
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.93
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-7e6aee294ea1a4792c59558791084528",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Senegal",
+      "away": "Iraq",
+      "homeCode": "SEN",
+      "awayCode": "IRA",
+      "kickoff": "26/06, 16:00",
+      "kickoffAt": "2026-06-26T19:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-iraq",
+              "label": "Iraq",
+              "price": 9.74
+            },
+            {
+              "id": "1-senegal",
+              "label": "Senegal",
+              "price": 1.37
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.04
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-iraq-1-5",
+              "label": "Iraq +1.5",
+              "price": 1.82
+            },
+            {
+              "id": "1-senegal-1-5",
+              "label": "Senegal -1.5",
+              "price": 1.93
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.85
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.93
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-e07b1926be5a4d515c7eb108dbcee9c5",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Cape Verde",
+      "away": "Saudi Arabia",
+      "homeCode": "CAP",
+      "awayCode": "SAU",
+      "kickoff": "26/06, 21:00",
+      "kickoffAt": "2026-06-27T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-cape-verde",
+              "label": "Cape Verde",
+              "price": 2.84
+            },
+            {
+              "id": "1-saudi-arabia",
+              "label": "Saudi Arabia",
+              "price": 2.48
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.62
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-cape-verde-0-5",
+              "label": "Cape Verde +0.5",
+              "price": 1.59
+            },
+            {
+              "id": "1-saudi-arabia-0-5",
+              "label": "Saudi Arabia -0.5",
+              "price": 2.35
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.09
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.76
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-dcff2e31c0bce001a4db5caaf4fa8822",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Uruguay",
+      "away": "Spain",
+      "homeCode": "URU",
+      "awayCode": "SPA",
+      "kickoff": "26/06, 21:00",
+      "kickoffAt": "2026-06-27T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-spain",
+              "label": "Spain",
+              "price": 1.58
+            },
+            {
+              "id": "1-uruguay",
+              "label": "Uruguay",
+              "price": 5.99
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.18
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-spain-0-5",
+              "label": "Spain -0.5",
+              "price": 1.53
+            },
+            {
+              "id": "1-uruguay-0-5",
+              "label": "Uruguay +0.5",
+              "price": 2.46
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.83
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.95
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-581691da05dcd75b5c6d3be91ee9d2ab",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "New Zealand",
+      "away": "Belgium",
+      "homeCode": "NEW",
+      "awayCode": "BEL",
+      "kickoff": "27/06, 00:00",
+      "kickoffAt": "2026-06-27T03:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-belgium",
+              "label": "Belgium",
+              "price": 1.3
+            },
+            {
+              "id": "1-new-zealand",
+              "label": "New Zealand",
+              "price": 12.73
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.89
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-belgium-1-5",
+              "label": "Belgium -1.5",
+              "price": 1.7
+            },
+            {
+              "id": "1-new-zealand-1-5",
+              "label": "New Zealand +1.5",
+              "price": 2.11
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.65
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-3e3b5fa2b3c963e74cf044c60db0b573",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Egypt",
+      "away": "Iran",
+      "homeCode": "EGY",
+      "awayCode": "IRA",
+      "kickoff": "27/06, 00:00",
+      "kickoffAt": "2026-06-27T03:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-egypt",
+              "label": "Egypt",
+              "price": 2.14
+            },
+            {
+              "id": "1-iran",
+              "label": "Iran",
+              "price": 3.82
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.08
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-egypt-0-5",
+              "label": "Egypt -0.5",
+              "price": 2.04
+            },
+            {
+              "id": "1-iran-0-5",
+              "label": "Iran +0.5",
+              "price": 1.76
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.54
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-537c0997cd899394f47f16545b7068b2",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Croatia",
+      "away": "Ghana",
+      "homeCode": "CRO",
+      "awayCode": "GHA",
+      "kickoff": "27/06, 18:00",
+      "kickoffAt": "2026-06-27T21:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-croatia",
+              "label": "Croatia",
+              "price": 1.65
+            },
+            {
+              "id": "1-ghana",
+              "label": "Ghana",
+              "price": 5.93
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.92
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-croatia-1-5",
+              "label": "Croatia -1.5",
+              "price": 2.72
+            },
+            {
+              "id": "1-ghana-1-5",
+              "label": "Ghana +1.5",
+              "price": 1.44
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.08
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.73
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-4be17c8e1ccfecb0f2a5ef79e045c415",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Panama",
+      "away": "England",
+      "homeCode": "PAN",
+      "awayCode": "ENG",
+      "kickoff": "27/06, 18:00",
+      "kickoffAt": "2026-06-27T21:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-england",
+              "label": "England",
+              "price": 1.32
+            },
+            {
+              "id": "1-panama",
+              "label": "Panama",
+              "price": 9.96
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.87
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-england-1-5",
+              "label": "England -1.5",
+              "price": 1.74
+            },
+            {
+              "id": "1-panama-1-5",
+              "label": "Panama +1.5",
+              "price": 2.04
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.62
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.27
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-67ae5751c401a98409b8566ae4897069",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Colombia",
+      "away": "Portugal",
+      "homeCode": "COL",
+      "awayCode": "POR",
+      "kickoff": "27/06, 20:30",
+      "kickoffAt": "2026-06-27T23:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-colombia",
+              "label": "Colombia",
+              "price": 3.52
+            },
+            {
+              "id": "1-portugal",
+              "label": "Portugal",
+              "price": 2.2
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.37
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-colombia-0-5",
+              "label": "Colombia -0.5",
+              "price": 3.23
+            },
+            {
+              "id": "1-portugal-0-5",
+              "label": "Portugal +0.5",
+              "price": 1.33
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.06
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.74
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-13eab94a136b9c264ba974cf437a5f71",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "DR Congo",
+      "away": "Uzbekistan",
+      "homeCode": "DRC",
+      "awayCode": "UZB",
+      "kickoff": "27/06, 20:30",
+      "kickoffAt": "2026-06-27T23:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-dr-congo",
+              "label": "DR Congo",
+              "price": 2.13
+            },
+            {
+              "id": "1-uzbekistan",
+              "label": "Uzbekistan",
+              "price": 3.24
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.45
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-dr-congo-0-5",
+              "label": "DR Congo +0.5",
+              "price": 1.32
+            },
+            {
+              "id": "1-uzbekistan-0-5",
+              "label": "Uzbekistan -0.5",
+              "price": 3.28
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.15
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-8756200e539155e571557c4f2e0d7f05",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Algeria",
+      "away": "Austria",
+      "homeCode": "ALG",
+      "awayCode": "AUS",
+      "kickoff": "27/06, 23:00",
+      "kickoffAt": "2026-06-28T02:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-algeria",
+              "label": "Algeria",
+              "price": 3.01
+            },
+            {
+              "id": "1-austria",
+              "label": "Austria",
+              "price": 2.44
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.15
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-algeria-0-5",
+              "label": "Algeria -0.5",
+              "price": 3
+            },
+            {
+              "id": "1-austria-0-5",
+              "label": "Austria +0.5",
+              "price": 1.38
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.1
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.71
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-54697f453437ab26276d773be1d72e9b",
+      "sport": "Futebol",
+      "country": "Mundo",
+      "league": "FIFA World Cup",
+      "home": "Jordan",
+      "away": "Argentina",
+      "homeCode": "JOR",
+      "awayCode": "ARG",
+      "kickoff": "27/06, 23:00",
+      "kickoffAt": "2026-06-28T02:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-argentina",
+              "label": "Argentina",
+              "price": 1.21
+            },
+            {
+              "id": "1-jordan",
+              "label": "Jordan",
+              "price": 12.37
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 6.77
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-argentina-1-5",
+              "label": "Argentina -1.5",
+              "price": 1.65
+            },
+            {
+              "id": "1-jordan-1-5",
+              "label": "Jordan +1.5",
+              "price": 2.24
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.56
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-5383e72b96aae89323d03f4cd36283e2",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Libertadores",
+      "home": "Fluminense-RJ",
+      "away": "Independiente Rivadavia",
+      "homeCode": "FLU",
+      "awayCode": "IND",
+      "kickoff": "11/08, 19:00",
+      "kickoffAt": "2026-08-11T22:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-fluminense-rj",
+              "label": "Fluminense-RJ",
+              "price": 1.55
+            },
+            {
+              "id": "1-independiente-rivadavia",
+              "label": "Independiente Rivadavia",
+              "price": 5.81
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.42
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-fluminense-rj-1-5",
+              "label": "Fluminense-RJ -1.5",
+              "price": 2.64
+            },
+            {
+              "id": "1-independiente-rivadavia-1-5",
+              "label": "Independiente Rivadavia +1.5",
+              "price": 1.51
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.98
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.87
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-d795b12013a333298079df3a5abd260d",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Libertadores",
+      "home": "Palmeiras-SP",
+      "away": "Cerro Porteño",
+      "homeCode": "PAL",
+      "awayCode": "CER",
+      "kickoff": "11/08, 21:00",
+      "kickoffAt": "2026-08-12T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-cerro-porteno",
+              "label": "Cerro Porteño",
+              "price": 10.7
+            },
+            {
+              "id": "1-palmeiras-sp",
+              "label": "Palmeiras-SP",
+              "price": 1.31
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.43
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-cerro-porteno-1-5",
+              "label": "Cerro Porteño +1.5",
+              "price": 1.85
+            },
+            {
+              "id": "1-palmeiras-sp-1-5",
+              "label": "Palmeiras-SP -1.5",
+              "price": 2
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.98
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.86
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-2931578ca874ba48e46a61c94fb56fcd",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Libertadores",
+      "home": "Platense",
+      "away": "Coquimbo Unido",
+      "homeCode": "PLA",
+      "awayCode": "COQ",
+      "kickoff": "11/08, 21:00",
+      "kickoffAt": "2026-08-12T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-coquimbo-unido",
+              "label": "Coquimbo Unido",
+              "price": 4.99
+            },
+            {
+              "id": "1-platense",
+              "label": "Platense",
+              "price": 1.84
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.35
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-coquimbo-unido-1-5",
+              "label": "Coquimbo Unido +1.5",
+              "price": 1.31
+            },
+            {
+              "id": "1-platense-1-5",
+              "label": "Platense -1.5",
+              "price": 3.56
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.23
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.68
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-05412ae8c72a3f9765da81074803d9c2",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Libertadores",
+      "home": "Rosario Central",
+      "away": "Corinthians-SP",
+      "homeCode": "ROS",
+      "awayCode": "COR",
+      "kickoff": "11/08, 21:00",
+      "kickoffAt": "2026-08-12T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-corinthians-sp",
+              "label": "Corinthians-SP",
+              "price": 3.25
+            },
+            {
+              "id": "1-rosario-central",
+              "label": "Rosario Central",
+              "price": 2.18
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.25
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.77
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.95
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-76fe0ea572193cddb505ae4ba43cd069",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Libertadores",
+      "home": "Cruzeiro",
+      "away": "Flamengo-RJ",
+      "homeCode": "CRU",
+      "awayCode": "FLA",
+      "kickoff": "11/08, 21:00",
+      "kickoffAt": "2026-08-12T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-cruzeiro",
+              "label": "Cruzeiro",
+              "price": 2.73
+            },
+            {
+              "id": "1-flamengo-rj",
+              "label": "Flamengo-RJ",
+              "price": 2.68
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.31
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-cruzeiro-0",
+              "label": "Cruzeiro 0",
+              "price": 1.93
+            },
+            {
+              "id": "1-flamengo-rj-0",
+              "label": "Flamengo-RJ 0",
+              "price": 1.91
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.17
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.72
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-dd06fab13c4861592da993d2d742c27b",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Libertadores",
+      "home": "Mirassol",
+      "away": "LDU Quito",
+      "homeCode": "MIR",
+      "awayCode": "LDU",
+      "kickoff": "11/08, 21:00",
+      "kickoffAt": "2026-08-12T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-ldu-quito",
+              "label": "LDU Quito",
+              "price": 4.08
+            },
+            {
+              "id": "1-mirassol",
+              "label": "Mirassol",
+              "price": 1.98
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.44
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-ldu-quito-0",
+              "label": "LDU Quito 0",
+              "price": 3.12
+            },
+            {
+              "id": "1-mirassol-0",
+              "label": "Mirassol 0",
+              "price": 1.39
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.4
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-a19bccbe8889dfa8d2dafbdaa57749a0",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Libertadores",
+      "home": "Deportes Tolima",
+      "away": "Independiente del Valle",
+      "homeCode": "DEP",
+      "awayCode": "IND",
+      "kickoff": "11/08, 21:30",
+      "kickoffAt": "2026-08-12T00:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-deportes-tolima",
+              "label": "Deportes Tolima",
+              "price": 2.65
+            },
+            {
+              "id": "1-independiente-del-valle",
+              "label": "Independiente del Valle",
+              "price": 2.75
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.33
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-deportes-tolima-0",
+              "label": "Deportes Tolima 0",
+              "price": 1.89
+            },
+            {
+              "id": "1-independiente-del-valle-0",
+              "label": "Independiente del Valle 0",
+              "price": 1.95
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.97
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.88
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-0c574a337d17da360cbb2e4c44b637ee",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Libertadores",
+      "home": "Estudiantes La Plata",
+      "away": "Universidad Católica (CHI)",
+      "homeCode": "EST",
+      "awayCode": "UNI",
+      "kickoff": "11/08, 21:30",
+      "kickoffAt": "2026-08-12T00:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-estudiantes-la-plata",
+              "label": "Estudiantes La Plata",
+              "price": 1.74
+            },
+            {
+              "id": "1-universidad-catolica-chi",
+              "label": "Universidad Católica (CHI)",
+              "price": 5.09
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.7
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-estudiantes-la-plata-1-5",
+              "label": "Estudiantes La Plata -1.5",
+              "price": 3.6
+            },
+            {
+              "id": "1-universidad-catolica-chi-1-5",
+              "label": "Universidad Católica (CHI) +1.5",
+              "price": 1.31
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.42
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.59
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-eea2d21194999c598d9231fd40ed71fc",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Libertadores",
+      "home": "Rosario Central",
+      "away": "Corinthians-SP",
+      "homeCode": "ROS",
+      "awayCode": "COR",
+      "kickoff": "13/08, 21:30",
+      "kickoffAt": "2026-08-14T00:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-corinthians-sp",
+              "label": "Corinthians-SP",
+              "price": 3.31
+            },
+            {
+              "id": "1-rosario-central",
+              "label": "Rosario Central",
+              "price": 2.3
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.27
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-corinthians-sp-0",
+              "label": "Corinthians-SP 0",
+              "price": 2.33
+            },
+            {
+              "id": "1-rosario-central-0",
+              "label": "Rosario Central 0",
+              "price": 1.63
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.15
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.73
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-e38b938069d601692760954037d7ba59",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "Nacional de Montevideo",
+      "away": "CA Tigre BA",
+      "homeCode": "NAC",
+      "awayCode": "CAT",
+      "kickoff": "21/07, 19:00",
+      "kickoffAt": "2026-07-21T22:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-ca-tigre-ba",
+              "label": "CA Tigre BA",
+              "price": 4.4
+            },
+            {
+              "id": "1-nacional-de-montevideo",
+              "label": "Nacional de Montevideo",
+              "price": 1.84
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.45
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-ca-tigre-ba-1",
+              "label": "CA Tigre BA +1",
+              "price": 1.46
+            },
+            {
+              "id": "1-nacional-de-montevideo-1",
+              "label": "Nacional de Montevideo -1",
+              "price": 2.66
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2",
+              "label": "Mais de 2",
+              "price": 1.68
+            },
+            {
+              "id": "1-menos-de-2",
+              "label": "Menos de 2",
+              "price": 2.15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-e7447f015dd48d3b857cc22d63cb8479",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "Boca Juniors",
+      "away": "O'Higgins",
+      "homeCode": "BOC",
+      "awayCode": "OHI",
+      "kickoff": "21/07, 21:00",
+      "kickoffAt": "2026-07-22T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-boca-juniors",
+              "label": "Boca Juniors",
+              "price": 1.43
+            },
+            {
+              "id": "1-o-higgins",
+              "label": "O'Higgins",
+              "price": 8
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.95
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.02
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.72
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-9496a9a5346f72dd35cffb800eac7fb5",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "Sporting Cristal",
+      "away": "Bragantino-SP",
+      "homeCode": "SPO",
+      "awayCode": "BRA",
+      "kickoff": "21/07, 21:00",
+      "kickoffAt": "2026-07-22T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-bragantino-sp",
+              "label": "Bragantino-SP",
+              "price": 2.5
+            },
+            {
+              "id": "1-sporting-cristal",
+              "label": "Sporting Cristal",
+              "price": 3.04
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.44
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-bragantino-sp-0",
+              "label": "Bragantino-SP 0",
+              "price": 1.79
+            },
+            {
+              "id": "1-sporting-cristal-0",
+              "label": "Sporting Cristal 0",
+              "price": 2.17
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.04
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.89
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-b37487abface74863d8695e5365c3d31",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "Independiente Santa Fe",
+      "away": "Caracas FC",
+      "homeCode": "IND",
+      "awayCode": "CAR",
+      "kickoff": "21/07, 21:00",
+      "kickoffAt": "2026-07-22T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-caracas-fc",
+              "label": "Caracas FC",
+              "price": 6
+            },
+            {
+              "id": "1-independiente-santa-fe",
+              "label": "Independiente Santa Fe",
+              "price": 1.54
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.85
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.55
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.47
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-4934cf8f31416013ec91adee3a0f4794",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "Club Bolívar",
+      "away": "Grêmio",
+      "homeCode": "CLU",
+      "awayCode": "GRÊ",
+      "kickoff": "21/07, 21:00",
+      "kickoffAt": "2026-07-22T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-club-bolivar",
+              "label": "Club Bolívar",
+              "price": 1.71
+            },
+            {
+              "id": "1-gremio",
+              "label": "Grêmio",
+              "price": 4.76
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.44
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-club-bolivar-1-5",
+              "label": "Club Bolívar -1.5",
+              "price": 3
+            },
+            {
+              "id": "1-gremio-1-5",
+              "label": "Grêmio +1.5",
+              "price": 1.46
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.71
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 2.29
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-ebf2e592382079b9c0f291241cb5acb3",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "Lanus",
+      "away": "Club Cienciano",
+      "homeCode": "LAN",
+      "awayCode": "CLU",
+      "kickoff": "21/07, 21:00",
+      "kickoffAt": "2026-07-22T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-club-cienciano",
+              "label": "Club Cienciano",
+              "price": 7.44
+            },
+            {
+              "id": "1-lanus",
+              "label": "Lanus",
+              "price": 1.46
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 5.01
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-club-cienciano-1-5",
+              "label": "Club Cienciano +1.5",
+              "price": 1.76
+            },
+            {
+              "id": "1-lanus-1-5",
+              "label": "Lanus -1.5",
+              "price": 2.22
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 1.96
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.97
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-04fd513adb50860e553553a771be0887",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "Independiente Medellín",
+      "away": "Vasco da Gama",
+      "homeCode": "IND",
+      "awayCode": "VAS",
+      "kickoff": "21/07, 21:00",
+      "kickoffAt": "2026-07-22T00:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-independiente-medellin",
+              "label": "Independiente Medellín",
+              "price": 2.65
+            },
+            {
+              "id": "1-vasco-da-gama",
+              "label": "Vasco da Gama",
+              "price": 2.89
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.36
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-independiente-medellin-0",
+              "label": "Independiente Medellín 0",
+              "price": 1.89
+            },
+            {
+              "id": "1-vasco-da-gama-0",
+              "label": "Vasco da Gama 0",
+              "price": 2.03
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.37
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.67
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-03868280fe8e1f360f9faa1d11407af7",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "UCV FC",
+      "away": "Santos",
+      "homeCode": "UCV",
+      "awayCode": "SAN",
+      "kickoff": "21/07, 21:30",
+      "kickoffAt": "2026-07-22T00:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-santos",
+              "label": "Santos",
+              "price": 1.68
+            },
+            {
+              "id": "1-ucv-fc",
+              "label": "UCV FC",
+              "price": 4.75
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.9
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-santos-1",
+              "label": "Santos -1",
+              "price": 2.34
+            },
+            {
+              "id": "1-ucv-fc-1",
+              "label": "UCV FC +1",
+              "price": 1.58
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2",
+              "label": "Mais de 2",
+              "price": 1.72
+            },
+            {
+              "id": "1-menos-de-2",
+              "label": "Menos de 2",
+              "price": 2.09
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-0ff2c6af9633805cd92c4110a5a53430",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "Boca Juniors",
+      "away": "O'Higgins",
+      "homeCode": "BOC",
+      "awayCode": "OHI",
+      "kickoff": "23/07, 21:30",
+      "kickoffAt": "2026-07-24T00:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-boca-juniors",
+              "label": "Boca Juniors",
+              "price": 1.45
+            },
+            {
+              "id": "1-o-higgins",
+              "label": "O'Higgins",
+              "price": 8.5
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.74
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-boca-juniors-1-5",
+              "label": "Boca Juniors -1.5",
+              "price": 2.31
+            },
+            {
+              "id": "1-o-higgins-1-5",
+              "label": "O'Higgins +1.5",
+              "price": 1.71
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.06
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.87
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-2cc99c17a93bc9858e4d834bb532ab4f",
+      "sport": "Futebol",
+      "country": "América do Sul",
+      "league": "Copa Sudamericana",
+      "home": "Independiente Santa Fe",
+      "away": "Caracas FC",
+      "homeCode": "IND",
+      "awayCode": "CAR",
+      "kickoff": "23/07, 21:30",
+      "kickoffAt": "2026-07-24T00:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-caracas-fc",
+              "label": "Caracas FC",
+              "price": 7.14
+            },
+            {
+              "id": "1-independiente-santa-fe",
+              "label": "Independiente Santa Fe",
+              "price": 1.58
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4.06
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-caracas-fc-1-5",
+              "label": "Caracas FC +1.5",
+              "price": 1.49
+            },
+            {
+              "id": "1-independiente-santa-fe-1-5",
+              "label": "Independiente Santa Fe -1.5",
+              "price": 2.87
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.48
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-84ce50c95b2d7df76ab9d8c38485be7f",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "Londrina",
+      "away": "Athletic Club (MG)",
+      "homeCode": "LON",
+      "awayCode": "ATH",
+      "kickoff": "20/06, 11:00",
+      "kickoffAt": "2026-06-20T14:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-athletic-club-mg",
+              "label": "Athletic Club (MG)",
+              "price": 2.92
+            },
+            {
+              "id": "1-londrina",
+              "label": "Londrina",
+              "price": 2.8
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.2
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-athletic-club-mg",
+              "label": "Athletic Club (MG)",
+              "price": 3.05
+            },
+            {
+              "id": "1-londrina",
+              "label": "Londrina",
+              "price": 2.9
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.35
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-athletic-club-mg-0",
+              "label": "Athletic Club (MG) 0",
+              "price": 1.67
+            },
+            {
+              "id": "1-londrina-0",
+              "label": "Londrina 0",
+              "price": 1.91
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.34
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-58824fae7b0a4f0a0bfd8d54196d3d3c",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "Ceará",
+      "away": "Botafogo",
+      "homeCode": "CEA",
+      "awayCode": "BOT",
+      "kickoff": "20/06, 19:00",
+      "kickoffAt": "2026-06-20T22:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-botafogo",
+              "label": "Botafogo",
+              "price": 4.7
+            },
+            {
+              "id": "1-ceara",
+              "label": "Ceará",
+              "price": 2.02
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.2
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-botafogo",
+              "label": "Botafogo",
+              "price": 5.2
+            },
+            {
+              "id": "1-ceara",
+              "label": "Ceará",
+              "price": 2.1
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.4
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-botafogo-0-5",
+              "label": "Botafogo +0.5",
+              "price": 1.79
+            },
+            {
+              "id": "1-ceara-0-5",
+              "label": "Ceará -0.5",
+              "price": 1.79
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.52
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.55
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-305f009b26829d0052c0a6c1ec145e76",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "Vila Nova",
+      "away": "Nautico PE",
+      "homeCode": "VIL",
+      "awayCode": "NAU",
+      "kickoff": "20/06, 19:00",
+      "kickoffAt": "2026-06-20T22:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-nautico-pe",
+              "label": "Nautico PE",
+              "price": 3.25
+            },
+            {
+              "id": "1-vila-nova",
+              "label": "Vila Nova",
+              "price": 2.42
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.3
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-nautico-pe",
+              "label": "Nautico PE",
+              "price": 3.55
+            },
+            {
+              "id": "1-vila-nova",
+              "label": "Vila Nova",
+              "price": 2.58
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.55
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-nautico-pe-0-25",
+              "label": "Nautico PE +0.25",
+              "price": 1.85
+            },
+            {
+              "id": "1-vila-nova-0-25",
+              "label": "Vila Nova -0.25",
+              "price": 1.98
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.06
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.64
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-7bc9ee717604abf4d7f6abfb15bea4c1",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "Avai",
+      "away": "Cuiabá",
+      "homeCode": "AVA",
+      "awayCode": "CUI",
+      "kickoff": "21/06, 11:00",
+      "kickoffAt": "2026-06-21T14:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-avai",
+              "label": "Avai",
+              "price": 2.52
+            },
+            {
+              "id": "1-cuiaba",
+              "label": "Cuiabá",
+              "price": 3.1
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 2.8
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-avai",
+              "label": "Avai",
+              "price": 2.9
+            },
+            {
+              "id": "1-cuiaba",
+              "label": "Cuiabá",
+              "price": 3.65
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.25
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-avai-0",
+              "label": "Avai 0",
+              "price": 1.72
+            },
+            {
+              "id": "1-cuiaba-0",
+              "label": "Cuiabá 0",
+              "price": 2.12
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-1-5",
+              "label": "Mais de 1.5",
+              "price": 1.54
+            },
+            {
+              "id": "1-menos-de-1-5",
+              "label": "Menos de 1.5",
+              "price": 2.46
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-0e31fe525c3737566742f60645a8de63",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "Clube de Regatas Brasil",
+      "away": "Fortaleza",
+      "homeCode": "CLU",
+      "awayCode": "FOR",
+      "kickoff": "21/06, 16:00",
+      "kickoffAt": "2026-06-21T19:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-clube-de-regatas-brasil",
+              "label": "Clube de Regatas Brasil",
+              "price": 2.14
+            },
+            {
+              "id": "1-fortaleza",
+              "label": "Fortaleza",
+              "price": 2.88
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.1
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-clube-de-regatas-brasil",
+              "label": "Clube de Regatas Brasil",
+              "price": 2.88
+            },
+            {
+              "id": "1-fortaleza",
+              "label": "Fortaleza",
+              "price": 4.3
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 4
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-clube-de-regatas-brasil-0-25",
+              "label": "Clube de Regatas Brasil -0.25",
+              "price": 1.98
+            },
+            {
+              "id": "1-fortaleza-0-25",
+              "label": "Fortaleza +0.25",
+              "price": 1.85
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.22
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.67
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-74c51b95f6775559a7050dbaeb0ca318",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "São Bernardo",
+      "away": "Juventude",
+      "homeCode": "SÃO",
+      "awayCode": "JUV",
+      "kickoff": "21/06, 17:00",
+      "kickoffAt": "2026-06-21T20:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-juventude",
+              "label": "Juventude",
+              "price": 3.15
+            },
+            {
+              "id": "1-sao-bernardo",
+              "label": "São Bernardo",
+              "price": 2.58
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 2.92
+            }
+          ]
+        },
+        {
+          "id": "odds-h2h_lay",
+          "name": "H2h Lay",
+          "options": [
+            {
+              "id": "0-juventude",
+              "label": "Juventude",
+              "price": 3.9
+            },
+            {
+              "id": "1-sao-bernardo",
+              "label": "São Bernardo",
+              "price": 2.82
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.55
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-juventude-0-25",
+              "label": "Juventude -0.25",
+              "price": 2.44
+            },
+            {
+              "id": "1-sao-bernardo-0-25",
+              "label": "São Bernardo +0.25",
+              "price": 1.46
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.38
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-1e2133c1f16c7acac37b80a88c63d59a",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "Goiás",
+      "away": "Operario PR",
+      "homeCode": "GOI",
+      "awayCode": "OPE",
+      "kickoff": "21/06, 18:30",
+      "kickoffAt": "2026-06-21T21:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-goias",
+              "label": "Goiás",
+              "price": 2.12
+            },
+            {
+              "id": "1-operario-pr",
+              "label": "Operario PR",
+              "price": 3.6
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.1
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-goias-1",
+              "label": "Goiás -1",
+              "price": 3.35
+            },
+            {
+              "id": "1-operario-pr-1",
+              "label": "Operario PR +1",
+              "price": 1.28
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2",
+              "label": "Mais de 2",
+              "price": 1.87
+            },
+            {
+              "id": "1-menos-de-2",
+              "label": "Menos de 2",
+              "price": 1.87
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-f5405b438b6ebb1b06047c824ed0e5a8",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "Ponte Preta",
+      "away": "Grêmio Novorizontino",
+      "homeCode": "PON",
+      "awayCode": "GRÊ",
+      "kickoff": "22/06, 20:00",
+      "kickoffAt": "2026-06-22T23:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-gremio-novorizontino",
+              "label": "Grêmio Novorizontino",
+              "price": 1.84
+            },
+            {
+              "id": "1-ponte-preta",
+              "label": "Ponte Preta",
+              "price": 4.59
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.2
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-gremio-novorizontino-0",
+              "label": "Grêmio Novorizontino 0",
+              "price": 1.3
+            },
+            {
+              "id": "1-ponte-preta-0",
+              "label": "Ponte Preta 0",
+              "price": 3.3
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.24
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.61
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-7f8d75f257e4a0d17beb5783bcd6f3b2",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "América Mineiro",
+      "away": "Criciuma",
+      "homeCode": "AMÉ",
+      "awayCode": "CRI",
+      "kickoff": "23/06, 20:00",
+      "kickoffAt": "2026-06-23T23:00:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-america-mineiro",
+              "label": "América Mineiro",
+              "price": 2.9
+            },
+            {
+              "id": "1-criciuma",
+              "label": "Criciuma",
+              "price": 2.48
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 2.92
+            }
+          ]
+        },
+        {
+          "id": "odds-spreads",
+          "name": "Handicap",
+          "options": [
+            {
+              "id": "0-america-mineiro-0-25",
+              "label": "América Mineiro +0.25",
+              "price": 1.74
+            },
+            {
+              "id": "1-criciuma-0-25",
+              "label": "Criciuma -0.25",
+              "price": 2.15
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2",
+              "label": "Mais de 2",
+              "price": 1.87
+            },
+            {
+              "id": "1-menos-de-2",
+              "label": "Menos de 2",
+              "price": 1.95
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odds-c2eefc04c5920770d52c8774ee9c59bd",
+      "sport": "Futebol",
+      "country": "Brasil",
+      "league": "Brazil Série B",
+      "home": "Cuiabá",
+      "away": "Londrina",
+      "homeCode": "CUI",
+      "awayCode": "LON",
+      "kickoff": "25/06, 20:30",
+      "kickoffAt": "2026-06-25T23:30:00Z",
+      "status": "upcoming",
+      "source": "the-odds-api",
+      "markets": [
+        {
+          "id": "odds-h2h",
+          "name": "Resultado da partida",
+          "options": [
+            {
+              "id": "0-cuiaba",
+              "label": "Cuiabá",
+              "price": 1.93
+            },
+            {
+              "id": "1-londrina",
+              "label": "Londrina",
+              "price": 4.25
+            },
+            {
+              "id": "2-empate",
+              "label": "Empate",
+              "price": 3.15
+            }
+          ]
+        },
+        {
+          "id": "odds-totals",
+          "name": "Total de gols",
+          "options": [
+            {
+              "id": "0-mais-de-2-5",
+              "label": "Mais de 2.5",
+              "price": 2.48
+            },
+            {
+              "id": "1-menos-de-2-5",
+              "label": "Menos de 2.5",
+              "price": 1.49
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "quota": {
+    "last": 3,
+    "remaining": 488,
+    "used": 12
+  },
+  "updatedAt": "2026-06-19T03:30:06.031Z",
+  "expiresAt": 1781926206031
+}
