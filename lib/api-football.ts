@@ -3,7 +3,7 @@ import "server-only";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Market, Match, OddOption } from "./types";
-import { readImportedOdds } from "./imported-odds-store";
+import { readProviderCache, writeProviderCache } from "./provider-cache";
 
 interface ApiFixture {
   fixture?: {
@@ -63,6 +63,17 @@ export interface ApiFootballFixtureOption {
   home: string;
   away: string;
   score?: [number, number];
+}
+
+export interface ApiFootballResult {
+  fixtureId: number;
+  status: string;
+  elapsed: number | null;
+  date: string;
+  home: string;
+  away: string;
+  homeGoals: number | null;
+  awayGoals: number | null;
 }
 
 interface ApiFootballFeedMeta {
@@ -331,6 +342,7 @@ function buildMatch(fixture: ApiFootballFixtureOption, markets: Market[], minute
     minute: isLive ? minute ?? 0 : undefined,
     score: isLive ? fixture.score ?? [0, 0] : undefined,
     source: "api-football",
+    external: { provider: "api-football", id: String(fixture.id) },
     markets,
   };
 }
@@ -349,7 +361,13 @@ type ReturnTypeResult = {
 
 async function loadFeedCache() {
   if (memoryFeedCache) return memoryFeedCache;
-  memoryFeedCache = await readJson<FeedCache | null>(feedCachePath, null);
+  try {
+    const cloud = await readProviderCache<FeedCache>("api-football:automatic");
+    if (cloud?.data) memoryFeedCache = cloud.data;
+  } catch {
+    // O arquivo local continua sendo um fallback útil no desenvolvimento.
+  }
+  if (!memoryFeedCache) memoryFeedCache = await readJson<FeedCache | null>(feedCachePath, null);
   return memoryFeedCache;
 }
 
@@ -411,7 +429,12 @@ async function refreshAutomaticFeed(): Promise<ReturnTypeResult> {
     const fixturesStore = await readJson<Record<string, FixtureCacheEntry>>(fixturesCachePath, {});
     fixturesStore[date] = { fixtures, quota, updatedAt, expiresAt: Date.now() + adminCacheSeconds * 1000 };
     memoryFeedCache = cache;
-    await Promise.all([writeJson(feedCachePath, cache), writeJson(fixturesCachePath, fixturesStore)]);
+    await Promise.all([
+      writeJson(feedCachePath, cache),
+      writeJson(fixturesCachePath, fixturesStore),
+      writeProviderCache("api-football:automatic", "api-football", cache, { quota, requestsSpent: meta.requestsSpent }, new Date(cache.expiresAt)),
+      writeProviderCache(`api-football:fixtures:${date}`, "api-football", fixturesStore[date], { quota }, new Date(fixturesStore[date].expiresAt)),
+    ]);
     return { matches, meta, updatedAt, error: matches.length ? null : "Nenhuma partida com odds foi encontrada na API-Football", cached: false };
   } catch (error) {
     if (previous?.matches.length) {
@@ -422,24 +445,6 @@ async function refreshAutomaticFeed(): Promise<ReturnTypeResult> {
 }
 
 export async function getApiFootballFeed(force = false): Promise<ReturnTypeResult> {
-  if (process.env.NODE_ENV) {
-    try {
-      const { readImportedOdds } = await import("./imported-odds-store");
-      const allMatches = await readImportedOdds();
-      let matches = allMatches.filter(m => m.source === "api-football");
-      
-      // Se o banco de dados não tiver nenhum jogo dessa API, lê o arquivo JSON do seu PC!
-      if (matches.length === 0) {
-        const cached = await loadFeedCache();
-        if (cached) matches = cached.matches;
-      }
-      
-      return { matches, meta: null, updatedAt: new Date().toISOString(), error: null, cached: true };
-    } catch (error) {
-      const cached = await loadFeedCache();
-      return { matches: cached ? cached.matches : [], meta: null, updatedAt: null, error: null, cached: true };
-    }
-  }
   const apiKey = process.env.API_FOOTBALL_KEY;
   if (!apiKey) return { matches: [], meta: null, updatedAt: null, error: "API_FOOTBALL_KEY não configurada", cached: false };
   const cache = await loadFeedCache();
@@ -465,7 +470,11 @@ export async function getApiFootballStatus() {
 export async function searchApiFootballFixtures(date: string, force = false) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("Data inválida");
   const store = await readJson<Record<string, FixtureCacheEntry>>(fixturesCachePath, {});
-  const cached = store[date];
+  let cached = store[date];
+  try {
+    const cloud = await readProviderCache<FixtureCacheEntry>(`api-football:fixtures:${date}`);
+    if (cloud?.data) cached = cloud.data;
+  } catch { /* fallback local */ }
   if (!force && cached && cached.expiresAt > Date.now()) {
     return { fixtures: cached.fixtures, quota: cached.quota, requestsSpent: 0, cached: true, updatedAt: cached.updatedAt };
   }
@@ -476,17 +485,29 @@ export async function searchApiFootballFixtures(date: string, force = false) {
   });
   const updatedAt = new Date().toISOString();
   store[date] = { fixtures, quota: result.quota, updatedAt, expiresAt: Date.now() + adminCacheSeconds * 1000 };
-  await writeJson(fixturesCachePath, store);
+  await Promise.all([
+    writeJson(fixturesCachePath, store),
+    writeProviderCache(`api-football:fixtures:${date}`, "api-football", store[date], { quota: result.quota }, new Date(store[date].expiresAt)),
+  ]);
   return { fixtures, quota: result.quota, requestsSpent: 1, cached: false, updatedAt };
 }
 
 export async function discoverApiFootballMarkets(date: string, fixtureId: number, force = false) {
   const fixturesStore = await readJson<Record<string, FixtureCacheEntry>>(fixturesCachePath, {});
-  const fixture = fixturesStore[date]?.fixtures.find((item) => item.id === fixtureId);
+  let fixtureEntry = fixturesStore[date];
+  try {
+    const cloud = await readProviderCache<FixtureCacheEntry>(`api-football:fixtures:${date}`);
+    if (cloud?.data) fixtureEntry = cloud.data;
+  } catch { /* fallback local */ }
+  const fixture = fixtureEntry?.fixtures.find((item) => item.id === fixtureId);
   if (!fixture) throw new Error("Busque esta data novamente antes de consultar as odds");
   const oddsStore = await readJson<Record<string, OddsCacheEntry>>(oddsCachePath, {});
   const cacheKey = String(fixtureId);
-  const cached = oddsStore[cacheKey];
+  let cached = oddsStore[cacheKey];
+  try {
+    const cloud = await readProviderCache<OddsCacheEntry>(`api-football:odds:${fixtureId}`);
+    if (cloud?.data) cached = cloud.data;
+  } catch { /* fallback local */ }
   if (!force && cached && cached.expiresAt > Date.now()) {
     return { match: cached.match, quota: cached.quota, requestsSpent: 0, cached: true, updatedAt: cached.updatedAt };
   }
@@ -511,11 +532,42 @@ export async function discoverApiFootballMarkets(date: string, fixtureId: number
   const match = buildMatch(fixture, markets, minute);
   const updatedAt = new Date().toISOString();
   oddsStore[cacheKey] = { match, quota, updatedAt, expiresAt: Date.now() + adminCacheSeconds * 1000 };
-  await writeJson(oddsCachePath, oddsStore);
+  await Promise.all([
+    writeJson(oddsCachePath, oddsStore),
+    writeProviderCache(`api-football:odds:${fixtureId}`, "api-football", oddsStore[cacheKey], { quota }, new Date(oddsStore[cacheKey].expiresAt)),
+  ]);
   return { match, quota, requestsSpent: 1, cached: false, updatedAt };
 }
 
 export async function getCachedApiFootballMatch(fixtureId: number) {
+  try {
+    const cloud = await readProviderCache<OddsCacheEntry>(`api-football:odds:${fixtureId}`);
+    if (cloud?.data?.match) return cloud.data.match;
+  } catch { /* fallback local */ }
   const oddsStore = await readJson<Record<string, OddsCacheEntry>>(oddsCachePath, {});
   return oddsStore[String(fixtureId)]?.match ?? null;
+}
+
+export async function getApiFootballResults(fixtureIds: number[]) {
+  const ids = [...new Set(fixtureIds)].filter((id) => Number.isInteger(id) && id > 0).slice(0, 20);
+  if (!ids.length) return { results: [] as ApiFootballResult[], quota: emptyQuota, requestsSpent: 0 };
+  const response = await fetchApi<ApiFixture>(`/fixtures?ids=${ids.join("-")}&timezone=America%2FSao_Paulo`, "Atualização de resultados");
+  const results = (response.payload.response ?? []).flatMap((item): ApiFootballResult[] => {
+    const fixtureId = item.fixture?.id;
+    const date = item.fixture?.date;
+    const home = item.teams?.home?.name;
+    const away = item.teams?.away?.name;
+    if (!fixtureId || !date || !home || !away) return [];
+    return [{
+      fixtureId,
+      status: item.fixture?.status?.short ?? "NS",
+      elapsed: item.fixture?.status?.elapsed ?? null,
+      date,
+      home,
+      away,
+      homeGoals: item.goals?.home ?? null,
+      awayGoals: item.goals?.away ?? null,
+    }];
+  });
+  return { results, quota: response.quota, requestsSpent: 1 };
 }

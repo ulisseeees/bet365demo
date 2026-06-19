@@ -10,6 +10,7 @@ const labels: Record<Status, string> = {
   green: "Green",
   red: "Red",
   void: "Anulada",
+  cashout: "Cash out",
   approved: "Aprovado",
   offline: "Feed indisponível",
   api: "Odds reais",

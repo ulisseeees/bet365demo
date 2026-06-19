@@ -14,6 +14,20 @@ npm.cmd run dev
 
 Abra [http://localhost:3000](http://localhost:3000).
 
+## Banco de dados Neon/Vercel
+
+O Postgres é a fonte de verdade da plataforma. Usuários, carteiras, depósitos, saques, apostas, seleções, cash out, cashback, Free Bets, níveis, promoções, jogos importados e caches das APIs são persistidos no banco — o navegador não é mais responsável pelo histórico financeiro.
+
+No projeto da Vercel, mantenha as variáveis criadas pela integração Neon (`POSTGRES_URL`, `DATABASE_URL` e equivalentes) em **Production**, **Preview** e **Development**. Depois do primeiro deploy:
+
+1. entre como administrador;
+2. abra **Admin → Central do banco**;
+3. confirme o indicador **Conectado**;
+4. use **Migrar caches locais** uma vez;
+5. use **Exportar backup** sempre que quiser baixar uma cópia JSON sem senhas.
+
+O schema é idempotente e criado/versionado pela aplicação. Operações financeiras usam transações SQL e bloqueio de carteira para evitar saldo duplicado em requisições simultâneas. Dados antigos do armazenamento `arenaodds-accounts-v2` são importados uma única vez no login e marcados em `legacy_imports`.
+
 ## Configurar jogos e odds reais
 
 1. Crie uma conta no [dashboard da API-Sports](https://dashboard.api-football.com/).
@@ -70,7 +84,7 @@ Os Widgets v3.1 exibem jogos, placares, eventos, escalações, estatísticas e t
 - `GET /status`: consumo e limites da assinatura.
 - `GET /leagues`: temporadas e cobertura disponível por competição.
 
-O navegador verifica o feed local a cada 60 segundos, mas isso não repete chamadas externas. A resposta da API-Football fica em cache persistente no arquivo ignorado `data/api-football-cache.json`, inclusive após reiniciar o Next.js. Nem toda competição ou plano oferece odds ao vivo; consulte `coverage.odds` no retorno de `/leagues` e os limites do seu plano.
+O navegador verifica o feed local a cada 60 segundos, mas isso não repete chamadas externas. A resposta da API-Football fica em `provider_cache` no Postgres, com os arquivos em `data/` apenas como recuperação local. Nem toda competição ou plano oferece odds ao vivo; consulte `coverage.odds` no retorno de `/leagues` e os limites do seu plano.
 
 ### Mercados e limite da assinatura
 
@@ -97,7 +111,7 @@ O painel Admin também possui um fluxo econômico sob demanda:
 5. publique no feed — 0 chamadas adicionais, pois as odds consultadas já estão no cache;
 6. use **Atualizar feed** somente quando quiser renovar o catálogo automático — até 3 chamadas.
 
-As buscas e odds administrativas ficam, respectivamente, em `data/api-football-fixtures-cache.json` e `data/api-football-odds-cache.json`. O painel mostra o saldo diário informado pelos cabeçalhos da API-Football.
+As buscas e odds administrativas também ficam em `provider_cache`. O painel mostra o saldo diário informado pelos cabeçalhos da API-Football.
 
 ## Segunda fonte: The Odds API V4
 
@@ -111,7 +125,7 @@ THE_ODDS_API_MARKETS=h2h,spreads,totals
 THE_ODDS_API_SPORTS=soccer_fifa_world_cup,soccer_conmebol_copa_libertadores,soccer_conmebol_copa_sudamericana,soccer_brazil_serie_b
 ```
 
-Com uma região e três mercados, cada competição custa até 3 créditos por atualização. As quatro competições automáticas custam até 12 créditos por dia, ou aproximadamente 360 em 30 dias. O cache fica persistido em `data/the-odds-api-cache.json`, evitando nova cobrança apenas por reiniciar o Next.js.
+Com uma região e três mercados, cada competição custa até 3 créditos por atualização. As quatro competições automáticas custam até 12 créditos por dia, ou aproximadamente 360 em 30 dias. O cache também fica no Postgres, evitando nova cobrança em deploys ou cold starts da Vercel.
 
 ### Importar um jogo pelo admin
 
@@ -135,7 +149,17 @@ Sem alterar `.env.local`, as credenciais iniciais são:
 
 Troque ambas antes de compartilhar o projeto. Usuários cadastrados pela tela recebem a função `user`; somente a conta administrativa vê o painel Admin.
 
-Cada usuário possui carteira, apostas e histórico isolados no navegador. Contas novas começam com saldo e bônus zerados e sem qualquer movimentação. O armazenamento antigo de testes (`arenaodds-sim-v1`) é removido automaticamente na primeira abertura desta versão.
+Cada usuário possui carteira, apostas e histórico isolados no Postgres. Contas novas começam com saldo principal zerado e recebem R$ 10 de Free Bet promocional. O Arena Club possui níveis Bronze, Prata, Ouro, Platina e Diamante, cashback progressivo e boosts configuráveis de múltiplas.
+
+## Resultados, cash out e contingência
+
+- O acompanhamento é ativado por jogo; partidas não monitoradas não consomem consultas.
+- O cron `/api/cron/results` roda a cada 10 minutos e exige `CRON_SECRET`.
+- API-Football agrupa até 20 IDs em uma consulta; The Odds API agrupa por competição.
+- Resultado, dupla chance, ambas marcam, total de gols, empate-anula e placar exato possuem liquidação automática.
+- Mercados que exigem estatísticas extras, como escanteios e alguns mercados por tempo, permanecem pendentes para revisão no Admin.
+- O cash out recalcula a oferta pelas odds atuais, trava a aposta no Postgres e credita o saldo atomicamente.
+- Seleções do mesmo jogo são bloqueadas quando não existe uma odd conjunta fornecida pelo provedor, evitando multiplicação artificial de mercados correlacionados.
 
 ## O que informar para personalizar o feed
 

@@ -3,6 +3,7 @@ node_modules
 .env
 .env.local
 *.log
+*.tsbuildinfo
 data/users.json
 data/users.json.tmp
 data/imported-odds.json

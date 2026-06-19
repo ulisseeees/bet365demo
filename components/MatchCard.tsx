@@ -1,19 +1,17 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { BarChart3, ChevronDown, Clock3, Radio, Shield } from "lucide-react";
-import { useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, BarChart3, Clock3, Radio, Shield } from "lucide-react";
 import type { Match } from "@/lib/types";
 import { useBetStore } from "@/store/useBetStore";
 import { OddsButton } from "./OddsButton";
 import { StatusBadge } from "./StatusBadge";
 
-export function MatchCard({ match, index = 0 }: { match: Match; index?: number }) {
-  const [expanded, setExpanded] = useState(false);
+export function MatchCard({ match, index = 0, onOpen }: { match: Match; index?: number; onOpen?: (match: Match) => void }) {
   const selected = useBetStore((state) => state.betSlip);
   const toggleSelection = useBetStore((state) => state.toggleSelection);
   const previewCount = 3;
-  const markets = expanded ? match.markets : match.markets.slice(0, previewCount);
+  const markets = match.markets.slice(0, previewCount);
   const hiddenMarketCount = Math.max(0, match.markets.length - previewCount);
   const providerLabel = match.source === "merged" ? "2 fontes" : match.source === "the-odds-api" ? "Odds API" : "API-Football";
 
@@ -31,8 +29,7 @@ export function MatchCard({ match, index = 0 }: { match: Match; index?: number }
             <div className="team-row"><span className="team-badge alt">{match.awayCode.slice(0, 3)}</span><strong>{match.away}</strong>{match.score && <b>{match.score[1]}</b>}</div>
           </div>
         </div>
-        <div className={`market-area ${expanded ? "expanded" : ""}`}>
-          <AnimatePresence initial={false}>
+        <div className="market-area">
             {markets.map((market) => (
               <motion.div className="market-row" key={market.id} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
                 <span className="market-name">{market.name}</span>
@@ -43,11 +40,10 @@ export function MatchCard({ match, index = 0 }: { match: Match; index?: number }
                 </div>
               </motion.div>
             ))}
-          </AnimatePresence>
         </div>
         <div className="match-tools">
           <button className="icon-btn" aria-label="Estatísticas"><BarChart3 size={17} /></button>
-          {hiddenMarketCount > 0 && <button className="more-markets" onClick={() => setExpanded((value) => !value)}>{expanded ? "Ocultar mercados" : `Ver +${hiddenMarketCount} mercados`}<ChevronDown className={expanded ? "rotate" : ""} size={15} /></button>}
+          <button className="more-markets" onClick={() => onOpen?.(match)}>{hiddenMarketCount > 0 ? `Abrir +${hiddenMarketCount} mercados` : "Abrir evento"}<ArrowRight size={15} /></button>
         </div>
       </div>
       {match.status === "live" && <div className="live-progress"><span style={{ width: `${Math.min(match.minute ?? 0, 90) / 0.9}%` }} /></div>}

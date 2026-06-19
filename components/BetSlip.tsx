@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle2, Layers3, ShieldCheck, Trash2, X } from "lucide-react";
+import { CheckCircle2, Gift, Layers3, LoaderCircle, LockKeyhole, Sparkles, Trash2, TrendingUp, X } from "lucide-react";
+import { useMemo, useState } from "react";
 import { brl } from "@/lib/utils";
 import { useBetStore } from "@/store/useBetStore";
 
@@ -9,56 +10,54 @@ export function BetSlip({ mobile = false, onClose }: { mobile?: boolean; onClose
   const selections = useBetStore((state) => state.betSlip);
   const stake = useBetStore((state) => state.stake);
   const balance = useBetStore((state) => state.balance);
+  const freeBet = useBetStore((state) => state.freeBet);
+  const useFreeBet = useBetStore((state) => state.useFreeBet);
+  const promotions = useBetStore((state) => state.promotions);
   const remove = useBetStore((state) => state.removeSelection);
   const clear = useBetStore((state) => state.clearBetSlip);
   const setStake = useBetStore((state) => state.setStake);
+  const setUseFreeBet = useBetStore((state) => state.setUseFreeBet);
   const placeBet = useBetStore((state) => state.placeBet);
+  const [submitting, setSubmitting] = useState(false);
   const totalOdd = selections.reduce((total, selection) => total * selection.odd, 1);
-  const potentialReturn = stake * totalOdd;
+  const boostPercent = useMemo(() => {
+    const promo = promotions.find((item) => item.type === "accumulator_boost");
+    const tiers = Array.isArray(promo?.config.tiers) ? promo.config.tiers as Array<{ minOdd: number; minSelections: number; percent: number }> : [];
+    return tiers.reduce((best, tier) => totalOdd >= tier.minOdd && selections.length >= tier.minSelections ? Math.max(best, tier.percent) : best, 0);
+  }, [promotions, selections.length, totalOdd]);
+  const baseReturn = useFreeBet ? Math.max(0, stake * totalOdd - stake) : stake * totalOdd;
+  const potentialReturn = baseReturn * (1 + boostPercent / 100);
+  const available = useFreeBet ? freeBet : balance;
+
+  const submit = async () => {
+    setSubmitting(true);
+    const success = await placeBet();
+    setSubmitting(false);
+    if (success) onClose?.();
+  };
 
   return (
-    <aside className={`bet-slip ${mobile ? "bet-slip-mobile" : ""}`}>
+    <aside className={`bet-slip bet-slip-pro ${mobile ? "bet-slip-mobile" : ""}`}>
       <div className="panel-heading bet-slip-heading">
-        <div><span className="panel-icon"><Layers3 size={18} /></span><span><strong>Boletim</strong><small>{selections.length} {selections.length === 1 ? "seleção" : "seleções"}</small></span></div>
+        <div><span className="panel-icon"><Layers3 size={18} /></span><span><strong>Bilhete de aposta</strong><small>{selections.length > 1 ? `Múltipla • ${selections.length} seleções` : `${selections.length} ${selections.length === 1 ? "seleção" : "seleções"}`}</small></span></div>
         <div>{selections.length > 0 && <button className="clear-btn" onClick={clear}><Trash2 size={14} /> Limpar</button>}{mobile && <button className="icon-btn" onClick={onClose}><X size={18} /></button>}</div>
       </div>
 
       <div className="bet-slip-content">
-        {selections.length === 0 ? (
-          <div className="empty-slip">
-            <div className="empty-slip-icon"><Layers3 size={29} /></div>
-            <strong>Seu boletim está vazio</strong>
-            <span>Clique em uma odd para adicionar sua primeira seleção.</span>
-          </div>
-        ) : (
-          <div className="selection-list">
-            {selections.map((selection, index) => (
-              <motion.div className="selection-card" key={selection.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                <span className="selection-index">{index + 1}</span>
-                <div><strong>{selection.selectionLabel}</strong><span>{selection.matchLabel}</span><small>{selection.marketName}</small></div>
-                <b>{selection.odd.toFixed(2)}</b>
-                <button onClick={() => remove(selection.id)} aria-label="Remover seleção"><X size={14} /></button>
-              </motion.div>
-            ))}
-          </div>
-        )}
+        {selections.length === 0 ? <div className="empty-slip"><div className="empty-slip-icon"><Layers3 size={29} /></div><strong>Seu bilhete está vazio</strong><span>Abra um evento e toque em uma odd para começar.</span></div> : <div className="selection-list">{selections.map((selection, index) => <motion.div className="selection-card pro" key={selection.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}><span className="selection-index">{index + 1}</span><div><small>{selection.marketName}</small><strong>{selection.selectionLabel}</strong><span>{selection.matchLabel}</span></div><b>{selection.odd.toFixed(2)}</b><button onClick={() => remove(selection.id)} aria-label="Remover seleção"><X size={14} /></button></motion.div>)}</div>}
 
-        <div className="stake-section">
-          <label htmlFor={mobile ? "stake-mobile" : "stake-desktop"}>Valor da aposta</label>
-          <div className="money-input"><span>R$</span><input id={mobile ? "stake-mobile" : "stake-desktop"} type="number" min="1" step="1" value={stake || ""} onChange={(event) => setStake(Number(event.target.value))} /></div>
-          <div className="stake-chips">{[10, 25, 50, 100].map((value) => <button key={value} onClick={() => setStake(value)}>+{value}</button>)}</div>
-        </div>
+        {selections.length > 1 && <div className="smart-multiple-note"><LockKeyhole size={14} /><span><strong>Múltipla inteligente</strong>Combinações correlacionadas do mesmo jogo são bloqueadas automaticamente.</span></div>}
 
-        <div className="bet-summary">
-          <div><span>Odd total</span><strong>{selections.length ? totalOdd.toFixed(2) : "—"}</strong></div>
-          <div><span>Retorno potencial</span><strong className="accent-text">{selections.length ? brl(potentialReturn) : brl(0)}</strong></div>
-          <div><span>Saldo após aposta</span><strong>{brl(Math.max(balance - stake, 0))}</strong></div>
-        </div>
+        {freeBet > 0 && <button className={`freebet-toggle ${useFreeBet ? "active" : ""}`} onClick={() => setUseFreeBet(!useFreeBet)}><span><Gift size={17} /><span><strong>Usar Free Bet</strong><small>Disponível: {brl(freeBet)}</small></span></span><i><b /></i></button>}
 
-        <motion.button whileTap={{ scale: 0.98 }} className="btn btn-primary btn-bet" onClick={() => { if (placeBet()) onClose?.(); }} disabled={!selections.length}>
-          <CheckCircle2 size={18} /> Confirmar aposta
-        </motion.button>
-        <div className="simulation-note"><ShieldCheck size={14} /><span>Revise suas seleções antes de confirmar.</span></div>
+        <div className="stake-section"><div className="stake-label-row"><label htmlFor={mobile ? "stake-mobile" : "stake-desktop"}>Valor da aposta</label><small>Disponível: {brl(available)}</small></div><div className={`money-input ${stake > available ? "input-error" : ""}`}><span>R$</span><input id={mobile ? "stake-mobile" : "stake-desktop"} type="number" min="1" step="1" value={stake || ""} onChange={(event) => setStake(Number(event.target.value))} /></div><div className="stake-chips">{[10, 25, 50, 100].map((value) => <button key={value} onClick={() => setStake(value)}>+{value}</button>)}</div></div>
+
+        {boostPercent > 0 && <motion.div className="bet-boost-banner" initial={{ scale: .96 }} animate={{ scale: 1 }}><Sparkles size={17} /><span><strong>Boost de +{boostPercent}% ativado</strong><small>Seu retorno aumentou {brl(potentialReturn - baseReturn)}</small></span><TrendingUp size={17} /></motion.div>}
+
+        <div className="bet-summary"><div><span>Odd total</span><strong>{selections.length ? totalOdd.toFixed(2) : "—"}</strong></div>{boostPercent > 0 && <div><span>Retorno base</span><strong>{brl(baseReturn)}</strong></div>}<div className="return-row"><span>Retorno potencial</span><strong className="accent-text">{selections.length ? brl(potentialReturn) : brl(0)}</strong></div><div><span>{useFreeBet ? "Free Bet restante" : "Saldo após aposta"}</span><strong>{brl(Math.max(available - stake, 0))}</strong></div></div>
+
+        <motion.button whileTap={{ scale: 0.98 }} className="btn btn-primary btn-bet" onClick={submit} disabled={!selections.length || stake <= 0 || stake > available || submitting}>{submitting ? <LoaderCircle className="spin" size={18} /> : <CheckCircle2 size={18} />} {submitting ? "Confirmando..." : "Confirmar aposta"}</motion.button>
+        <div className="simulation-note"><LockKeyhole size={14} /><span>Odds são validadas novamente no servidor antes da confirmação.</span></div>
       </div>
     </aside>
   );

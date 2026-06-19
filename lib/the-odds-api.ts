@@ -3,7 +3,7 @@ import "server-only";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Market, Match, OddOption, Sport } from "./types";
-import { readImportedOdds } from "./imported-odds-store";
+import { readProviderCache, writeProviderCache } from "./provider-cache";
 
 const API_BASE_URL = "https://api.the-odds-api.com/v4/";
 const DEFAULT_SPORTS = [
@@ -40,6 +40,18 @@ export interface OddsApiEvent {
   id: string;
   sport_key: string;
   sport_title: string;
+}
+
+export interface OddsApiScoreEvent {
+  id: string;
+  sport_key: string;
+  sport_title: string;
+  commence_time: string;
+  completed: boolean;
+  home_team: string;
+  away_team: string;
+  scores?: Array<{ name: string; score: string }> | null;
+  last_update?: string | null;
 }
 
 interface OddsApiOutcome {
@@ -206,6 +218,7 @@ export function mapOddsApiEvent(event: OddsApiEvent): Match | null {
     kickoffAt: event.commence_time,
     status: isLive ? "live" : "upcoming",
     source: "the-odds-api",
+    external: { provider: "the-odds-api", id: event.id, sportKey: event.sport_key },
     markets,
   };
 }
@@ -227,27 +240,26 @@ async function writeAutomaticCache(cache: AutomaticCache) {
 }
 
 export async function getAutomaticOddsFeed() {
-  if (process.env.NODE_ENV) {
-    try {
-      const { readImportedOdds } = await import("./imported-odds-store");
-      const allMatches = await readImportedOdds();
-      let matches = allMatches.filter(m => m.source === "the-odds-api");
-      
-      // Se o banco de dados não tiver nenhum jogo dessa API, lê o arquivo JSON do seu PC!
-      if (matches.length === 0) {
-        const cached = await readAutomaticCache();
-        if (cached) matches = cached.matches;
-      }
-      
-      return { matches, quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: new Date().toISOString(), cached: true };
-    } catch (error) {
-      const cached = await readAutomaticCache();
-      return { matches: cached ? cached.matches : [], quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: null, cached: true };
+  const empty: OddsApiQuota = { last: null, remaining: null, used: null };
+  let cloudCache: Awaited<ReturnType<typeof readProviderCache<Match[]>>> = null;
+  try {
+    cloudCache = await readProviderCache<Match[]>("the-odds-api:automatic");
+    if (cloudCache && (!cloudCache.expiresAt || new Date(cloudCache.expiresAt).getTime() > Date.now())) {
+      return { matches: cloudCache.data, quota: (cloudCache.metadata.quota ?? empty) as OddsApiQuota, updatedAt: cloudCache.updatedAt, cached: true };
     }
+  } catch {
+    // O cache local mantém o desenvolvimento utilizável se o banco estiver indisponível.
   }
-  if (!process.env.THE_ODDS_API_KEY) return { matches: [] as Match[], quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: null as string | null, cached: false };
-  const cached = await readAutomaticCache();
-  if (cached && cached.expiresAt > Date.now()) return { matches: cached.matches, quota: cached.quota, updatedAt: cached.updatedAt, cached: true };
+
+  const localCache = await readAutomaticCache().catch(() => null);
+  if (!cloudCache && localCache && localCache.expiresAt > Date.now()) {
+    writeProviderCache("the-odds-api:automatic", "the-odds-api", localCache.matches, { quota: localCache.quota }, new Date(localCache.expiresAt)).catch(() => undefined);
+    return { matches: localCache.matches, quota: localCache.quota, updatedAt: localCache.updatedAt, cached: true };
+  }
+
+  if (!process.env.THE_ODDS_API_KEY) {
+    return { matches: cloudCache?.data ?? localCache?.matches ?? [], quota: (cloudCache?.metadata.quota ?? localCache?.quota ?? empty) as OddsApiQuota, updatedAt: cloudCache?.updatedAt ?? localCache?.updatedAt ?? null, cached: true };
+  }
 
   const sportKeys = envList("THE_ODDS_API_SPORTS", DEFAULT_SPORTS);
   const markets = envList("THE_ODDS_API_MARKETS", DEFAULT_MARKETS);
@@ -276,7 +288,10 @@ export async function getAutomaticOddsFeed() {
   const updatedAt = new Date().toISOString();
   const cacheSeconds = positiveInteger(process.env.THE_ODDS_API_CACHE_SECONDS, 86400, 900, 604800);
   const nextCache = { matches, quota, updatedAt, expiresAt: Date.now() + cacheSeconds * 1000 };
-  await writeAutomaticCache(nextCache);
+  await Promise.all([
+    writeAutomaticCache(nextCache),
+    writeProviderCache("the-odds-api:automatic", "the-odds-api", matches, { quota }, new Date(nextCache.expiresAt)),
+  ]);
   return { matches, quota, updatedAt, cached: false };
 }
 
@@ -308,4 +323,8 @@ export async function getOddsApiEventOdds(sportKey: string, eventId: string, mar
 
 export function estimateOddsApiCost(markets: number) {
   return Math.max(0, markets) * envList("THE_ODDS_API_REGIONS", DEFAULT_REGIONS).length;
+}
+
+export async function getOddsApiScores(sportKey: string, daysFrom = 3) {
+  return request<OddsApiScoreEvent[]>(`sports/${encodeURIComponent(sportKey)}/scores`, { daysFrom: String(Math.min(3, Math.max(1, daysFrom))), dateFormat: "iso" });
 }

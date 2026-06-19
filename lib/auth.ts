@@ -2,6 +2,7 @@ import "server-only";
 import { sql } from "@vercel/postgres";
 import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import type { AuthUser } from "./types";
+import { ensureDatabaseSchema, withTransaction } from "./database";
 
 const secret = process.env.AUTH_SECRET || "arenaodds-local-development-secret-change-me";
 
@@ -20,27 +21,13 @@ function passwordMatches(password: string, passwordHash: string) {
 
 export async function registerUser(name: string, email: string, password: string): Promise<AuthUser> {
   const normalizedEmail = email.trim().toLowerCase();
-
-  // Cria a tabela no banco de dados automaticamente se não existir
-  await sql`
-    CREATE TABLE IF NOT EXISTS users (
-      id VARCHAR(255) PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      email VARCHAR(255) UNIQUE NOT NULL,
-      role VARCHAR(50) DEFAULT 'user',
-      password_hash TEXT NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-  `;
+  await ensureDatabaseSchema();
 
   if (normalizedEmail === (process.env.ADMIN_EMAIL || "admin@arenaodds.local").toLowerCase()) {
     throw new Error("Este e-mail já está cadastrado.");
   }
 
-  // Verifica se o e-mail já existe
   const existingUser = await sql`SELECT email FROM users WHERE email = ${normalizedEmail};`;
-  
-  // SOLUÇÃO: Usamos rows.length em vez de rowCount. O TypeScript aprova isso 100%!
   if (existingUser.rows.length > 0) {
     throw new Error("Este e-mail já está cadastrado.");
   }
@@ -48,16 +35,26 @@ export async function registerUser(name: string, email: string, password: string
   const id = `USR-${randomBytes(6).toString("hex").toUpperCase()}`;
   const passwordHash = hashPassword(password);
 
-  // Salva o usuário no banco de dados Neon
-  await sql`
-    INSERT INTO users (id, name, email, role, password_hash)
-    VALUES (${id}, ${name.trim()}, ${normalizedEmail}, 'user', ${passwordHash});
-  `;
+  await withTransaction(async (client) => {
+    await client.sql`
+      INSERT INTO users (id, name, email, role, password_hash)
+      VALUES (${id}, ${name.trim()}, ${normalizedEmail}, 'user', ${passwordHash})
+    `;
+    await client.sql`
+      INSERT INTO wallets (user_id, free_bet_balance)
+      VALUES (${id}, 10)
+    `;
+    await client.sql`
+      INSERT INTO transactions (id, user_id, type, description, amount, metadata)
+      VALUES (${`BON-${randomBytes(6).toString("hex").toUpperCase()}`}, ${id}, 'freebet', 'Free Bet de boas-vindas', 10, '{"source":"welcome"}'::jsonb)
+    `;
+  });
 
   return { id, name: name.trim(), email: normalizedEmail, role: "user" };
 }
 
 export async function authenticateUser(email: string, password: string): Promise<AuthUser | null> {
+  await ensureDatabaseSchema();
   const normalizedEmail = email.trim().toLowerCase();
   const adminEmail = (process.env.ADMIN_EMAIL || "admin@arenaodds.local").toLowerCase();
   const adminPassword = process.env.ADMIN_PASSWORD || "ArenaAdmin#2026";
@@ -73,7 +70,7 @@ export async function authenticateUser(email: string, password: string): Promise
     if (!user || !passwordMatches(password, user.password_hash)) return null;
 
     return { id: user.id, name: user.name, email: user.email, role: user.role };
-  } catch (error) {
+  } catch {
     return null;
   }
 }

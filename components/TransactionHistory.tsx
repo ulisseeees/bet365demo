@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDownToLine, ArrowUpFromLine, CircleDollarSign, Filter, RotateCcw, SlidersHorizontal, Trophy } from "lucide-react";
+import { ArrowDownToLine, ArrowUpFromLine, CircleDollarSign, Filter, Gift, RotateCcw, SlidersHorizontal, Ticket, Trophy, WalletCards } from "lucide-react";
 import { useState } from "react";
 import type { TransactionType } from "@/lib/types";
 import { brl, dateTime } from "@/lib/utils";
@@ -15,6 +15,10 @@ const iconMap = {
   loss: CircleDollarSign,
   refund: RotateCcw,
   admin: SlidersHorizontal,
+  cashback: Gift,
+  cashout: WalletCards,
+  bonus: Gift,
+  freebet: Ticket,
 };
 
 export function TransactionHistory() {

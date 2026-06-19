@@ -24,10 +24,11 @@ export function WithdrawModal({ onClose }: { onClose: () => void }) {
     setStage("processing");
     setTimeline(1);
     window.setTimeout(() => setTimeline(2), 650);
-    window.setTimeout(() => {
+    window.setTimeout(async () => {
       setTimeline(3);
-      const next = withdraw(amount, pixKey);
+      const next = await withdraw(amount, pixKey);
       if (next) { setReceipt(next); window.setTimeout(() => setStage("success"), 500); }
+      else setStage("form");
     }, 1350);
   };
 

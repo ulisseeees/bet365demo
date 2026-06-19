@@ -6,7 +6,7 @@ import { UserMenu } from "./UserMenu";
 import { useBetStore } from "@/store/useBetStore";
 import type { AuthUser } from "@/lib/types";
 
-export type ViewName = "home" | "scores" | "history" | "wallet" | "admin";
+export type ViewName = "home" | "scores" | "history" | "wallet" | "rewards" | "event" | "admin";
 
 interface HeaderProps {
   activeView: ViewName;
@@ -33,6 +33,7 @@ export function Header({ activeView, onNavigate, onDeposit, onWithdraw, onMenu, 
         <button className={activeView === "home" ? "active" : ""} onClick={() => onNavigate("home")}>Eventos</button>
         <button className={activeView === "scores" ? "active" : ""} onClick={() => onNavigate("scores")}>Placar ao vivo</button>
         <button className={activeView === "history" ? "active" : ""} onClick={() => onNavigate("history")}>Minhas apostas</button>
+        <button className={activeView === "rewards" ? "active" : ""} onClick={() => onNavigate("rewards")}>Bônus</button>
         <button className={activeView === "wallet" ? "active" : ""} onClick={() => onNavigate("wallet")}>Carteira</button>
         {user.role === "admin" && <button className={activeView === "admin" ? "active" : ""} onClick={() => onNavigate("admin")}>Admin</button>}
       </nav>

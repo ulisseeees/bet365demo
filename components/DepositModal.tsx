@@ -19,10 +19,14 @@ export function DepositModal({ onClose }: { onClose: () => void }) {
 
   const simulateApproval = () => {
     setStage("processing");
-    window.setTimeout(() => {
-      const nextReceipt = deposit(amount);
-      setReceipt(nextReceipt);
-      setStage("success");
+    window.setTimeout(async () => {
+      const nextReceipt = await deposit(amount);
+      if (nextReceipt) {
+        setReceipt(nextReceipt);
+        setStage("success");
+      } else {
+        setStage("qr");
+      }
     }, 1450);
   };
 

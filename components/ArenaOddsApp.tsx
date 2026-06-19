@@ -18,6 +18,8 @@ import { TransactionHistory } from "./TransactionHistory";
 import { WalletCard } from "./WalletCard";
 import { WithdrawModal } from "./WithdrawModal";
 import { AuthScreen } from "./AuthScreen";
+import { EventDetail } from "./EventDetail";
+import { RewardsCenter } from "./RewardsCenter";
 
 type MatchFilter = "all" | "live" | "upcoming";
 
@@ -32,12 +34,14 @@ export function ArenaOddsApp() {
   const [dataMode, setDataMode] = useState<"loading" | "api" | "unavailable">("loading");
   const [feedMessage, setFeedMessage] = useState("Conectando à API-Football...");
   const [feedCacheSeconds, setFeedCacheSeconds] = useState(3600);
+  const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
   const matches = useBetStore((state) => state.matches);
   const selectedSport = useBetStore((state) => state.selectedSport);
   const setLiveMatches = useBetStore((state) => state.setLiveMatches);
   const bets = useBetStore((state) => state.bets);
   const activateAccount = useBetStore((state) => state.activateAccount);
   const deactivateAccount = useBetStore((state) => state.deactivateAccount);
+  const hydrateAccount = useBetStore((state) => state.hydrateAccount);
 
   useEffect(() => {
     window.localStorage.removeItem("arenaodds-sim-v1");
@@ -70,6 +74,7 @@ export function ArenaOddsApp() {
   }, [setLiveMatches]);
 
   const visibleMatches = useMemo(() => matches.filter((match) => (selectedSport === "Todos" || match.sport === selectedSport) && (matchFilter === "all" || match.status === matchFilter)).sort((a, b) => Number(b.status === "live") - Number(a.status === "live")), [matches, selectedSport, matchFilter]);
+  const selectedMatch = selectedMatchId ? matches.find((match) => match.id === selectedMatchId) ?? null : null;
   const pendingCount = bets.filter((bet) => bet.status === "pending").length;
   const totalMarkets = matches.reduce((total, match) => total + match.markets.length, 0);
   const refreshLabel = feedCacheSeconds < 60 ? `${feedCacheSeconds}s` : `${Math.round(feedCacheSeconds / 60)} min`;
@@ -87,6 +92,12 @@ export function ArenaOddsApp() {
     return () => { alive = false; };
   }, [activateAccount]);
 
+  useEffect(() => {
+    if (!user) return;
+    const interval = window.setInterval(() => hydrateAccount(), 60000);
+    return () => window.clearInterval(interval);
+  }, [user, hydrateAccount]);
+
   const authenticated = (nextUser: AuthUser) => {
     activateAccount(nextUser.id);
     setUser(nextUser);
@@ -96,6 +107,7 @@ export function ArenaOddsApp() {
     await fetch("/api/auth/logout", { method: "POST" });
     deactivateAccount();
     setUser(null);
+    setSelectedMatchId(null);
     setView("home");
   };
 
@@ -103,7 +115,7 @@ export function ArenaOddsApp() {
   if (!user) return <AuthScreen onAuthenticated={authenticated} />;
 
   return (
-    <AppLayout activeView={view} onNavigate={(nextView) => setView(nextView === "admin" && user.role !== "admin" ? "home" : nextView)} onDeposit={() => setDepositOpen(true)} onWithdraw={() => setWithdrawOpen(true)} user={user} onLogout={logout}>
+    <AppLayout activeView={view} onNavigate={(nextView) => { setView(nextView === "admin" && user.role !== "admin" ? "home" : nextView); if (nextView !== "event") setSelectedMatchId(null); }} onDeposit={() => setDepositOpen(true)} onWithdraw={() => setWithdrawOpen(true)} user={user} onLogout={logout}>
       <AnimatePresence mode="wait">
         {view === "home" && (
           <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -126,7 +138,7 @@ export function ArenaOddsApp() {
               <div className="events-column">
                 <div className="section-heading"><div><span className="eyebrow">ARENA DE EVENTOS</span><h2>Jogos com odds reais</h2><p>{dataMode === "api" ? feedMessage : `Nenhum jogo fictício é exibido. ${feedMessage}`}</p></div><div className="event-tabs"><button className={matchFilter === "all" ? "active" : ""} onClick={() => setMatchFilter("all")}><BarChart3 size={15} /> Todos</button><button className={matchFilter === "live" ? "active" : ""} onClick={() => setMatchFilter("live")}><Radio size={15} /> Ao vivo</button><button className={matchFilter === "upcoming" ? "active" : ""} onClick={() => setMatchFilter("upcoming")}><Clock3 size={15} /> Próximos</button></div></div>
                 {syncing && <div className="sync-skeleton"><span /><span /><span /></div>}
-                <div className="match-list">{visibleMatches.map((match, index) => <MatchCard key={match.id} match={match} index={index} />)}</div>
+                <div className="match-list">{visibleMatches.map((match, index) => <MatchCard key={match.id} match={match} index={index} onOpen={(item) => { setSelectedMatchId(item.id); setView("event"); window.scrollTo({ top: 0, behavior: "smooth" }); }} />)}</div>
                 {!visibleMatches.length && <div className="empty-history">{dataMode === "unavailable" ? feedMessage : "Nenhum evento real encontrado neste filtro."}</div>}
               </div>
               <aside className="home-rail">
@@ -138,7 +150,9 @@ export function ArenaOddsApp() {
           </motion.div>
         )}
         {view === "scores" && <motion.div key="scores" className="page-stack" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><div className="page-title"><span className="eyebrow">FEED OFICIAL API-SPORTS</span><h1>Placar ao vivo</h1><p>Partidas, resultados, estatísticas e classificações em tempo real.</p></div><ApiSportsWidgets /></motion.div>}
+        {view === "event" && selectedMatch && <motion.div key={`event-${selectedMatch.id}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><EventDetail match={selectedMatch} isAdmin={user.role === "admin"} onBack={() => { setSelectedMatchId(null); setView("home"); }} onMatchUpdate={(updated) => { useBetStore.getState().upsertLiveMatch(updated); setSelectedMatchId(updated.id); }} /></motion.div>}
         {view === "history" && <motion.div key="history" className="page-stack" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><div className="page-title"><span className="eyebrow">CENTRAL DO JOGADOR</span><h1>Apostas e movimentações</h1><p>Acompanhe todos os resultados e movimentações da sua conta.</p></div><BetHistory /><TransactionHistory /></motion.div>}
+        {view === "rewards" && <motion.div key="rewards" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><RewardsCenter /></motion.div>}
         {view === "wallet" && <motion.div key="wallet" className="page-stack" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><div className="page-title"><span className="eyebrow">CARTEIRA</span><h1>Meu saldo</h1><p>Gerencie depósitos, saques, bônus e movimentações.</p></div><WalletCard expanded onDeposit={() => setDepositOpen(true)} onWithdraw={() => setWithdrawOpen(true)} onHistory={() => setView("history")} /><TransactionHistory /></motion.div>}
         {view === "admin" && user.role === "admin" && <motion.div key="admin" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><AdminPanel /></motion.div>}
       </AnimatePresence>

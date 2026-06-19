@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { FlaskConical, History, Home, Layers3, Radio, ShieldCheck, WalletCards } from "lucide-react";
+import { FlaskConical, Gift, History, Home, Layers3, Radio, ShieldCheck, WalletCards } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { BetSlip } from "./BetSlip";
 import { Header, type ViewName } from "./Header";
@@ -36,8 +36,9 @@ export function AppLayout({ children, activeView, onNavigate, onDeposit, onWithd
         <button className={activeView === "scores" ? "active" : ""} onClick={() => onNavigate("scores")}><Radio size={20} /><span>Placar</span></button>
         <button className={activeView === "history" ? "active" : ""} onClick={() => onNavigate("history")}><History size={20} /><span>Apostas</span></button>
         <button className="bet-slip-fab" onClick={() => setMobileSlip(true)}><Layers3 size={22} /><span>Boletim</span></button>
+        <button className={activeView === "rewards" ? "active" : ""} onClick={() => onNavigate("rewards")}><Gift size={20} /><span>Bônus</span></button>
         <button className={activeView === "wallet" ? "active" : ""} onClick={() => onNavigate("wallet")}><WalletCards size={20} /><span>Carteira</span></button>
-        {user.role === "admin" ? <button className={activeView === "admin" ? "active" : ""} onClick={() => onNavigate("admin")}><ShieldCheck size={20} /><span>Admin</span></button> : <button onClick={onLogout}><ShieldCheck size={20} /><span>Sair</span></button>}
+        {user.role === "admin" && <button className={activeView === "admin" ? "active" : ""} onClick={() => onNavigate("admin")}><ShieldCheck size={20} /><span>Admin</span></button>}
       </nav>
       <AnimatePresence>
         {mobileSports && <motion.div className="mobile-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileSports(false)}><motion.div initial={{ x: -300 }} animate={{ x: 0 }} exit={{ x: -300 }} onClick={(event) => event.stopPropagation()}><SidebarSports mobile onClose={() => setMobileSports(false)} /></motion.div></motion.div>}
