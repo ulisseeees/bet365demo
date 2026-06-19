@@ -3,6 +3,7 @@ import "server-only";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Market, Match, OddOption, Sport } from "./types";
+import { readImportedOdds } from "./imported-odds-store";
 
 const API_BASE_URL = "https://api.the-odds-api.com/v4/";
 const DEFAULT_SPORTS = [
@@ -226,6 +227,16 @@ async function writeAutomaticCache(cache: AutomaticCache) {
 }
 
 export async function getAutomaticOddsFeed() {
+  if (process.env.NODE_ENV) {
+    try {
+      const { readImportedOdds } = await import("./imported-odds-store");
+      const allMatches = await readImportedOdds();
+      const matches = allMatches.filter(m => m.source === "the-odds-api");
+      return { matches, quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: new Date().toISOString(), cached: true };
+    } catch (error) {
+      return { matches: [], quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: null, cached: true };
+    }
+  }
   if (!process.env.THE_ODDS_API_KEY) return { matches: [] as Match[], quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: null as string | null, cached: false };
   const cached = await readAutomaticCache();
   if (cached && cached.expiresAt > Date.now()) return { matches: cached.matches, quota: cached.quota, updatedAt: cached.updatedAt, cached: true };

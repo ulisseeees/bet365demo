@@ -3,6 +3,7 @@ import "server-only";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Market, Match, OddOption } from "./types";
+import { readImportedOdds } from "./imported-odds-store";
 
 interface ApiFixture {
   fixture?: {
@@ -421,6 +422,16 @@ async function refreshAutomaticFeed(): Promise<ReturnTypeResult> {
 }
 
 export async function getApiFootballFeed(force = false): Promise<ReturnTypeResult> {
+  if (process.env.NODE_ENV) {
+    try {
+      const { readImportedOdds } = await import("./imported-odds-store");
+      const allMatches = await readImportedOdds();
+      const matches = allMatches.filter(m => m.source === "api-football");
+      return { matches, meta: null, updatedAt: new Date().toISOString(), error: null, cached: true };
+    } catch (error) {
+      return { matches: [], meta: null, updatedAt: null, error: "Erro ao ler banco de dados", cached: true };
+    }
+  }
   const apiKey = process.env.API_FOOTBALL_KEY;
   if (!apiKey) return { matches: [], meta: null, updatedAt: null, error: "API_FOOTBALL_KEY não configurada", cached: false };
   const cache = await loadFeedCache();
