@@ -426,10 +426,18 @@ export async function getApiFootballFeed(force = false): Promise<ReturnTypeResul
     try {
       const { readImportedOdds } = await import("./imported-odds-store");
       const allMatches = await readImportedOdds();
-      const matches = allMatches.filter(m => m.source === "api-football");
+      let matches = allMatches.filter(m => m.source === "api-football");
+      
+      // Se o banco de dados não tiver nenhum jogo dessa API, lê o arquivo JSON do seu PC!
+      if (matches.length === 0) {
+        const cached = await loadFeedCache();
+        if (cached) matches = cached.matches;
+      }
+      
       return { matches, meta: null, updatedAt: new Date().toISOString(), error: null, cached: true };
     } catch (error) {
-      return { matches: [], meta: null, updatedAt: null, error: "Erro ao ler banco de dados", cached: true };
+      const cached = await loadFeedCache();
+      return { matches: cached ? cached.matches : [], meta: null, updatedAt: null, error: null, cached: true };
     }
   }
   const apiKey = process.env.API_FOOTBALL_KEY;

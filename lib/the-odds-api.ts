@@ -231,10 +231,18 @@ export async function getAutomaticOddsFeed() {
     try {
       const { readImportedOdds } = await import("./imported-odds-store");
       const allMatches = await readImportedOdds();
-      const matches = allMatches.filter(m => m.source === "the-odds-api");
+      let matches = allMatches.filter(m => m.source === "the-odds-api");
+      
+      // Se o banco de dados não tiver nenhum jogo dessa API, lê o arquivo JSON do seu PC!
+      if (matches.length === 0) {
+        const cached = await readAutomaticCache();
+        if (cached) matches = cached.matches;
+      }
+      
       return { matches, quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: new Date().toISOString(), cached: true };
     } catch (error) {
-      return { matches: [], quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: null, cached: true };
+      const cached = await readAutomaticCache();
+      return { matches: cached ? cached.matches : [], quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: null, cached: true };
     }
   }
   if (!process.env.THE_ODDS_API_KEY) return { matches: [] as Match[], quota: { last: null, remaining: null, used: null } as OddsApiQuota, updatedAt: null as string | null, cached: false };
