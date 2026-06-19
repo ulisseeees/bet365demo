@@ -9,6 +9,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@vercel/postgres": "^0.10.0",
     "framer-motion": "latest",
     "lucide-react": "latest",
     "next": "latest",
