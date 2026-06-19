@@ -1,0 +1,151 @@
+# ArenaOdds
+
+Sportsbook local construído com Next.js, TypeScript, Zustand e Framer Motion. O projeto possui autenticação, cadastro, carteira, apostas, históricos, painel administrativo e feed combinado da API-Football com a The Odds API V4.
+
+> Ambiente sandbox local: depósitos, saques e apostas não processam dinheiro real.
+
+## Executar
+
+```powershell
+npm.cmd install
+Copy-Item .env.example .env.local
+npm.cmd run dev
+```
+
+Abra [http://localhost:3000](http://localhost:3000).
+
+## Configurar jogos e odds reais
+
+1. Crie uma conta no [dashboard da API-Sports](https://dashboard.api-football.com/).
+2. Ative um plano da API-Football v3 que inclua os endpoints e competições desejados.
+3. Copie a chave exibida no dashboard.
+4. Abra `.env.local` na raiz do projeto.
+5. Preencha apenas no servidor:
+
+```env
+API_FOOTBALL_KEY=sua_chave_aqui
+AUTH_SECRET=uma-frase-longa-aleatoria-com-mais-de-32-caracteres
+ADMIN_EMAIL=seu-admin@exemplo.com
+ADMIN_PASSWORD="uma-senha-forte-com-#-entre-aspas"
+```
+
+6. Reinicie `npm.cmd run dev` após alterar o arquivo.
+7. Acesse `http://localhost:3000/api/live`. Quando estiver funcionando, o JSON terá `"mode":"api"` e partidas em `matches`.
+
+Nunca use `NEXT_PUBLIC_API_FOOTBALL_KEY`: isso exporia a chave no navegador. A integração deste projeto usa a chave somente na rota de servidor `app/api/live/route.ts`.
+
+## Widgets oficiais API-Sports v3.1
+
+A aba **Placar ao vivo** usa o Web Component oficial documentado no PDF `API-Sports - Documentation Widgets.pdf`:
+
+```html
+<script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
+```
+
+O projeto configura um único widget global e um widget de jogos com atualização a cada 60 segundos, toolbar, layout compacto e abertura dos detalhes/classificação em modal. O fuso é `America/Sao_Paulo` e os rótulos principais recebem tradução em `public/widgets-pt-BR.json`.
+
+Por segurança, a chave real **não** é usada em `data-key`. O componente aponta `data-url-football` para o proxy autenticado:
+
+```text
+/api/widgets/football/
+```
+
+Esse proxy:
+
+- exige uma sessão autenticada do ArenaOdds;
+- aceita somente endpoints conhecidos usados pelos widgets;
+- troca o token público do componente pela `API_FOOTBALL_KEY` no servidor;
+- mantém cada resposta em cache por 60 segundos;
+- rejeita chamadas vindas de contexto cross-site.
+
+O valor `NEXT_PUBLIC_WIDGET_PROXY_TOKEN` é propositalmente público e não dá acesso direto à API-Sports. A chave secreta continua sendo apenas `API_FOOTBALL_KEY`.
+
+Os Widgets v3.1 exibem jogos, placares, eventos, escalações, estatísticas e tabelas. As odds do sportsbook continuam sendo obtidas separadamente pelos endpoints `/odds/live` e `/odds` na rota `/api/live`.
+
+## Endpoints utilizados
+
+- `GET /fixtures?date=...`: jogos reais do dia.
+- `GET /odds/live`: odds de partidas em andamento.
+- `GET /odds?date=...`: odds pré-jogo do dia.
+- `GET /status`: consumo e limites da assinatura.
+- `GET /leagues`: temporadas e cobertura disponível por competição.
+
+O navegador verifica o feed local a cada 60 segundos, mas isso não repete chamadas externas. A resposta da API-Football fica em cache persistente no arquivo ignorado `data/api-football-cache.json`, inclusive após reiniciar o Next.js. Nem toda competição ou plano oferece odds ao vivo; consulte `coverage.odds` no retorno de `/leagues` e os limites do seu plano.
+
+### Mercados e limite da assinatura
+
+O feed transforma todos os mercados devolvidos pelo bookmaker com maior cobertura para cada partida. Isso inclui, quando disponível: resultado, total de gols, ambas marcam, escanteios, dupla chance, handicaps, mercados por tempo e placares exatos. Nenhuma odd é inventada quando a API não oferece determinado mercado.
+
+O plano Free possui apenas 100 consultas por dia. Por isso, o padrão seguro deste projeto é:
+
+```env
+API_FEED_CACHE_SECONDS=86400
+API_FOOTBALL_ADMIN_CACHE_SECONDS=86400
+API_ODDS_PAGES=1
+```
+
+O feed automático custa normalmente até 3 chamadas por atualização diária: partidas, odds pré-jogo e odds ao vivo. `API_ODDS_PAGES` controla quantas páginas de jogos com odds serão carregadas; cada página adicional consome uma chamada. Se uma atualização falhar, o último feed salvo continua disponível.
+
+### Gerenciar API-Football pelo admin
+
+O painel Admin também possui um fluxo econômico sob demanda:
+
+1. escolha uma data e busque as partidas — no máximo 1 chamada;
+2. repetir a mesma data durante o cache custa 0 chamadas;
+3. selecione o jogo e consulte suas odds — normalmente 1 chamada;
+4. escolha todos os mercados ou apenas os desejados;
+5. publique no feed — 0 chamadas adicionais, pois as odds consultadas já estão no cache;
+6. use **Atualizar feed** somente quando quiser renovar o catálogo automático — até 3 chamadas.
+
+As buscas e odds administrativas ficam, respectivamente, em `data/api-football-fixtures-cache.json` e `data/api-football-odds-cache.json`. O painel mostra o saldo diário informado pelos cabeçalhos da API-Football.
+
+## Segunda fonte: The Odds API V4
+
+A segunda API amplia o catálogo com Copa do Mundo, Libertadores, Sul-Americana e Série B. O feed deduplica confrontos equivalentes e combina os mercados quando o mesmo jogo aparece nas duas fontes.
+
+```env
+THE_ODDS_API_KEY=sua_chave_aqui
+THE_ODDS_API_CACHE_SECONDS=86400
+THE_ODDS_API_REGIONS=eu
+THE_ODDS_API_MARKETS=h2h,spreads,totals
+THE_ODDS_API_SPORTS=soccer_fifa_world_cup,soccer_conmebol_copa_libertadores,soccer_conmebol_copa_sudamericana,soccer_brazil_serie_b
+```
+
+Com uma região e três mercados, cada competição custa até 3 créditos por atualização. As quatro competições automáticas custam até 12 créditos por dia, ou aproximadamente 360 em 30 dias. O cache fica persistido em `data/the-odds-api-cache.json`, evitando nova cobrança apenas por reiniciar o Next.js.
+
+### Importar um jogo pelo admin
+
+No painel Admin, a seção **Importar jogo sob demanda** permite:
+
+1. escolher um esporte ou competição;
+2. pesquisar e selecionar o confronto — consulta gratuita;
+3. descobrir os mercados disponíveis — 1 crédito;
+4. selecionar mercados populares ou todos os mercados;
+5. ver o custo máximo estimado antes de importar;
+6. publicar o jogo imediatamente no feed principal.
+
+O custo de importação é `mercados retornados × regiões`. Eventos importados ficam em `data/imported-odds.json` e são preservados entre reinicializações.
+
+## Acesso administrativo local
+
+Sem alterar `.env.local`, as credenciais iniciais são:
+
+- E-mail: `admin@arenaodds.local`
+- Senha: `ArenaAdmin#2026`
+
+Troque ambas antes de compartilhar o projeto. Usuários cadastrados pela tela recebem a função `user`; somente a conta administrativa vê o painel Admin.
+
+Cada usuário possui carteira, apostas e histórico isolados no navegador. Contas novas começam com saldo e bônus zerados e sem qualquer movimentação. O armazenamento antigo de testes (`arenaodds-sim-v1`) é removido automaticamente na primeira abertura desta versão.
+
+## O que informar para personalizar o feed
+
+Não envie sua chave da API. Informe somente:
+
+- ligas e países desejados;
+- esportes e mercados necessários;
+- frequência de atualização esperada;
+- fuso horário;
+- plano contratado, sem mostrar a chave;
+- mensagem retornada por `/api/live`, se houver erro.
+
+Documentação oficial: [API-Football v3](https://www.api-football.com/documentation-v3).
