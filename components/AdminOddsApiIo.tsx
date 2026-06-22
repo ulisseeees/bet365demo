@@ -54,7 +54,7 @@ export function AdminOddsApiIo() {
     setError("");
     try {
       const response = await fetch("/api/admin/odds-api-io/refresh", { method: "POST" });
-      const payload = await response.json() as { matches?: Match[]; quota?: Quota; updatedAt?: string; error?: string };
+      const payload = await response.json() as { matches?: Match[]; quota?: Quota; updatedAt?: string; settlement?: { settled: number }; error?: string };
       if (!response.ok || !payload.matches) throw new Error(payload.error ?? "Falha ao atualizar a Odds-API.io");
       const combinedResponse = await fetch("/api/live", { cache: "no-store" });
       const combined = await combinedResponse.json() as { matches?: Match[] };
@@ -64,7 +64,8 @@ export function AdminOddsApiIo() {
       setStale(false);
       setLastError(null);
       if (payload.quota) setQuota(payload.quota);
-      showToast("Terceira API atualizada", `${payload.matches.length} jogos da Odds-API.io entraram no feed combinado.`, "success");
+      if ((payload.settlement?.settled ?? 0) > 0) await useBetStore.getState().hydrateAccount();
+      showToast("Terceira API atualizada", `${payload.matches.length} jogos no feed • ${payload.settlement?.settled ?? 0} aposta(s) liquidada(s).`, "success");
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Falha ao atualizar a Odds-API.io");
     } finally {

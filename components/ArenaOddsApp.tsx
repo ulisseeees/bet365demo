@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Activity, ArrowRight, BarChart3, CircleDot, Clock3, Flame, Radio, RefreshCw, ShieldCheck, Sparkles, Trophy, Users } from "lucide-react";
+import { Activity, ArrowRight, BarChart3, CircleDot, Clock3, Flame, Radio, RefreshCw, Search, ShieldCheck, Sparkles, Trophy, Users, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { AuthUser, Match } from "@/lib/types";
 import { useBetStore } from "@/store/useBetStore";
@@ -20,6 +20,7 @@ import { WithdrawModal } from "./WithdrawModal";
 import { AuthScreen } from "./AuthScreen";
 import { EventDetail } from "./EventDetail";
 import { RewardsCenter } from "./RewardsCenter";
+import { HomePromotions } from "./HomePromotions";
 
 type MatchFilter = "all" | "live" | "upcoming";
 
@@ -35,6 +36,7 @@ export function ArenaOddsApp() {
   const [feedMessage, setFeedMessage] = useState("Conectando aos provedores de odds...");
   const [feedCacheSeconds, setFeedCacheSeconds] = useState(3600);
   const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
+  const [eventSearch, setEventSearch] = useState("");
   const matches = useBetStore((state) => state.matches);
   const selectedSport = useBetStore((state) => state.selectedSport);
   const setLiveMatches = useBetStore((state) => state.setLiveMatches);
@@ -73,7 +75,15 @@ export function ArenaOddsApp() {
     return () => { alive = false; window.clearInterval(interval); };
   }, [setLiveMatches]);
 
-  const visibleMatches = useMemo(() => matches.filter((match) => (selectedSport === "Todos" || match.sport === selectedSport) && (matchFilter === "all" || match.status === matchFilter)).sort((a, b) => Number(b.status === "live") - Number(a.status === "live")), [matches, selectedSport, matchFilter]);
+  const visibleMatches = useMemo(() => {
+    const query = eventSearch.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+    return matches.filter((match) => {
+      const searchable = `${match.home} ${match.away} ${match.league} ${match.country} ${match.sport}`.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      return (selectedSport === "Todos" || match.sport === selectedSport)
+        && (matchFilter === "all" || match.status === matchFilter)
+        && (!query || searchable.includes(query));
+    }).sort((a, b) => Number(b.status === "live") - Number(a.status === "live"));
+  }, [matches, selectedSport, matchFilter, eventSearch]);
   const selectedMatch = selectedMatchId ? matches.find((match) => match.id === selectedMatchId) ?? null : null;
   const pendingCount = bets.filter((bet) => bet.status === "pending").length;
   const totalMarkets = matches.reduce((total, match) => total + match.markets.length, 0);
@@ -134,12 +144,15 @@ export function ArenaOddsApp() {
               </div>
             </section>
 
+            <HomePromotions matches={matches} onOpenMatch={(match) => { setSelectedMatchId(match.id); setView("event"); window.scrollTo({ top: 0, behavior: "smooth" }); }} onOpenRewards={() => setView("rewards")} />
+
             <section className="content-grid" id="events">
               <div className="events-column">
+                <label className="event-search"><Search size={18} /><span><small>BUSCAR EVENTO</small><input value={eventSearch} onChange={(event) => setEventSearch(event.target.value)} placeholder="Digite time, seleção, liga ou competição..." /></span>{eventSearch && <button onClick={() => setEventSearch("")} aria-label="Limpar pesquisa"><X size={16} /></button>}</label>
                 <div className="section-heading"><div><span className="eyebrow">ARENA DE EVENTOS</span><h2>Jogos com odds reais</h2><p>{dataMode === "api" ? feedMessage : `Nenhum jogo fictício é exibido. ${feedMessage}`}</p></div><div className="event-tabs"><button className={matchFilter === "all" ? "active" : ""} onClick={() => setMatchFilter("all")}><BarChart3 size={15} /> Todos</button><button className={matchFilter === "live" ? "active" : ""} onClick={() => setMatchFilter("live")}><Radio size={15} /> Ao vivo</button><button className={matchFilter === "upcoming" ? "active" : ""} onClick={() => setMatchFilter("upcoming")}><Clock3 size={15} /> Próximos</button></div></div>
                 {syncing && <div className="sync-skeleton"><span /><span /><span /></div>}
                 <div className="match-list">{visibleMatches.map((match, index) => <MatchCard key={match.id} match={match} index={index} onOpen={(item) => { setSelectedMatchId(item.id); setView("event"); window.scrollTo({ top: 0, behavior: "smooth" }); }} />)}</div>
-                {!visibleMatches.length && <div className="empty-history">{dataMode === "unavailable" ? feedMessage : "Nenhum evento real encontrado neste filtro."}</div>}
+                {!visibleMatches.length && <div className="empty-history">{dataMode === "unavailable" ? feedMessage : eventSearch ? `Nenhum evento encontrado para “${eventSearch}”.` : "Nenhum evento real encontrado neste filtro."}</div>}
               </div>
               <aside className="home-rail">
                 <WalletCard onDeposit={() => setDepositOpen(true)} onWithdraw={() => setWithdrawOpen(true)} onHistory={() => setView("history")} />

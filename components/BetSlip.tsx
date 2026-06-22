@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { CheckCircle2, Gift, Layers3, LoaderCircle, LockKeyhole, Sparkles, Trash2, TrendingUp, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { brl } from "@/lib/utils";
+import { brl, formatOdd } from "@/lib/utils";
 import { useBetStore } from "@/store/useBetStore";
 
 export function BetSlip({ mobile = false, onClose }: { mobile?: boolean; onClose?: () => void }) {
@@ -47,19 +47,19 @@ export function BetSlip({ mobile = false, onClose }: { mobile?: boolean; onClose
       <div className="bet-slip-content">
         {selections.length === 0 ? <div className="empty-slip"><div className="empty-slip-icon"><Layers3 size={29} /></div><strong>Seu bilhete está vazio</strong><span>Abra um evento e toque em uma odd para começar.</span>{mobile && <button className="btn btn-secondary" onClick={onClose}>Explorar jogos</button>}</div> : <>
           <div className="bet-slip-scroll">
-            <div className="selection-list">{selections.map((selection, index) => <motion.div className="selection-card pro" key={selection.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} layout><span className="selection-index">{index + 1}</span><div><small>{selection.marketName}</small><strong>{selection.selectionLabel}</strong><span>{selection.matchLabel}</span>{selectionsByMatch[selection.matchId] > 1 && <em className="same-game-tag">{selectionsByMatch[selection.matchId]} seleções neste jogo</em>}</div><b>{selection.odd.toFixed(2)}</b><button onClick={() => remove(selection.id)} aria-label={`Remover ${selection.selectionLabel}`}><X size={15} /></button></motion.div>)}</div>
+            <div className="selection-list">{selections.map((selection, index) => <motion.div className="selection-card pro" key={selection.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} layout><span className="selection-index">{index + 1}</span><div><small>{selection.marketName}</small><strong>{selection.selectionLabel}</strong><span>{selection.matchLabel}</span>{selectionsByMatch[selection.matchId] > 1 && <em className="same-game-tag">{selectionsByMatch[selection.matchId]} seleções neste jogo</em>}</div><b>{formatOdd(selection.odd)}</b><button onClick={() => remove(selection.id)} aria-label={`Remover ${selection.selectionLabel}`}><X size={15} /></button></motion.div>)}</div>
 
             {selections.length > 1 && <div className="smart-multiple-note"><LockKeyhole size={14} /><span><strong>Múltipla inteligente</strong>Você pode combinar mercados do mesmo jogo. Apenas seleções repetidas ou impossíveis são bloqueadas.</span></div>}
 
             {freeBet > 0 && <button className={`freebet-toggle ${useFreeBet ? "active" : ""}`} onClick={() => setUseFreeBet(!useFreeBet)}><span><Gift size={17} /><span><strong>Usar Free Bet</strong><small>Disponível: {brl(freeBet)}</small></span></span><i><b /></i></button>}
 
-            <div className="stake-section"><div className="stake-label-row"><label htmlFor={mobile ? "stake-mobile" : "stake-desktop"}>Valor da aposta</label><small>Disponível: {brl(available)}</small></div><div className={`money-input ${stake > available ? "input-error" : ""}`}><span>R$</span><input id={mobile ? "stake-mobile" : "stake-desktop"} type="number" inputMode="decimal" min="1" step="1" value={stake || ""} onChange={(event) => setStake(Number(event.target.value))} /></div><div className="stake-chips">{[10, 25, 50, 100].map((value) => <button key={value} onClick={() => setStake(value)}>R$ {value}</button>)}</div></div>
+            <div className="stake-section"><div className="stake-label-row"><label htmlFor={mobile ? "stake-mobile" : "stake-desktop"}>Valor da aposta</label><small>Disponível: {brl(available)}</small></div><div className={`money-input ${stake > available ? "input-error" : ""}`}><span>R$</span><input id={mobile ? "stake-mobile" : "stake-desktop"} type="number" inputMode="decimal" min="0.01" step="0.01" value={stake || ""} onChange={(event) => setStake(Number(event.target.value))} /></div><div className="stake-chips">{[10, 25, 50, 100].map((value) => <button key={value} onClick={() => setStake(value)}>R$ {value}</button>)}</div></div>
 
             {boostPercent > 0 && <motion.div className="bet-boost-banner" initial={{ scale: .96 }} animate={{ scale: 1 }}><Sparkles size={17} /><span><strong>Boost de +{boostPercent}% ativado</strong><small>Seu retorno aumentou {brl(potentialReturn - baseReturn)}</small></span><TrendingUp size={17} /></motion.div>}
           </div>
 
           <div className="bet-slip-checkout">
-            <div className="bet-summary"><div><span>Odd total</span><strong>{totalOdd.toFixed(2)}</strong></div>{boostPercent > 0 && <div className="desktop-summary-row"><span>Retorno base</span><strong>{brl(baseReturn)}</strong></div>}<div className="return-row"><span>Retorno potencial</span><strong className="accent-text">{brl(potentialReturn)}</strong></div><div className="desktop-summary-row"><span>{useFreeBet ? "Free Bet restante" : "Saldo após aposta"}</span><strong>{brl(Math.max(available - stake, 0))}</strong></div></div>
+            <div className="bet-summary"><div><span>Odd total</span><strong>{formatOdd(totalOdd)}</strong></div>{boostPercent > 0 && <div className="desktop-summary-row"><span>Retorno base</span><strong>{brl(baseReturn)}</strong></div>}<div className="return-row"><span>Retorno potencial</span><strong className="accent-text">{brl(potentialReturn)}</strong></div><div className="desktop-summary-row"><span>{useFreeBet ? "Free Bet restante" : "Saldo após aposta"}</span><strong>{brl(Math.max(available - stake, 0))}</strong></div></div>
             <motion.button whileTap={{ scale: 0.98 }} className="btn btn-primary btn-bet" onClick={submit} disabled={stake <= 0 || stake > available || submitting}>{submitting ? <LoaderCircle className="spin" size={18} /> : <CheckCircle2 size={18} />} {submitting ? "Confirmando..." : `Apostar ${brl(stake)}`}</motion.button>
             <div className="simulation-note"><LockKeyhole size={14} /><span>Odds validadas novamente antes da confirmação.</span></div>
           </div>

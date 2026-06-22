@@ -22,6 +22,7 @@ function categoryOf(name: string): Category {
 export function EventDetail({ match, isAdmin, onBack, onMatchUpdate }: { match: Match; isAdmin: boolean; onBack: () => void; onMatchUpdate: (match: Match) => void }) {
   const selected = useBetStore((state) => state.betSlip);
   const toggleSelection = useBetStore((state) => state.toggleSelection);
+  const hydrateAccount = useBetStore((state) => state.hydrateAccount);
   const showToast = useBetStore((state) => state.showToast);
   const [category, setCategory] = useState<Category>("Principais");
   const [search, setSearch] = useState("");
@@ -50,6 +51,7 @@ export function EventDetail({ match, isAdmin, onBack, onMatchUpdate }: { match: 
       const response = await fetch("/api/admin/results/update", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ matchIds: [match.id], force: true }) });
       const payload = await response.json() as { result?: { settled: number; requestsSpent: number }; error?: string };
       if (!response.ok) throw new Error(payload.error ?? "Falha ao atualizar resultado");
+      if ((payload.result?.settled ?? 0) > 0) await hydrateAccount();
       const liveResponse = await fetch("/api/live", { cache: "no-store" });
       const livePayload = await liveResponse.json() as { matches?: Match[] };
       const updated = livePayload.matches?.find((item) => item.id === match.id);

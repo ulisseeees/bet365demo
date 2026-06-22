@@ -3,7 +3,7 @@ import "server-only";
 import { sql } from "@vercel/postgres";
 import { ensureDatabaseSchema, withTransaction } from "./database";
 import { getCombinedFeed } from "./feed";
-import type { AccountSnapshot, AuthUser, Bet, BetSelection, BetStatus, LoyaltyLevel, Promotion, ReceiptData, Transaction } from "./types";
+import type { AccountSnapshot, AuthUser, Bet, BetSelection, BetStatus, LoyaltyLevel, Match, Mission, Promotion, ReceiptData, Transaction } from "./types";
 import { clampMoney, uid } from "./utils";
 import { correlationError } from "./bet-validation";
 
@@ -93,11 +93,20 @@ export async function getPromotions(): Promise<Promotion[]> {
 
 export async function getAccountSnapshot(user: AuthUser): Promise<AccountSnapshot> {
   await ensureWallet(user);
-  const [walletResult, betsResult, selectionsResult, transactionsResult, promotions] = await Promise.all([
+  const [walletResult, betsResult, selectionsResult, transactionsResult, missionsResult, promotions] = await Promise.all([
     sql`SELECT * FROM wallets WHERE user_id = ${user.id} LIMIT 1`,
     sql`SELECT * FROM bets WHERE user_id = ${user.id} ORDER BY placed_at DESC LIMIT 200`,
     sql`SELECT bs.* FROM bet_selections bs JOIN bets b ON b.id = bs.bet_id WHERE b.user_id = ${user.id} ORDER BY bs.id`,
     sql`SELECT * FROM transactions WHERE user_id = ${user.id} ORDER BY created_at DESC LIMIT 300`,
+    sql`
+      SELECT m.*, COALESCE(um.progress, 0) AS progress, um.completed_at, um.rewarded_at
+      FROM missions m
+      LEFT JOIN user_missions um ON um.mission_id = m.id AND um.user_id = ${user.id}
+      WHERE m.active = TRUE
+        AND (m.starts_at IS NULL OR m.starts_at <= CURRENT_TIMESTAMP)
+        AND (m.ends_at IS NULL OR m.ends_at > CURRENT_TIMESTAMP)
+      ORDER BY m.created_at
+    `,
     getPromotions(),
   ]);
   const wallet = walletResult.rows[0];
@@ -105,6 +114,17 @@ export async function getAccountSnapshot(user: AuthUser): Promise<AccountSnapsho
   selectionsResult.rows.forEach((row) => selectionGroups.set(row.bet_id, [...(selectionGroups.get(row.bet_id) ?? []), mapSelection(row)]));
   const xp = Number(wallet?.xp ?? 0);
   const level = loyaltyLevel(xp);
+  const missions: Mission[] = missionsResult.rows.map((row) => ({
+    id: String(row.id),
+    title: String(row.title),
+    description: String(row.description),
+    progress: money(row.progress),
+    target: money(row.target),
+    reward: money(row.reward),
+    completed: Boolean(row.completed_at),
+    rewarded: Boolean(row.rewarded_at),
+    endsAt: row.ends_at ? new Date(String(row.ends_at)).toISOString() : null,
+  }));
   if (wallet && wallet.level !== level) sql`UPDATE wallets SET level = ${level} WHERE user_id = ${user.id}`.catch(() => undefined);
   return {
     balance: money(wallet?.balance),
@@ -116,6 +136,7 @@ export async function getAccountSnapshot(user: AuthUser): Promise<AccountSnapsho
     bets: betsResult.rows.map((row) => mapBet(row, selectionGroups.get(row.id) ?? [])),
     transactions: transactionsResult.rows.map(mapTransaction),
     promotions,
+    missions,
   };
 }
 
@@ -161,12 +182,14 @@ export async function placeAccountBet(user: AuthUser, requestSelections: BetSele
   if (!requestSelections.length || requestSelections.length > 20) throw new Error("Selecione entre 1 e 20 mercados");
   await ensureWallet(user);
   const { matches } = await getCombinedFeed();
+  const matchedById = new Map<string, Match>();
   const selections: BetSelection[] = requestSelections.map((selection) => {
     const match = matches.find((item) => item.id === selection.matchId);
     if (!match || match.status === "finished") throw new Error(`O jogo ${selection.matchLabel} não está mais disponível`);
     const market = match.markets.find((item) => item.id === selection.marketId);
     const option = market?.options.find((item) => item.id === selection.optionId);
     if (!market || !option) throw new Error(`A odd de ${selection.selectionLabel} mudou ou foi removida`);
+    matchedById.set(match.id, match);
     return { ...selection, marketName: market.name, selectionLabel: option.label, odd: option.price, currentOdd: option.price, result: "pending" };
   });
   const correlation = correlationError(selections);
@@ -179,6 +202,12 @@ export async function placeAccountBet(user: AuthUser, requestSelections: BetSele
   const potentialReturn = clampMoney(baseReturn * (1 + boostPercent / 100));
   const id = uid("BET");
   const transactionId = uid("TRX");
+  const activeMissions = await sql`
+    SELECT * FROM missions
+    WHERE active = TRUE
+      AND (starts_at IS NULL OR starts_at <= CURRENT_TIMESTAMP)
+      AND (ends_at IS NULL OR ends_at > CURRENT_TIMESTAMP)
+  `;
 
   await withTransaction(async (client) => {
     const { rows } = await client.sql`SELECT balance, free_bet_balance, xp FROM wallets WHERE user_id = ${user.id} FOR UPDATE`;
@@ -198,10 +227,55 @@ export async function placeAccountBet(user: AuthUser, requestSelections: BetSele
         VALUES (${`${id}-${selection.id}`.slice(0, 255)}, ${id}, ${selection.matchId}, ${selection.marketId}, ${selection.optionId}, ${selection.matchLabel}, ${selection.marketName}, ${selection.selectionLabel}, ${selection.odd}, ${selection.odd})
       `;
     }
+    for (const match of [...matchedById.values()]) {
+      if (!match.external) continue;
+      await client.sql`
+        INSERT INTO tracked_matches (match_id, provider, external_id, sport_key, enabled, check_interval_seconds, last_status)
+        VALUES (${match.id}, ${match.external.provider}, ${match.external.id}, ${match.external.sportKey ?? null}, TRUE, 300, ${match.status})
+        ON CONFLICT (match_id) DO UPDATE SET
+          provider = EXCLUDED.provider,
+          external_id = EXCLUDED.external_id,
+          sport_key = COALESCE(EXCLUDED.sport_key, tracked_matches.sport_key),
+          enabled = TRUE,
+          updated_at = CURRENT_TIMESTAMP
+      `;
+    }
     await client.sql`
       INSERT INTO transactions (id, user_id, type, description, amount, metadata)
       VALUES (${transactionId}, ${user.id}, 'bet', ${`Aposta ${id}`}, ${useFreeBet ? 0 : -stake}, ${JSON.stringify({ betId: id, freeBet: useFreeBet })}::jsonb)
     `;
+
+    for (const mission of activeMissions.rows) {
+      if (String(mission.type) !== "world_cup_stake") continue;
+      if (useFreeBet) continue;
+      const config = (mission.config ?? {}) as { minOdd?: number; competitionTerms?: string[] };
+      const terms = Array.isArray(config.competitionTerms) ? config.competitionTerms : ["world cup", "copa do mundo"];
+      const eligibleCompetition = [...matchedById.values()].every((match) => {
+        const competition = `${match.league} ${match.country}`.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        return terms.some((term) => competition.includes(term.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()));
+      });
+      if (!eligibleCompetition || totalOdd < Number(config.minOdd ?? 2)) continue;
+      const target = money(mission.target);
+      const reward = money(mission.reward);
+      const progressResult = await client.sql`
+        INSERT INTO user_missions (user_id, mission_id, progress, completed_at)
+        VALUES (${user.id}, ${mission.id}, ${Math.min(target, stake)}, ${stake >= target ? new Date().toISOString() : null})
+        ON CONFLICT (user_id, mission_id) DO UPDATE SET
+          progress = LEAST(${target}, user_missions.progress + ${stake}),
+          completed_at = CASE WHEN user_missions.progress + ${stake} >= ${target} THEN COALESCE(user_missions.completed_at, CURRENT_TIMESTAMP) ELSE user_missions.completed_at END,
+          updated_at = CURRENT_TIMESTAMP
+        RETURNING progress, rewarded_at
+      `;
+      const missionProgress = money(progressResult.rows[0]?.progress);
+      if (missionProgress >= target && !progressResult.rows[0]?.rewarded_at) {
+        await client.sql`UPDATE user_missions SET rewarded_at = CURRENT_TIMESTAMP WHERE user_id = ${user.id} AND mission_id = ${mission.id} AND rewarded_at IS NULL`;
+        await client.sql`UPDATE wallets SET free_bet_balance = free_bet_balance + ${reward}, updated_at = CURRENT_TIMESTAMP WHERE user_id = ${user.id}`;
+        await client.sql`
+          INSERT INTO transactions (id, user_id, type, description, amount, metadata)
+          VALUES (${uid("MIS")}, ${user.id}, 'freebet', ${`Missão concluída: ${mission.title}`}, ${reward}, ${JSON.stringify({ missionId: mission.id })}::jsonb)
+        `;
+      }
+    }
   });
   return getAccountSnapshot(user);
 }

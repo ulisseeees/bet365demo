@@ -145,7 +145,7 @@ export function AdminApiFootballImporter() {
     setError("");
     try {
       const response = await fetch("/api/admin/api-football/refresh", { method: "POST" });
-      const payload = await response.json() as { matches?: Match[]; meta?: { quota?: Quota; requestsSpent?: number }; updatedAt?: string; error?: string };
+      const payload = await response.json() as { matches?: Match[]; meta?: { quota?: Quota; requestsSpent?: number }; updatedAt?: string; settlement?: { settled: number }; error?: string };
       if (!response.ok || !payload.matches) throw new Error(payload.error ?? "Falha ao atualizar o feed");
       const combinedResponse = await fetch("/api/live", { cache: "no-store" });
       const combined = await combinedResponse.json() as { matches?: Match[] };
@@ -156,7 +156,8 @@ export function AdminApiFootballImporter() {
       setCacheStale(false);
       setLastProviderError(null);
       if (payload.meta?.quota) setQuota(payload.meta.quota);
-      showToast("Feed atualizado", `${payload.matches.length} jogos da API-Football preservados no cache por 24 horas.`, "success");
+      if ((payload.settlement?.settled ?? 0) > 0) await useBetStore.getState().hydrateAccount();
+      showToast("Feed atualizado", `${payload.matches.length} jogos preservados • ${payload.settlement?.settled ?? 0} aposta(s) liquidada(s).`, "success");
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Falha ao atualizar o feed");
     } finally {

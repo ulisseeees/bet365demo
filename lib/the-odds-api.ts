@@ -116,6 +116,10 @@ const automaticCacheSeconds = positiveInteger(process.env.THE_ODDS_API_CACHE_SEC
 const failureBackoffSeconds = positiveInteger(process.env.API_PROVIDER_FAILURE_BACKOFF_SECONDS, 900, 60, 3600);
 let automaticRefreshPromise: Promise<AutomaticFeedResult> | null = null;
 
+export function getConfiguredOddsApiSportKeys() {
+  return envList("THE_ODDS_API_SPORTS", DEFAULT_SPORTS);
+}
+
 function quotaFromHeaders(headers: Headers): OddsApiQuota {
   const number = (name: string) => {
     const value = headers.get(name);

@@ -110,6 +110,18 @@ export interface Promotion {
   active: boolean;
 }
 
+export interface Mission {
+  id: string;
+  title: string;
+  description: string;
+  progress: number;
+  target: number;
+  reward: number;
+  completed: boolean;
+  rewarded: boolean;
+  endsAt?: string | null;
+}
+
 export interface AccountSnapshot {
   balance: number;
   bonus: number;
@@ -120,4 +132,5 @@ export interface AccountSnapshot {
   bets: Bet[];
   transactions: Transaction[];
   promotions: Promotion[];
+  missions: Mission[];
 }

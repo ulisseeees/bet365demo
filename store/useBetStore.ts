@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { correlationError } from "@/lib/bet-validation";
 import { clampMoney, uid } from "@/lib/utils";
-import type { AccountSnapshot, Bet, BetSelection, BetStatus, LoyaltyLevel, Match, Promotion, ReceiptData, Sport, ToastMessage, Transaction } from "@/lib/types";
+import type { AccountSnapshot, Bet, BetSelection, BetStatus, LoyaltyLevel, Match, Mission, Promotion, ReceiptData, Sport, ToastMessage, Transaction } from "@/lib/types";
 
 interface BetStore {
   activeUserId: string | null;
@@ -15,6 +15,7 @@ interface BetStore {
   xp: number;
   level: LoyaltyLevel;
   promotions: Promotion[];
+  missions: Mission[];
   bets: Bet[];
   transactions: Transaction[];
   matches: Match[];
@@ -47,7 +48,7 @@ interface BetStore {
   clearReceipt: () => void;
 }
 
-const emptyAccount: AccountSnapshot = { balance: 0, bonus: 0, cashback: 0, freeBet: 0, xp: 0, level: "Bronze", bets: [], transactions: [], promotions: [] };
+const emptyAccount: AccountSnapshot = { balance: 0, bonus: 0, cashback: 0, freeBet: 0, xp: 0, level: "Bronze", bets: [], transactions: [], promotions: [], missions: [] };
 
 function accountState(account: AccountSnapshot) {
   return {
@@ -58,6 +59,7 @@ function accountState(account: AccountSnapshot) {
     xp: account.xp,
     level: account.level,
     promotions: account.promotions,
+    missions: account.missions,
     bets: account.bets,
     transactions: account.transactions,
   };

@@ -166,7 +166,7 @@ export function AdminOddsImporter() {
     setError("");
     try {
       const response = await fetch("/api/admin/odds/refresh", { method: "POST" });
-      const payload = await response.json() as { matches?: Match[]; quota?: Quota; updatedAt?: string | null; error?: string };
+      const payload = await response.json() as { matches?: Match[]; quota?: Quota; updatedAt?: string | null; settlement?: { settled: number; evaluated: number }; error?: string };
       if (!response.ok || !payload.matches) throw new Error(payload.error ?? "Falha ao atualizar a The Odds API");
       const combinedResponse = await fetch("/api/live", { cache: "no-store" });
       const combined = await combinedResponse.json() as { matches?: Match[] };
@@ -175,7 +175,8 @@ export function AdminOddsImporter() {
       setFeedUpdatedAt(payload.updatedAt ?? new Date().toISOString());
       setFeedStale(false);
       if (payload.quota) setQuota(payload.quota);
-      showToast("The Odds API atualizada", `${payload.matches.length} jogos foram renovados e protegidos pelo cache diário.`, "success");
+      if ((payload.settlement?.settled ?? 0) > 0) await useBetStore.getState().hydrateAccount();
+      showToast("The Odds API atualizada", `${payload.matches.length} jogos renovados • ${payload.settlement?.settled ?? 0} aposta(s) liquidada(s).`, "success");
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Falha ao atualizar a The Odds API");
     } finally {

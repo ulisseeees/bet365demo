@@ -11,9 +11,11 @@ async function createSchema() {
       to_regclass('public.bets') AS bets,
       to_regclass('public.provider_cache') AS provider_cache,
       to_regclass('public.tracked_matches') AS tracked_matches,
-      to_regclass('public.super_odds') AS super_odds
+      to_regclass('public.super_odds') AS super_odds,
+      to_regclass('public.missions') AS missions,
+      to_regclass('public.user_missions') AS user_missions
   `;
-  if (ready.rows[0]?.wallets && ready.rows[0]?.bets && ready.rows[0]?.provider_cache && ready.rows[0]?.tracked_matches && ready.rows[0]?.super_odds) return;
+  if (ready.rows[0]?.wallets && ready.rows[0]?.bets && ready.rows[0]?.provider_cache && ready.rows[0]?.tracked_matches && ready.rows[0]?.super_odds && ready.rows[0]?.missions && ready.rows[0]?.user_missions) return;
 
   await sql`
     CREATE TABLE IF NOT EXISTS users (
@@ -171,12 +173,60 @@ async function createSchema() {
   `;
 
   await sql`
+    CREATE TABLE IF NOT EXISTS missions (
+      id VARCHAR(255) PRIMARY KEY,
+      type VARCHAR(80) NOT NULL,
+      title VARCHAR(255) NOT NULL,
+      description TEXT NOT NULL,
+      target NUMERIC(14,2) NOT NULL CHECK (target > 0),
+      reward NUMERIC(14,2) NOT NULL CHECK (reward >= 0),
+      config JSONB NOT NULL DEFAULT '{}'::jsonb,
+      active BOOLEAN NOT NULL DEFAULT TRUE,
+      starts_at TIMESTAMPTZ,
+      ends_at TIMESTAMPTZ,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS user_missions (
+      user_id VARCHAR(255) NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      mission_id VARCHAR(255) NOT NULL REFERENCES missions(id) ON DELETE CASCADE,
+      progress NUMERIC(14,2) NOT NULL DEFAULT 0 CHECK (progress >= 0),
+      completed_at TIMESTAMPTZ,
+      rewarded_at TIMESTAMPTZ,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (user_id, mission_id)
+    )
+  `;
+
+  await sql`
     INSERT INTO promotions (id, type, title, description, config)
     VALUES
       ('PROMO-ACC-5', 'accumulator_boost', 'Múltipla Turbo', 'Bônus progressivo para múltiplas elegíveis.', '{"tiers":[{"minOdd":5,"minSelections":3,"percent":5},{"minOdd":10,"minSelections":4,"percent":10},{"minOdd":20,"minSelections":5,"percent":15}]}'::jsonb),
       ('PROMO-CASHBACK', 'cashback', 'Cashback por nível', 'Parte das perdas retorna para a carteira de cashback.', '{"rates":{"Bronze":1,"Prata":1.5,"Ouro":2,"Platina":3,"Diamante":5}}'::jsonb),
       ('PROMO-WELCOME', 'free_bet', 'Free Bet de boas-vindas', 'Crédito promocional para explorar a plataforma.', '{"amount":10}'::jsonb)
     ON CONFLICT (id) DO NOTHING
+  `;
+
+  await sql`
+    INSERT INTO missions (id, type, title, description, target, reward, config)
+    VALUES (
+      'MISSION-WORLD-CUP-50',
+      'world_cup_stake',
+      'Rota da Copa',
+      'Aposte R$ 50 em eventos da Copa do Mundo com odd total mínima de 2,00 e receba R$ 25 em Free Bet.',
+      50,
+      25,
+      '{"minOdd":2,"competitionTerms":["world cup","copa do mundo"]}'::jsonb
+    )
+    ON CONFLICT (id) DO UPDATE SET
+      title = EXCLUDED.title,
+      description = EXCLUDED.description,
+      target = EXCLUDED.target,
+      reward = EXCLUDED.reward,
+      config = EXCLUDED.config,
+      active = TRUE
   `;
 
   const adminEmail = (process.env.ADMIN_EMAIL || "admin@arenaodds.local").toLowerCase();

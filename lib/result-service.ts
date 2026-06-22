@@ -6,7 +6,7 @@ import { settleBet } from "./account-service";
 import { ensureDatabaseSchema } from "./database";
 import { getCombinedFeed } from "./feed";
 import { getOddsApiIoResult } from "./odds-api-io";
-import { getOddsApiScores } from "./the-odds-api";
+import { getConfiguredOddsApiSportKeys, getOddsApiScores } from "./the-odds-api";
 import type { BetSelection, Match } from "./types";
 
 interface MatchResult {
@@ -32,6 +32,42 @@ function externalFromMatch(match: Match) {
   if (match.id.startsWith("odds-")) return { provider: "the-odds-api" as const, id: match.id.slice(5) };
   if (match.id.startsWith("oddsio-")) return { provider: "odds-api-io" as const, id: match.id.slice(7) };
   return null;
+}
+
+export async function ensurePendingMatchTracking() {
+  await ensureDatabaseSchema();
+  const [{ rows }, feed] = await Promise.all([
+    sql`
+      SELECT DISTINCT bs.match_id
+      FROM bet_selections bs
+      JOIN bets b ON b.id = bs.bet_id
+      LEFT JOIN tracked_matches tm ON tm.match_id = bs.match_id
+      WHERE b.status = 'pending' AND bs.result = 'pending' AND tm.match_id IS NULL
+    `,
+    getCombinedFeed(),
+  ]);
+  const feedById = new Map(feed.matches.map((match) => [match.id, match]));
+  const orphanOddsIds: string[] = [];
+  let registered = 0;
+  for (const row of rows) {
+    const matchId = String(row.match_id);
+    const match = feedById.get(matchId);
+    let external = match ? externalFromMatch(match) : null;
+    if (!external && matchId.startsWith("api-")) external = { provider: "api-football" as const, id: matchId.slice(4) };
+    if (!external && matchId.startsWith("oddsio-")) external = { provider: "odds-api-io" as const, id: matchId.slice(7) };
+    if (!external && matchId.startsWith("odds-")) {
+      orphanOddsIds.push(matchId.slice(5));
+      continue;
+    }
+    if (!external) continue;
+    await sql`
+      INSERT INTO tracked_matches (match_id, provider, external_id, sport_key, enabled, check_interval_seconds, last_status)
+      VALUES (${matchId}, ${external.provider}, ${external.id}, ${external.sportKey ?? null}, TRUE, 300, ${match?.status ?? null})
+      ON CONFLICT (match_id) DO NOTHING
+    `;
+    registered += 1;
+  }
+  return { registered, orphanOddsIds };
 }
 
 export async function setMatchTracking(matchId: string, enabled: boolean, intervalSeconds = 300) {
@@ -73,7 +109,7 @@ export async function listTrackedMatches() {
 }
 
 function parseLine(label: string) {
-  const result = label.replace(",", ".").match(/(-?\d+(?:\.\d+)?)/);
+  const result = label.replace(",", ".").match(/([+-]?\d+(?:\.\d+)?)\s*$/);
   return result ? Number(result[1]) : null;
 }
 
@@ -113,9 +149,29 @@ function evaluateSelection(selection: BetSelection, result: MatchResult): "green
   if ((market.includes("total de gols") || market.includes("linha de gols")) && !market.includes("tempo")) {
     const line = parseLine(label);
     if (line == null) return null;
+    if (market.includes("equipe")) {
+      const teamGoals = label.includes(home) ? result.homeGoals : label.includes(away) ? result.awayGoals : null;
+      if (teamGoals == null) return null;
+      if (teamGoals === line) return "void";
+      if (label.includes("mais de")) return teamGoals > line ? "green" : "red";
+      if (label.includes("menos de")) return teamGoals < line ? "green" : "red";
+    }
     if (total === line) return "void";
     if (label.includes("mais de")) return total > line ? "green" : "red";
     if (label.includes("menos de")) return total < line ? "green" : "red";
+  }
+  if (market.includes("handicap") && !market.includes("tempo")) {
+    const line = parseLine(label);
+    if (line == null) return null;
+    const adjustedHome = label.includes(home) ? result.homeGoals + line : result.homeGoals;
+    const adjustedAway = label.includes(away) ? result.awayGoals + line : result.awayGoals;
+    if (adjustedHome === adjustedAway) return "void";
+    if (label.includes(home)) return adjustedHome > adjustedAway ? "green" : "red";
+    if (label.includes(away)) return adjustedAway > adjustedHome ? "green" : "red";
+  }
+  if (market.includes("impar/par") || market.includes("odd/even")) {
+    if (label.includes("impar")) return total % 2 === 1 ? "green" : "red";
+    if (label.includes("par")) return total % 2 === 0 ? "green" : "red";
   }
   if (market.includes("placar exato") || market.includes("placar final")) {
     const score = label.match(/(\d+)\D+(\d+)/);
@@ -187,6 +243,7 @@ async function liquidateFromResult(result: MatchResult) {
 
 export async function updateTrackedResults(options: { force?: boolean; matchIds?: string[] } = {}) {
   await ensureDatabaseSchema();
+  const backfill = await ensurePendingMatchTracking();
   const tracked = await listTrackedMatches();
   const requested = options.matchIds?.length ? new Set(options.matchIds) : null;
   const due = tracked.filter((item) => item.enabled && (!requested || requested.has(item.matchId)) && (options.force || !item.lastCheckedAt || Date.now() - new Date(item.lastCheckedAt).getTime() >= item.intervalSeconds * 1000));
@@ -204,9 +261,22 @@ export async function updateTrackedResults(options: { force?: boolean; matchIds?
   }
   const oddsGroups = new Map<string, typeof due>();
   due.filter((item) => item.provider === "the-odds-api" && item.sportKey).forEach((item) => oddsGroups.set(item.sportKey, [...(oddsGroups.get(item.sportKey) ?? []), item]));
-  for (const [sportKey, items] of oddsGroups) {
+  const oddsScoreCache = new Map<string, Awaited<ReturnType<typeof getOddsApiScores>>>();
+  const scoresFor = async (sportKey: string) => {
+    const cached = oddsScoreCache.get(sportKey);
+    if (cached) return cached;
     const response = await getOddsApiScores(sportKey);
+    oddsScoreCache.set(sportKey, response);
     requestsSpent += response.quota.last ?? 0;
+    return response;
+  };
+  for (const [sportKey, items] of oddsGroups) {
+    let response: Awaited<ReturnType<typeof getOddsApiScores>>;
+    try {
+      response = await scoresFor(sportKey);
+    } catch {
+      continue;
+    }
     response.data.forEach((item) => {
       const trackedMatch = items.find((entry) => entry.externalId === item.id);
       if (!trackedMatch) return;
@@ -214,6 +284,41 @@ export async function updateTrackedResults(options: { force?: boolean; matchIds?
       const awayGoals = Number(item.scores?.find((score) => score.name === item.away_team)?.score ?? NaN);
       results.push({ matchId: trackedMatch.matchId, status: item.completed ? "FT" : "LIVE", finished: item.completed, cancelled: false, home: item.home_team, away: item.away_team, homeGoals: Number.isFinite(homeGoals) ? homeGoals : null, awayGoals: Number.isFinite(awayGoals) ? awayGoals : null });
     });
+  }
+  const requestedOrphans = backfill.orphanOddsIds.filter((externalId) => !requested || requested.has(`odds-${externalId}`));
+  if (requestedOrphans.length) {
+    const unresolved = new Set(requestedOrphans);
+    for (const sportKey of getConfiguredOddsApiSportKeys()) {
+      if (!unresolved.size) break;
+      let response: Awaited<ReturnType<typeof getOddsApiScores>>;
+      try {
+        response = await scoresFor(sportKey);
+      } catch {
+        continue;
+      }
+      for (const event of response.data) {
+        if (!unresolved.has(event.id)) continue;
+        const homeGoals = Number(event.scores?.find((score) => score.name === event.home_team)?.score ?? NaN);
+        const awayGoals = Number(event.scores?.find((score) => score.name === event.away_team)?.score ?? NaN);
+        const matchId = `odds-${event.id}`;
+        await sql`
+          INSERT INTO tracked_matches (match_id, provider, external_id, sport_key, enabled, check_interval_seconds, last_status)
+          VALUES (${matchId}, 'the-odds-api', ${event.id}, ${sportKey}, TRUE, 300, ${event.completed ? "FT" : "LIVE"})
+          ON CONFLICT (match_id) DO UPDATE SET sport_key = EXCLUDED.sport_key, enabled = TRUE, updated_at = CURRENT_TIMESTAMP
+        `;
+        results.push({
+          matchId,
+          status: event.completed ? "FT" : "LIVE",
+          finished: event.completed,
+          cancelled: false,
+          home: event.home_team,
+          away: event.away_team,
+          homeGoals: Number.isFinite(homeGoals) ? homeGoals : null,
+          awayGoals: Number.isFinite(awayGoals) ? awayGoals : null,
+        });
+        unresolved.delete(event.id);
+      }
+    }
   }
   const oddsApiIo = due.filter((item) => item.provider === "odds-api-io");
   for (const item of oddsApiIo) {
@@ -249,5 +354,5 @@ export async function updateTrackedResults(options: { force?: boolean; matchIds?
     settled += liquidation.settled;
     manual += liquidation.manual;
   }
-  return { tracked: due.length, updated: results.length, evaluated, settled, manual, requestsSpent };
+  return { tracked: due.length + backfill.registered, updated: results.length, evaluated, settled, manual, requestsSpent };
 }

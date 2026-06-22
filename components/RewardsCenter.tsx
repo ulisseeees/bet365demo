@@ -1,6 +1,6 @@
 "use client";
 
-import { Crown, Gift, Gem, Rocket, Sparkles, Star, Ticket, TrendingUp, WalletCards } from "lucide-react";
+import { CheckCircle2, Crown, Gift, Gem, Rocket, Sparkles, Star, Target, Ticket, TrendingUp, WalletCards } from "lucide-react";
 import { motion } from "framer-motion";
 import { useBetStore } from "@/store/useBetStore";
 import { brl } from "@/lib/utils";
@@ -20,6 +20,7 @@ export function RewardsCenter() {
   const cashback = useBetStore((state) => state.cashback);
   const freeBet = useBetStore((state) => state.freeBet);
   const promotions = useBetStore((state) => state.promotions);
+  const missions = useBetStore((state) => state.missions);
   const claimCashback = useBetStore((state) => state.claimCashback);
   const currentIndex = levels.findIndex((item) => item.name === level);
   const next = levels[currentIndex + 1];
@@ -38,6 +39,8 @@ export function RewardsCenter() {
       </div>
 
       <section className="boost-program"><div className="boost-program-title"><span><TrendingUp size={21} /></span><div><small>MÚLTIPLAS AUMENTADAS</small><h2>Boost automático de retorno</h2><p>O bônus é aplicado somente a seleções independentes e aparece no bilhete antes da confirmação.</p></div></div><div className="boost-tier-grid">{tiers.map((tier) => <div key={`${tier.minOdd}-${tier.percent}`}><strong>+{tier.percent}%</strong><span>Odd {tier.minOdd}+</span><small>{tier.minSelections}+ seleções</small></div>)}</div></section>
+
+      <section className="missions-panel"><div className="section-heading compact"><div><span className="eyebrow">DESAFIOS ATIVOS</span><h2>Missões e recompensas</h2></div></div><div className="mission-list">{missions.map((mission) => { const missionProgress = Math.min(100, (mission.progress / mission.target) * 100); return <article className={mission.completed ? "completed" : ""} key={mission.id}><span className="mission-icon">{mission.completed ? <CheckCircle2 size={22} /> : <Target size={22} />}</span><div><small>{mission.completed ? "CONCLUÍDA" : "EM ANDAMENTO"}</small><strong>{mission.title}</strong><p>{mission.description}</p><div className="mission-progress"><span><b style={{ width: `${missionProgress}%` }} /></span><small>{brl(mission.progress)} / {brl(mission.target)}</small></div></div><em><Gift size={14} /> {brl(mission.reward)} Free Bet</em></article>; })}</div></section>
 
       <section className="level-roadmap"><div className="section-heading compact"><div><span className="eyebrow">PROGRESSÃO</span><h2>Níveis do Arena Club</h2></div></div><div>{levels.map((item, index) => { const Icon = item.icon; return <article className={`${item.name === level ? "current" : ""} ${xp >= item.min ? "unlocked" : ""}`} key={item.name}><span><Icon size={19} /></span><strong>{item.name}</strong><small>{item.min} XP</small>{item.name === level && <em>Nível atual</em>}{index > currentIndex && <em>Bloqueado</em>}</article>; })}</div></section>
     </div>

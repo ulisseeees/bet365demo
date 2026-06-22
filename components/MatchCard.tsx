@@ -35,7 +35,7 @@ export function MatchCard({ match, index = 0, onOpen }: { match: Match; index?: 
                 <span className="market-name">{market.name}</span>
                 <div className={`odds-grid ${market.options.length === 2 ? "odds-2" : market.options.length === 3 ? "odds-3" : "odds-many"}`}>
                   {market.options.map((option) => (
-                    <OddsButton key={option.id} label={option.label} price={option.price} selected={selected.some((item) => item.id === `${match.id}:${market.id}:${option.id}`)} onClick={() => toggleSelection(match, market.id, option.id)} />
+                    <OddsButton key={option.id} label={option.label} price={option.price} selected={selected.some((item) => item.id === `${match.id}:${market.id}:${option.id}`)} onClick={() => toggleSelection(match, market.id, option.id)} boosted={option.boosted} originalPrice={option.originalPrice} />
                   ))}
                 </div>
               </motion.div>

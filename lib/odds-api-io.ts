@@ -151,12 +151,48 @@ function marketName(name: string, sport: Sport) {
     "correct score": "Placar exato",
     "odd/even": "Ímpar/Par",
     "first team to score": "Primeira equipe a marcar",
+    "anytime goalscorer": "Jogador marca a qualquer momento",
+    "player goals": "Gols do jogador",
+    "player shots": "Finalizações do jogador",
+    "player shots on target": "Finalizações no alvo do jogador",
+    "player assists": "Assistências do jogador",
+    "player passes": "Passes do jogador",
+    "player tackles": "Desarmes do jogador",
+    "corners totals": "Total de escanteios",
+    "corners spread": "Handicap de escanteios",
+    "bookings totals": "Total de cartões",
   };
   return direct[normalized] ?? name;
 }
 
-function optionLabel(key: string, row: ApiOddsRow, event: ApiEvent) {
+function marketKind(rawName: string) {
+  const name = rawName.toLowerCase();
+  if (name === "ml" || name.includes("moneyline") || name.includes("match result")) return "winner";
+  if (name.includes("double chance")) return "double-chance";
+  if (name.includes("both teams") || name.includes("btts")) return "yes-no";
+  if (name.includes("odd/even")) return "odd-even";
+  if (name.includes("correct score") || name.includes("half time / full time")) return "labeled";
+  if (name.includes("goalscorer") || name.includes("player") || name.includes("scorer")) return "player";
+  if (name.includes("total")) return "total";
+  if (name.includes("handicap") || name.includes("spread")) return "handicap";
+  return "generic";
+}
+
+function allowedKeys(rawName: string) {
+  const kind = marketKind(rawName);
+  if (kind === "winner") return ["home", "draw", "away"];
+  if (kind === "double-chance") return ["1X", "12", "X2"];
+  if (kind === "yes-no") return ["yes", "no"];
+  if (kind === "odd-even") return ["odd", "even"];
+  if (kind === "total" || kind === "player") return ["over", "under", "yes", "no"];
+  if (kind === "handicap") return ["home", "away"];
+  return ["home", "draw", "away", "over", "under", "yes", "no", "1X", "12", "X2", "odd", "even", "none"];
+}
+
+function optionLabel(key: string, row: ApiOddsRow, event: ApiEvent, rawMarketName: string) {
   const line = row.hdp == null ? "" : ` ${row.hdp}`;
+  const participant = row.label?.trim();
+  const kind = marketKind(rawMarketName);
   const labels: Record<string, string> = {
     home: event.home ?? "Mandante",
     draw: "Empate",
@@ -172,13 +208,18 @@ function optionLabel(key: string, row: ApiOddsRow, event: ApiEvent) {
     even: "Par",
     none: "Nenhuma equipe",
   };
-  const base = labels[key] ?? key;
+  let base = labels[key] ?? key;
+  if (participant && ["over", "under"].includes(key)) base = `${participant} — ${base}`;
+  if (participant && ["yes", "no"].includes(key)) {
+    base = kind === "player" && key === "yes" ? participant : `${participant} — ${base}`;
+  }
   if (line && ["home", "away"].includes(key)) return `${base}${line}`;
   return base;
 }
 
 function mapMarket(item: ApiOddsMarket, event: ApiEvent): Market | null {
   const rawName = item.name?.trim() || "Mercado";
+  const outcomeKeys = allowedKeys(rawName);
   const options: OddOption[] = [];
   const seen = new Set<string>();
   for (const row of item.odds ?? []) {
@@ -191,10 +232,10 @@ function mapMarket(item: ApiOddsMarket, event: ApiEvent): Market | null {
         seen.add(id);
       }
     }
-    for (const key of ["home", "draw", "away", "over", "under", "yes", "no", "1X", "12", "X2", "odd", "even", "none"]) {
+    for (const key of outcomeKeys) {
       const price = Number(row[key]);
       if (!Number.isFinite(price) || price <= 1) continue;
-      const label = optionLabel(key, row, event);
+      const label = optionLabel(key, row, event, rawName);
       const id = slug(`${key}-${row.hdp ?? ""}-${row.label ?? ""}`);
       if (seen.has(id)) continue;
       options.push({ id, label, price });
