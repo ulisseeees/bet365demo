@@ -3,7 +3,7 @@ import "server-only";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Market, Match, OddOption } from "./types";
-import { readProviderCache, writeProviderCache } from "./provider-cache";
+import { readProviderCache, withProviderRefreshLock, writeProviderCache } from "./provider-cache";
 
 interface ApiFixture {
   fixture?: {
@@ -86,8 +86,10 @@ interface ApiFootballFeedMeta {
 
 interface FeedCache {
   expiresAt: number;
+  lastError?: string;
   matches: Match[];
   meta: ApiFootballFeedMeta;
+  stale?: boolean;
   updatedAt: string;
 }
 
@@ -158,12 +160,18 @@ function positiveInteger(value: string | undefined, fallback: number, min: numbe
 export const apiFootballCacheSeconds = positiveInteger(process.env.API_FEED_CACHE_SECONDS, 86400, 300, 604800);
 const adminCacheSeconds = positiveInteger(process.env.API_FOOTBALL_ADMIN_CACHE_SECONDS, 86400, 300, 604800);
 const oddsPageLimit = positiveInteger(process.env.API_ODDS_PAGES, 1, 1, 10);
+const failureBackoffSeconds = positiveInteger(process.env.API_PROVIDER_FAILURE_BACKOFF_SECONDS, 900, 60, 3600);
+const memoryCacheRecheckMs = 15_000;
 
 const code = (name: string) => name.replace(/[^A-Za-zÀ-ÿ]/g, "").slice(0, 3).toUpperCase() || "ARE";
 const slug = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "option";
 
 function todayInSaoPaulo() {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+}
+
+function dateInSaoPaulo(value: string | number | Date) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(value));
 }
 
 function kickoffLabel(date?: string) {
@@ -250,6 +258,12 @@ function payloadHasErrors<T>(payload: ApiPayload<T>) {
   return Boolean(payload.errors && Object.keys(payload.errors).length);
 }
 
+function payloadErrorMessage(errors: ApiPayload<unknown>["errors"]) {
+  if (Array.isArray(errors)) return errors.filter(Boolean).join("; ");
+  if (errors && typeof errors === "object") return Object.values(errors).filter(Boolean).join("; ");
+  return "a API-Football recusou a consulta";
+}
+
 function headerNumber(headers: Headers, name: string) {
   const value = headers.get(name);
   if (value == null) return null;
@@ -285,7 +299,7 @@ async function fetchApi<T>(endpoint: string, label: string) {
   });
   if (!response.ok) throw new Error(`${label}: API-Football respondeu ${response.status}`);
   const payload = await response.json() as ApiPayload<T>;
-  if (payloadHasErrors(payload)) throw new Error(`${label}: a API-Football recusou a consulta`);
+  if (payloadHasErrors(payload)) throw new Error(`${label}: ${payloadErrorMessage(payload.errors)}`);
   return { payload, quota: quotaFromHeaders(response.headers) };
 }
 
@@ -348,6 +362,7 @@ function buildMatch(fixture: ApiFootballFixtureOption, markets: Market[], minute
 }
 
 let memoryFeedCache: FeedCache | null = null;
+let memoryFeedCacheReadAt = 0;
 let feedRefreshPromise: Promise<ReturnTypeResult> | null = null;
 
 type ReturnTypeResult = {
@@ -357,22 +372,29 @@ type ReturnTypeResult = {
   error: string | null;
   cached: boolean;
   stale?: boolean;
+  refreshing?: boolean;
 };
 
-async function loadFeedCache() {
-  if (memoryFeedCache) return memoryFeedCache;
+async function loadFeedCache(forceCloudRead = false) {
+  if (!forceCloudRead && memoryFeedCache && Date.now() - memoryFeedCacheReadAt < memoryCacheRecheckMs) return memoryFeedCache;
+  let cloudCache: FeedCache | null = null;
   try {
     const cloud = await readProviderCache<FeedCache>("api-football:automatic");
-    if (cloud?.data) memoryFeedCache = cloud.data;
+    if (cloud?.data) cloudCache = cloud.data;
   } catch {
     // O arquivo local continua sendo um fallback útil no desenvolvimento.
   }
-  if (!memoryFeedCache) memoryFeedCache = await readJson<FeedCache | null>(feedCachePath, null);
+  const localCache = await readJson<FeedCache | null>(feedCachePath, null).catch(() => null);
+  if (cloudCache && localCache) {
+    memoryFeedCache = new Date(cloudCache.updatedAt).getTime() >= new Date(localCache.updatedAt).getTime() ? cloudCache : localCache;
+  } else {
+    memoryFeedCache = cloudCache ?? localCache;
+  }
+  memoryFeedCacheReadAt = Date.now();
   return memoryFeedCache;
 }
 
-async function refreshAutomaticFeed(): Promise<ReturnTypeResult> {
-  const previous = await loadFeedCache();
+async function refreshAutomaticFeed(previous: FeedCache | null): Promise<ReturnTypeResult> {
   try {
     const date = todayInSaoPaulo();
     const [fixturesResult, prematchResult, liveResult] = await Promise.all([
@@ -429,18 +451,30 @@ async function refreshAutomaticFeed(): Promise<ReturnTypeResult> {
     const fixturesStore = await readJson<Record<string, FixtureCacheEntry>>(fixturesCachePath, {});
     fixturesStore[date] = { fixtures, quota, updatedAt, expiresAt: Date.now() + adminCacheSeconds * 1000 };
     memoryFeedCache = cache;
+    memoryFeedCacheReadAt = Date.now();
     await Promise.all([
-      writeJson(feedCachePath, cache),
-      writeJson(fixturesCachePath, fixturesStore),
       writeProviderCache("api-football:automatic", "api-football", cache, { quota, requestsSpent: meta.requestsSpent }, new Date(cache.expiresAt)),
       writeProviderCache(`api-football:fixtures:${date}`, "api-football", fixturesStore[date], { quota }, new Date(fixturesStore[date].expiresAt)),
     ]);
+    await Promise.allSettled([
+      writeJson(feedCachePath, cache),
+      writeJson(fixturesCachePath, fixturesStore),
+    ]);
     return { matches, meta, updatedAt, error: matches.length ? null : "Nenhuma partida com odds foi encontrada na API-Football", cached: false };
   } catch (error) {
+    const message = error instanceof Error ? error.message : "Falha ao atualizar API-Football";
     if (previous?.matches.length) {
-      return { matches: previous.matches, meta: previous.meta, updatedAt: previous.updatedAt, error: error instanceof Error ? error.message : "Falha ao atualizar API-Football", cached: true, stale: true };
+      const retrySeconds = /account is suspended/i.test(message) ? Math.max(failureBackoffSeconds, 6 * 60 * 60) : failureBackoffSeconds;
+      const retryCache: FeedCache = { ...previous, expiresAt: Date.now() + retrySeconds * 1000, lastError: message, stale: true };
+      memoryFeedCache = retryCache;
+      memoryFeedCacheReadAt = Date.now();
+      await Promise.allSettled([
+        writeProviderCache("api-football:automatic", "api-football", retryCache, { quota: previous.meta.quota, lastError: message, stale: true }, new Date(retryCache.expiresAt)),
+        writeJson(feedCachePath, retryCache),
+      ]);
+      return { matches: previous.matches, meta: previous.meta, updatedAt: previous.updatedAt, error: message, cached: true, stale: true };
     }
-    return { matches: [], meta: null, updatedAt: null, error: error instanceof Error ? error.message : "Não foi possível atualizar a API-Football", cached: false };
+    return { matches: [], meta: null, updatedAt: null, error: message, cached: false };
   }
 }
 
@@ -449,20 +483,42 @@ export async function getApiFootballFeed(force = false): Promise<ReturnTypeResul
   if (!apiKey) return { matches: [], meta: null, updatedAt: null, error: "API_FOOTBALL_KEY não configurada", cached: false };
   const cache = await loadFeedCache();
   if (!force && cache && cache.expiresAt > Date.now()) {
-    return { matches: cache.matches, meta: cache.meta, updatedAt: cache.updatedAt, error: null, cached: true };
+    return { matches: cache.matches, meta: cache.meta, updatedAt: cache.updatedAt, error: cache.lastError ?? null, cached: true, stale: cache.stale ?? false };
   }
-  if (!feedRefreshPromise) feedRefreshPromise = refreshAutomaticFeed().finally(() => { feedRefreshPromise = null; });
+  if (!feedRefreshPromise) {
+    feedRefreshPromise = (async () => {
+      try {
+        const locked = await withProviderRefreshLock("api-football:automatic", async () => {
+          const latest = await loadFeedCache(true);
+          if (!force && latest && latest.expiresAt > Date.now()) {
+            return { matches: latest.matches, meta: latest.meta, updatedAt: latest.updatedAt, error: latest.lastError ?? null, cached: true, stale: latest.stale ?? false };
+          }
+          return refreshAutomaticFeed(latest ?? cache);
+        });
+        if (locked.acquired) return locked.value;
+        const latest = await loadFeedCache(true) ?? cache;
+        if (latest) return { matches: latest.matches, meta: latest.meta, updatedAt: latest.updatedAt, error: latest.lastError ?? "Atualização já está em andamento", cached: true, stale: true, refreshing: true };
+        return { matches: [], meta: null, updatedAt: null, error: "Atualização já está em andamento", cached: false, refreshing: true };
+      } catch {
+        return refreshAutomaticFeed(cache);
+      }
+    })().finally(() => { feedRefreshPromise = null; });
+  }
   return feedRefreshPromise;
 }
 
 export async function getApiFootballStatus() {
-  const cache = await loadFeedCache();
+  const cache = await loadFeedCache(true);
+  const quotaStale = !cache?.updatedAt || dateInSaoPaulo(cache.updatedAt) !== todayInSaoPaulo();
   return {
     configured: Boolean(process.env.API_FOOTBALL_KEY),
     matches: cache?.matches.length ?? 0,
     updatedAt: cache?.updatedAt ?? null,
     expiresAt: cache?.expiresAt ?? null,
     quota: cache?.meta.quota ?? emptyQuota,
+    quotaStale,
+    stale: Boolean(cache && (cache.stale || cache.expiresAt <= Date.now())),
+    lastError: cache?.lastError ?? null,
     cacheSeconds: apiFootballCacheSeconds,
   };
 }
@@ -485,10 +541,8 @@ export async function searchApiFootballFixtures(date: string, force = false) {
   });
   const updatedAt = new Date().toISOString();
   store[date] = { fixtures, quota: result.quota, updatedAt, expiresAt: Date.now() + adminCacheSeconds * 1000 };
-  await Promise.all([
-    writeJson(fixturesCachePath, store),
-    writeProviderCache(`api-football:fixtures:${date}`, "api-football", store[date], { quota: result.quota }, new Date(store[date].expiresAt)),
-  ]);
+  await writeProviderCache(`api-football:fixtures:${date}`, "api-football", store[date], { quota: result.quota }, new Date(store[date].expiresAt));
+  await writeJson(fixturesCachePath, store).catch(() => undefined);
   return { fixtures, quota: result.quota, requestsSpent: 1, cached: false, updatedAt };
 }
 
@@ -532,10 +586,8 @@ export async function discoverApiFootballMarkets(date: string, fixtureId: number
   const match = buildMatch(fixture, markets, minute);
   const updatedAt = new Date().toISOString();
   oddsStore[cacheKey] = { match, quota, updatedAt, expiresAt: Date.now() + adminCacheSeconds * 1000 };
-  await Promise.all([
-    writeJson(oddsCachePath, oddsStore),
-    writeProviderCache(`api-football:odds:${fixtureId}`, "api-football", oddsStore[cacheKey], { quota }, new Date(oddsStore[cacheKey].expiresAt)),
-  ]);
+  await writeProviderCache(`api-football:odds:${fixtureId}`, "api-football", oddsStore[cacheKey], { quota }, new Date(oddsStore[cacheKey].expiresAt));
+  await writeJson(oddsCachePath, oddsStore).catch(() => undefined);
   return { match, quota, requestsSpent: 1, cached: false, updatedAt };
 }
 

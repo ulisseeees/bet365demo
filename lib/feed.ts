@@ -27,6 +27,11 @@ function sameEvent(left: Match, right: Match) {
   return Math.abs(new Date(left.kickoffAt).getTime() - new Date(right.kickoffAt).getTime()) <= 12 * 60 * 60 * 1000;
 }
 
+function currentEvents(matches: Match[]) {
+  const cutoff = Date.now() - 8 * 60 * 60 * 1000;
+  return matches.filter((match) => !match.kickoffAt || new Date(match.kickoffAt).getTime() >= cutoff);
+}
+
 function mergeMarketLists(left: Market[], right: Market[]) {
   const markets = [...left];
   right.forEach((market) => {
@@ -89,11 +94,14 @@ async function decorateMatches(matches: Match[]) {
 }
 
 export async function getCombinedFeed() {
-  const [football, oddsApi, imported] = await Promise.all([
+  const [footballResult, oddsApiResult, importedResult] = await Promise.all([
     getApiFootballFeed(),
-    getAutomaticOddsFeed().catch(() => ({ matches: [] as Match[], quota: { last: null, remaining: null, used: null }, updatedAt: null, cached: false })),
+    getAutomaticOddsFeed().catch(() => ({ matches: [] as Match[], quota: { last: null, remaining: null, used: null }, updatedAt: null, expiresAt: null, cached: false, stale: true, error: "The Odds API indisponível" })),
     readImportedOdds().catch(() => [] as Match[]),
   ]);
+  const football = { ...footballResult, matches: currentEvents(footballResult.matches) };
+  const oddsApi = { ...oddsApiResult, matches: currentEvents(oddsApiResult.matches) };
+  const imported = currentEvents(importedResult);
   const rawMatches = mergeFeeds(football.matches, oddsApi.matches, imported);
   const matches = await decorateMatches(rawMatches);
   return {

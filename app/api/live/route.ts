@@ -17,8 +17,14 @@ export async function GET() {
       apiFootballQuota: football.meta?.quota ?? null,
       apiFootballCached: football.cached,
       apiFootballStale: football.stale ?? false,
+      apiFootballUpdatedAt: football.updatedAt,
+      apiFootballError: football.error,
       oddsApiQuota: oddsApi.quota,
+      oddsApiCached: oddsApi.cached,
+      oddsApiStale: oddsApi.stale ?? false,
+      oddsApiUpdatedAt: oddsApi.updatedAt,
+      oddsApiError: oddsApi.error ?? null,
     },
-    updatedAt: new Date().toISOString(),
+    updatedAt: [football.updatedAt, oddsApi.updatedAt].filter(Boolean).sort().at(-1) ?? null,
   }, { status: matches.length ? 200 : 503 });
 }

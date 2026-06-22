@@ -44,3 +44,32 @@ export async function writeProviderCache<T>(cacheKey: string, provider: string, 
       updated_at = CURRENT_TIMESTAMP
   `;
 }
+
+export async function withProviderRefreshLock<T>(cacheKey: string, callback: () => Promise<T>) {
+  await ensureDatabaseSchema();
+  const client = await sql.connect();
+  let transactionOpen = false;
+  try {
+    await client.sql`BEGIN`;
+    transactionOpen = true;
+    const lockKey = `provider-refresh:${cacheKey}`;
+    const result = await client.sql`
+      SELECT pg_try_advisory_xact_lock(hashtext(${lockKey})) AS acquired
+    `;
+    if (!result.rows[0]?.acquired) {
+      await client.sql`ROLLBACK`;
+      transactionOpen = false;
+      return { acquired: false as const, value: null };
+    }
+
+    const value = await callback();
+    await client.sql`COMMIT`;
+    transactionOpen = false;
+    return { acquired: true as const, value };
+  } catch (error) {
+    if (transactionOpen) await client.sql`ROLLBACK`.catch(() => undefined);
+    throw error;
+  } finally {
+    client.release();
+  }
+}

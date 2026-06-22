@@ -33,6 +33,10 @@ export function AdminApiFootballImporter() {
   const [quota, setQuota] = useState<Quota>({ dailyLimit: null, dailyRemaining: null, minuteLimit: null, minuteRemaining: null });
   const [cachedGames, setCachedGames] = useState(0);
   const [cacheUpdatedAt, setCacheUpdatedAt] = useState<string | null>(null);
+  const [configured, setConfigured] = useState(true);
+  const [quotaStale, setQuotaStale] = useState(false);
+  const [cacheStale, setCacheStale] = useState(false);
+  const [lastProviderError, setLastProviderError] = useState<string | null>(null);
   const [loadingStatus, setLoadingStatus] = useState(true);
   const [searching, setSearching] = useState(false);
   const [discovering, setDiscovering] = useState(false);
@@ -46,7 +50,7 @@ export function AdminApiFootballImporter() {
     let active = true;
     fetch("/api/admin/api-football/status", { cache: "no-store" })
       .then(async (response) => {
-        const payload = await response.json() as { matches?: number; updatedAt?: string | null; quota?: Quota; error?: string };
+        const payload = await response.json() as { configured?: boolean; matches?: number; updatedAt?: string | null; quota?: Quota; quotaStale?: boolean; stale?: boolean; lastError?: string | null; error?: string };
         if (!response.ok) throw new Error(payload.error ?? "Falha ao consultar o cache");
         return payload;
       })
@@ -54,6 +58,10 @@ export function AdminApiFootballImporter() {
         if (!active) return;
         setCachedGames(payload.matches ?? 0);
         setCacheUpdatedAt(payload.updatedAt ?? null);
+        setConfigured(payload.configured ?? false);
+        setQuotaStale(payload.quotaStale ?? false);
+        setCacheStale(payload.stale ?? false);
+        setLastProviderError(payload.lastError ?? null);
         if (payload.quota) setQuota(payload.quota);
       })
       .catch((cause) => { if (active) setError(cause instanceof Error ? cause.message : "Falha ao consultar o cache"); })
@@ -144,6 +152,9 @@ export function AdminApiFootballImporter() {
       setLiveMatches(combined.matches ?? payload.matches);
       setCachedGames(payload.matches.length);
       setCacheUpdatedAt(payload.updatedAt ?? new Date().toISOString());
+      setQuotaStale(false);
+      setCacheStale(false);
+      setLastProviderError(null);
       if (payload.meta?.quota) setQuota(payload.meta.quota);
       showToast("Feed atualizado", `${payload.matches.length} jogos da API-Football preservados no cache por 24 horas.`, "success");
     } catch (cause) {
@@ -160,26 +171,29 @@ export function AdminApiFootballImporter() {
       <div className="admin-card-title">
         <span><DatabaseZap size={19} /></span>
         <div><h3>Gerenciar API-Football</h3><small>Busca e odds sob demanda com cache persistente</small></div>
-        <span className="quota-pill"><Zap size={12} /> {quota.dailyRemaining ?? "—"}{quota.dailyLimit ? ` / ${quota.dailyLimit}` : ""} chamadas</span>
+        <span className="quota-pill"><Zap size={12} /> {quotaStale ? "cota pendente" : quota.dailyRemaining ?? "—"}{!quotaStale && quota.dailyLimit ? ` / ${quota.dailyLimit}` : ""} chamadas</span>
       </div>
 
       <div className="api-football-cache-bar">
         <span><ShieldCheck size={16} /><strong>{loadingStatus ? "…" : cachedGames}</strong> jogos protegidos no cache</span>
         <small>{cacheUpdatedAt ? `Atualizado em ${new Date(cacheUpdatedAt).toLocaleString("pt-BR")}` : "O primeiro carregamento criará o cache"}</small>
-        <button className="btn btn-secondary" onClick={refreshAutomaticFeed} disabled={refreshing || (quota.dailyRemaining !== null && quota.dailyRemaining < 3)}>{refreshing ? <LoaderCircle className="spin" size={15} /> : <RefreshCw size={15} />} Atualizar feed • até 3 chamadas</button>
+        <button className="btn btn-secondary" onClick={refreshAutomaticFeed} disabled={refreshing || !configured || (!quotaStale && quota.dailyRemaining !== null && quota.dailyRemaining < 3)}>{refreshing ? <LoaderCircle className="spin" size={15} /> : <RefreshCw size={15} />} Atualizar feed • até 3 chamadas</button>
       </div>
 
-      {quota.dailyRemaining !== null && quota.dailyRemaining < 10 && <div className="api-quota-warning">Limite baixo: restam {quota.dailyRemaining} chamadas hoje. O cache mantém os jogos atuais sem novo consumo.</div>}
+      {!configured && <div className="api-quota-warning">API_FOOTBALL_KEY não está configurada neste ambiente. Adicione a variável na Vercel para liberar atualizações.</div>}
+      {configured && quotaStale && <div className="api-quota-warning">A cota exibida no cache é de outro dia. O próximo refresh consulta a cota atual; nenhum valor antigo será usado para bloquear o botão.</div>}
+      {configured && cacheStale && <div className="api-quota-warning">O feed da API-Football expirou. {lastProviderError ? `Última tentativa: ${lastProviderError}` : "Uma atualização será feita automaticamente no próximo carregamento."}</div>}
+      {!quotaStale && quota.dailyRemaining !== null && quota.dailyRemaining < 10 && <div className="api-quota-warning">Limite baixo: restam {quota.dailyRemaining} chamadas hoje. O cache mantém os jogos atuais sem novo consumo.</div>}
 
       <div className="football-search-grid">
         <label><span>Data das partidas</span><div className="admin-search-input"><CalendarDays size={15} /><input type="date" value={date} onChange={(event) => setDate(event.target.value)} /></div></label>
         <label><span>Filtrar confronto ou liga</span><div className="admin-search-input"><Search size={15} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Brasil, Copa, Flamengo..." /></div></label>
-        <button className="btn btn-secondary" onClick={findFixtures} disabled={searching || quota.dailyRemaining === 0}>{searching ? <LoaderCircle className="spin" size={15} /> : <Search size={15} />} Buscar jogos • até 1 chamada</button>
+        <button className="btn btn-secondary" onClick={findFixtures} disabled={searching || !configured || (!quotaStale && quota.dailyRemaining === 0)}>{searching ? <LoaderCircle className="spin" size={15} /> : <Search size={15} />} Buscar jogos • até 1 chamada</button>
       </div>
 
       {!!fixtures.length && <label className="football-fixture-select"><span>Jogo encontrado</span><select className="text-input" value={fixtureId} onChange={(event) => { setFixtureId(Number(event.target.value)); setMarkets([]); setSelectedMarkets([]); }}><option value={0}>Selecione um jogo ({filteredFixtures.length})</option>{filteredFixtures.map((fixture) => <option key={fixture.id} value={fixture.id}>{new Date(fixture.date).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })} • {fixture.home} × {fixture.away} • {fixture.league}</option>)}</select></label>}
 
-      {selectedFixture && <div className="selected-admin-event"><DatabaseZap size={18} /><span><strong>{selectedFixture.home} × {selectedFixture.away}</strong><small>{selectedFixture.league} • {selectedFixture.country}</small></span><button className="btn btn-secondary" onClick={discoverMarkets} disabled={discovering || quota.dailyRemaining === 0}>{discovering ? <LoaderCircle className="spin" size={15} /> : <DatabaseZap size={15} />} Consultar odds • até 1 chamada</button></div>}
+      {selectedFixture && <div className="selected-admin-event"><DatabaseZap size={18} /><span><strong>{selectedFixture.home} × {selectedFixture.away}</strong><small>{selectedFixture.league} • {selectedFixture.country}</small></span><button className="btn btn-secondary" onClick={discoverMarkets} disabled={discovering || !configured || (!quotaStale && quota.dailyRemaining === 0)}>{discovering ? <LoaderCircle className="spin" size={15} /> : <DatabaseZap size={15} />} Consultar odds • até 1 chamada</button></div>}
 
       {!!markets.length && <div className="market-picker"><div className="market-picker-head"><span><strong>{selectedMarkets.length}</strong> de {markets.length} mercados selecionados</span><button onClick={() => setSelectedMarkets(selectedMarkets.length === markets.length ? [] : markets.map((market) => market.id))}>{selectedMarkets.length === markets.length ? "Limpar" : "Selecionar todos"}</button></div><div className="market-check-grid">{markets.map((market) => <label key={market.id} className={selectedMarkets.includes(market.id) ? "checked" : ""}><input type="checkbox" checked={selectedMarkets.includes(market.id)} onChange={() => toggleMarket(market.id)} /><span>{market.name}<small>{market.options} opções</small></span></label>)}</div></div>}
 

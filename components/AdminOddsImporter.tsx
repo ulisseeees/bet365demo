@@ -1,6 +1,6 @@
 "use client";
 
-import { DatabaseZap, LoaderCircle, Search, Sparkles, Zap } from "lucide-react";
+import { DatabaseZap, LoaderCircle, RefreshCw, Search, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { Match } from "@/lib/types";
 import { useBetStore } from "@/store/useBetStore";
@@ -24,6 +24,7 @@ const marketLabel = (market: string) => ({
 
 export function AdminOddsImporter() {
   const upsertLiveMatch = useBetStore((state) => state.upsertLiveMatch);
+  const setLiveMatches = useBetStore((state) => state.setLiveMatches);
   const showToast = useBetStore((state) => state.showToast);
   const [sports, setSports] = useState<SportOption[]>([]);
   const [events, setEvents] = useState<EventOption[]>([]);
@@ -34,6 +35,11 @@ export function AdminOddsImporter() {
   const [selectedMarkets, setSelectedMarkets] = useState<string[]>(featuredMarkets);
   const [quota, setQuota] = useState<Quota>({ remaining: null, used: null, last: null });
   const [loading, setLoading] = useState(true);
+  const [feedMatches, setFeedMatches] = useState(0);
+  const [feedUpdatedAt, setFeedUpdatedAt] = useState<string | null>(null);
+  const [feedStale, setFeedStale] = useState(false);
+  const [estimatedRefreshCost, setEstimatedRefreshCost] = useState(0);
+  const [refreshingFeed, setRefreshingFeed] = useState(false);
   const [discovering, setDiscovering] = useState(false);
   const [importing, setImporting] = useState(false);
   const [error, setError] = useState("");
@@ -55,6 +61,26 @@ export function AdminOddsImporter() {
       })
       .catch((cause) => { if (active) setError(cause instanceof Error ? cause.message : "Falha ao carregar esportes"); })
       .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/admin/odds/status", { cache: "no-store" })
+      .then(async (response) => {
+        const payload = await response.json() as { matches?: number; updatedAt?: string | null; stale?: boolean; quota?: Quota; estimatedRefreshCost?: number; error?: string };
+        if (!response.ok) throw new Error(payload.error ?? "Falha ao consultar o feed");
+        return payload;
+      })
+      .then((payload) => {
+        if (!active) return;
+        setFeedMatches(payload.matches ?? 0);
+        setFeedUpdatedAt(payload.updatedAt ?? null);
+        setFeedStale(payload.stale ?? false);
+        setEstimatedRefreshCost(payload.estimatedRefreshCost ?? 0);
+        if (payload.quota) setQuota(payload.quota);
+      })
+      .catch((cause) => { if (active) setError(cause instanceof Error ? cause.message : "Falha ao consultar o feed"); });
     return () => { active = false; };
   }, []);
 
@@ -134,11 +160,40 @@ export function AdminOddsImporter() {
     }
   };
 
+  const refreshAutomaticFeed = async () => {
+    if (!window.confirm(`Atualizar todas as competições da The Odds API agora? Custo máximo estimado: ${estimatedRefreshCost} créditos.`)) return;
+    setRefreshingFeed(true);
+    setError("");
+    try {
+      const response = await fetch("/api/admin/odds/refresh", { method: "POST" });
+      const payload = await response.json() as { matches?: Match[]; quota?: Quota; updatedAt?: string | null; error?: string };
+      if (!response.ok || !payload.matches) throw new Error(payload.error ?? "Falha ao atualizar a The Odds API");
+      const combinedResponse = await fetch("/api/live", { cache: "no-store" });
+      const combined = await combinedResponse.json() as { matches?: Match[] };
+      setLiveMatches(combined.matches ?? payload.matches);
+      setFeedMatches(payload.matches.length);
+      setFeedUpdatedAt(payload.updatedAt ?? new Date().toISOString());
+      setFeedStale(false);
+      if (payload.quota) setQuota(payload.quota);
+      showToast("The Odds API atualizada", `${payload.matches.length} jogos foram renovados e protegidos pelo cache diário.`, "success");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Falha ao atualizar a The Odds API");
+    } finally {
+      setRefreshingFeed(false);
+    }
+  };
+
   const toggleMarket = (market: string) => setSelectedMarkets((current) => current.includes(market) ? current.filter((item) => item !== market) : [...current, market]);
 
   return (
     <section className="admin-card admin-odds-importer">
       <div className="admin-card-title"><span><DatabaseZap size={19} /></span><div><h3>Importar jogo sob demanda</h3><small>The Odds API • eventos gratuitos, odds cobradas por mercado</small></div><span className="quota-pill"><Zap size={12} /> {quota.remaining ?? "—"} créditos</span></div>
+      <div className="api-football-cache-bar">
+        <span><ShieldCheck size={16} /><strong>{feedMatches}</strong> jogos no cache automático</span>
+        <small>{feedUpdatedAt ? `Atualizado em ${new Date(feedUpdatedAt).toLocaleString("pt-BR")}` : "O primeiro carregamento criará o cache"}</small>
+        <button className="btn btn-secondary" onClick={refreshAutomaticFeed} disabled={refreshingFeed || (quota.remaining !== null && estimatedRefreshCost > quota.remaining)}>{refreshingFeed ? <LoaderCircle className="spin" size={15} /> : <RefreshCw size={15} />} Atualizar tudo • até {estimatedRefreshCost} créditos</button>
+      </div>
+      {feedStale && <div className="api-quota-warning">O cache automático expirou ou teve atualização parcial. O site tenta novamente com intervalo de segurança para não repetir cobranças.</div>}
       <div className="odds-import-grid">
         <label><span>Esporte ou competição</span><select className="text-input" value={sport} onChange={(event) => setSport(event.target.value)} disabled={loading}>{sports.map((item) => <option key={item.key} value={item.key}>{item.title}</option>)}</select></label>
         <label><span>Buscar confronto</span><div className="admin-search-input"><Search size={15} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Brasil, Argentina, Flamengo..." /></div></label>

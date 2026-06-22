@@ -3,7 +3,7 @@ import "server-only";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Market, Match, OddOption, Sport } from "./types";
-import { readProviderCache, writeProviderCache } from "./provider-cache";
+import { readProviderCache, withProviderRefreshLock, writeProviderCache } from "./provider-cache";
 
 const API_BASE_URL = "https://api.the-odds-api.com/v4/";
 const DEFAULT_SPORTS = [
@@ -75,10 +75,23 @@ interface OddsApiBookmaker {
 }
 
 interface AutomaticCache {
+  error?: string;
   expiresAt: number;
   matches: Match[];
   quota: OddsApiQuota;
+  stale?: boolean;
   updatedAt: string;
+}
+
+interface AutomaticFeedResult {
+  cached: boolean;
+  error?: string;
+  expiresAt: number | null;
+  matches: Match[];
+  quota: OddsApiQuota;
+  refreshing?: boolean;
+  stale?: boolean;
+  updatedAt: string | null;
 }
 
 interface OddsApiResponse<T> {
@@ -98,6 +111,10 @@ function positiveInteger(value: string | undefined, fallback: number, min: numbe
   const parsed = Number(value);
   return Number.isInteger(parsed) ? Math.min(max, Math.max(min, parsed)) : fallback;
 }
+
+const automaticCacheSeconds = positiveInteger(process.env.THE_ODDS_API_CACHE_SECONDS, 86400, 900, 604800);
+const failureBackoffSeconds = positiveInteger(process.env.API_PROVIDER_FAILURE_BACKOFF_SECONDS, 900, 60, 3600);
+let automaticRefreshPromise: Promise<AutomaticFeedResult> | null = null;
 
 function quotaFromHeaders(headers: Headers): OddsApiQuota {
   const number = (name: string) => {
@@ -239,33 +256,44 @@ async function writeAutomaticCache(cache: AutomaticCache) {
   await rename(temporaryPath, automaticCachePath);
 }
 
-export async function getAutomaticOddsFeed() {
+async function loadAutomaticCache() {
   const empty: OddsApiQuota = { last: null, remaining: null, used: null };
-  let cloudCache: Awaited<ReturnType<typeof readProviderCache<Match[]>>> = null;
+  let cloudCache: AutomaticCache | null = null;
   try {
-    cloudCache = await readProviderCache<Match[]>("the-odds-api:automatic");
-    if (cloudCache && (!cloudCache.expiresAt || new Date(cloudCache.expiresAt).getTime() > Date.now())) {
-      return { matches: cloudCache.data, quota: (cloudCache.metadata.quota ?? empty) as OddsApiQuota, updatedAt: cloudCache.updatedAt, cached: true };
+    const cloud = await readProviderCache<Match[]>("the-odds-api:automatic");
+    if (cloud) {
+      cloudCache = {
+        matches: cloud.data,
+        quota: (cloud.metadata.quota ?? empty) as OddsApiQuota,
+        updatedAt: cloud.updatedAt,
+        expiresAt: cloud.expiresAt ? new Date(cloud.expiresAt).getTime() : 0,
+        stale: Boolean(cloud.metadata.stale),
+        error: typeof cloud.metadata.lastError === "string" ? cloud.metadata.lastError : undefined,
+      };
     }
   } catch {
     // O cache local mantém o desenvolvimento utilizável se o banco estiver indisponível.
   }
 
   const localCache = await readAutomaticCache().catch(() => null);
-  if (!cloudCache && localCache && localCache.expiresAt > Date.now()) {
-    writeProviderCache("the-odds-api:automatic", "the-odds-api", localCache.matches, { quota: localCache.quota }, new Date(localCache.expiresAt)).catch(() => undefined);
-    return { matches: localCache.matches, quota: localCache.quota, updatedAt: localCache.updatedAt, cached: true };
+  if (!cloudCache && localCache) {
+    writeProviderCache("the-odds-api:automatic", "the-odds-api", localCache.matches, { quota: localCache.quota, stale: localCache.stale ?? false, lastError: localCache.error ?? null }, new Date(localCache.expiresAt)).catch(() => undefined);
   }
+  return cloudCache ?? localCache;
+}
 
+async function refreshAutomaticOddsFeed(previous: AutomaticCache | null): Promise<AutomaticFeedResult> {
   if (!process.env.THE_ODDS_API_KEY) {
-    return { matches: cloudCache?.data ?? localCache?.matches ?? [], quota: (cloudCache?.metadata.quota ?? localCache?.quota ?? empty) as OddsApiQuota, updatedAt: cloudCache?.updatedAt ?? localCache?.updatedAt ?? null, cached: true };
+    return { matches: previous?.matches ?? [], quota: previous?.quota ?? { last: null, remaining: null, used: null }, updatedAt: previous?.updatedAt ?? null, expiresAt: previous?.expiresAt ?? null, cached: true, stale: true, error: "THE_ODDS_API_KEY não configurada" };
   }
 
   const sportKeys = envList("THE_ODDS_API_SPORTS", DEFAULT_SPORTS);
   const markets = envList("THE_ODDS_API_MARKETS", DEFAULT_MARKETS);
   const regions = envList("THE_ODDS_API_REGIONS", DEFAULT_REGIONS);
   const matches: Match[] = [];
-  let quota: OddsApiQuota = { last: null, remaining: null, used: null };
+  const errors: string[] = [];
+  let successfulSports = 0;
+  let quota: OddsApiQuota = previous?.quota ?? { last: null, remaining: null, used: null };
 
   for (const sportKey of sportKeys) {
     try {
@@ -276,23 +304,71 @@ export async function getAutomaticOddsFeed() {
         dateFormat: "iso",
       });
       quota = result.quota;
+      successfulSports += 1;
       matches.push(...result.data.flatMap((event) => {
         const mapped = mapOddsApiEvent(event);
         return mapped ? [mapped] : [];
       }));
-    } catch {
-      // Uma competição indisponível não derruba as outras fontes.
+    } catch (error) {
+      errors.push(error instanceof Error ? `${sportKey}: ${error.message}` : `${sportKey}: falha na consulta`);
+      matches.push(...(previous?.matches ?? []).filter((match) => match.external?.sportKey === sportKey));
     }
   }
 
+  if (!successfulSports) {
+    const message = errors[0] ?? "Não foi possível atualizar a The Odds API";
+    if (!previous?.matches.length) throw new Error(message);
+    const retryCache: AutomaticCache = { ...previous, error: message, stale: true, expiresAt: Date.now() + failureBackoffSeconds * 1000 };
+    await Promise.allSettled([
+      writeProviderCache("the-odds-api:automatic", "the-odds-api", retryCache.matches, { quota: retryCache.quota, stale: true, lastError: message }, new Date(retryCache.expiresAt)),
+      writeAutomaticCache(retryCache),
+    ]);
+    return { ...retryCache, cached: true };
+  }
+
   const updatedAt = new Date().toISOString();
-  const cacheSeconds = positiveInteger(process.env.THE_ODDS_API_CACHE_SECONDS, 86400, 900, 604800);
-  const nextCache = { matches, quota, updatedAt, expiresAt: Date.now() + cacheSeconds * 1000 };
-  await Promise.all([
-    writeAutomaticCache(nextCache),
-    writeProviderCache("the-odds-api:automatic", "the-odds-api", matches, { quota }, new Date(nextCache.expiresAt)),
-  ]);
-  return { matches, quota, updatedAt, cached: false };
+  const nextCache: AutomaticCache = { matches, quota, updatedAt, expiresAt: Date.now() + automaticCacheSeconds * 1000, stale: errors.length > 0, error: errors[0] };
+  await writeProviderCache("the-odds-api:automatic", "the-odds-api", matches, { quota, stale: nextCache.stale ?? false, lastError: nextCache.error ?? null, successfulSports, totalSports: sportKeys.length }, new Date(nextCache.expiresAt));
+  await writeAutomaticCache(nextCache).catch(() => undefined);
+  return { ...nextCache, cached: false };
+}
+
+export async function getAutomaticOddsFeed(force = false): Promise<AutomaticFeedResult> {
+  const cache = await loadAutomaticCache();
+  if (!force && cache && cache.expiresAt > Date.now()) return { ...cache, cached: true };
+  if (!automaticRefreshPromise) {
+    automaticRefreshPromise = (async () => {
+      try {
+        const locked = await withProviderRefreshLock("the-odds-api:automatic", async () => {
+          const latest = await loadAutomaticCache();
+          if (!force && latest && latest.expiresAt > Date.now()) return { ...latest, cached: true };
+          return refreshAutomaticOddsFeed(latest ?? cache);
+        });
+        if (locked.acquired) return locked.value;
+        const latest = await loadAutomaticCache() ?? cache;
+        if (latest) return { ...latest, cached: true, stale: true, refreshing: true, error: latest.error ?? "Atualização já está em andamento" };
+        return { matches: [], quota: { last: null, remaining: null, used: null }, updatedAt: null, expiresAt: null, cached: false, refreshing: true, error: "Atualização já está em andamento" };
+      } catch {
+        return refreshAutomaticOddsFeed(cache);
+      }
+    })().finally(() => { automaticRefreshPromise = null; });
+  }
+  return automaticRefreshPromise;
+}
+
+export async function getAutomaticOddsStatus() {
+  const cache = await loadAutomaticCache();
+  return {
+    configured: Boolean(process.env.THE_ODDS_API_KEY),
+    matches: cache?.matches.length ?? 0,
+    quota: cache?.quota ?? { last: null, remaining: null, used: null },
+    updatedAt: cache?.updatedAt ?? null,
+    expiresAt: cache?.expiresAt ?? null,
+    stale: Boolean(cache && (cache.stale || cache.expiresAt <= Date.now())),
+    lastError: cache?.error ?? null,
+    cacheSeconds: automaticCacheSeconds,
+    estimatedRefreshCost: estimateAutomaticOddsApiCost(),
+  };
 }
 
 export async function getOddsApiSports() {
@@ -323,6 +399,12 @@ export async function getOddsApiEventOdds(sportKey: string, eventId: string, mar
 
 export function estimateOddsApiCost(markets: number) {
   return Math.max(0, markets) * envList("THE_ODDS_API_REGIONS", DEFAULT_REGIONS).length;
+}
+
+export function estimateAutomaticOddsApiCost() {
+  return envList("THE_ODDS_API_SPORTS", DEFAULT_SPORTS).length
+    * envList("THE_ODDS_API_MARKETS", DEFAULT_MARKETS).length
+    * envList("THE_ODDS_API_REGIONS", DEFAULT_REGIONS).length;
 }
 
 export async function getOddsApiScores(sportKey: string, daysFrom = 3) {

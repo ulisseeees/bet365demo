@@ -7,12 +7,19 @@ import { ensureDatabaseSchema } from "./database";
 
 const dataDirectory = path.join(process.cwd(), "data");
 const importedPath = path.join(dataDirectory, "imported-odds.json");
+const maximumPastEventAgeMs = 8 * 60 * 60 * 1000;
+
+function currentEvents(matches: Match[]) {
+  const cutoff = Date.now() - maximumPastEventAgeMs;
+  return matches.filter((match) => !match.kickoffAt || new Date(match.kickoffAt).getTime() >= cutoff);
+}
 
 export async function readImportedOdds(): Promise<Match[]> {
   await ensureDatabaseSchema();
   try {
     const { rows } = await sql`
       SELECT match_data FROM imported_matches
+      WHERE kickoff_at IS NULL OR kickoff_at >= CURRENT_TIMESTAMP - INTERVAL '8 hours'
       ORDER BY updated_at DESC;
     `;
     
@@ -25,7 +32,7 @@ export async function readImportedOdds(): Promise<Match[]> {
 
   // 2. PLANO DE RESERVA: Se o banco estiver vazio, lê o arquivo JSON que você enviou
   try {
-    return JSON.parse(await readFile(importedPath, "utf8")) as Match[];
+    return currentEvents(JSON.parse(await readFile(importedPath, "utf8")) as Match[]);
   } catch {
     return [];
   }
