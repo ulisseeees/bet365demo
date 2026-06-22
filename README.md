@@ -176,6 +176,23 @@ HIGHLIGHTLY_RESOLVE_CACHE_SECONDS=21600
 - Partidas sem apostas pendentes não geram chamadas.
 - O plano gratuito não fornece coordenadas da bola. O mapa exibido é um mapa de pressão baseado em posse e finalizações reais.
 
+## Enriquecimento visual: TheSportsDB
+
+A TheSportsDB funciona como uma camada opcional de apresentação. Ela não publica jogos, não altera odds e nunca participa da liquidação. Ao abrir o detalhe de um evento, o servidor procura o confronto na API v1 e acrescenta, quando disponível, escudos, arte oficial/comunitária, estádio, cidade, temporada, rodada e grupo.
+
+```env
+THESPORTSDB_API_KEY=123
+THESPORTSDB_CACHE_SECONDS=2592000
+THESPORTSDB_NEGATIVE_CACHE_SECONDS=21600
+```
+
+- A chave gratuita pública oficial é `123` e possui limite de 30 chamadas por minuto.
+- Apenas eventos abertos pelo usuário geram consulta; a listagem principal nunca dispara buscas em massa.
+- Resultados encontrados ficam 30 dias no Postgres. Buscas sem correspondência ficam 6 horas para permitir nova tentativa posteriormente.
+- Requisições simultâneas para o mesmo evento compartilham uma trava e não duplicam consumo.
+- As imagens são entregues pelo componente otimizado do Next.js e têm fallback para as siglas atuais.
+- Qualquer falha ou ausência de cadastro na TheSportsDB é silenciosa e não interfere no sportsbook.
+
 ## Deploy automático na Vercel
 
 Quando o projeto Vercel está conectado ao repositório GitHub e à branch `main`, cada push gera um novo deploy automaticamente:

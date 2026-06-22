@@ -37,6 +37,26 @@ export interface Match {
   tracking?: { enabled: boolean; lastCheckedAt?: string | null };
 }
 
+export interface MatchEnrichment {
+  source: "thesportsdb";
+  eventId: string;
+  leagueId?: string;
+  homeTeamId?: string;
+  awayTeamId?: string;
+  homeBadge?: string;
+  awayBadge?: string;
+  leagueBadge?: string;
+  eventThumb?: string;
+  eventPoster?: string;
+  eventBanner?: string;
+  venue?: string;
+  city?: string;
+  country?: string;
+  season?: string;
+  round?: string;
+  group?: string;
+}
+
 export interface LiveMatchEvent {
   time: string;
   type: string;

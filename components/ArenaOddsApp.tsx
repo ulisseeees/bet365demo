@@ -153,14 +153,14 @@ export function ArenaOddsApp() {
               </div>
             </section>
 
-            <HomePromotions matches={matches} onOpenMatch={(match) => { setSelectedMatchId(match.id); setView("event"); window.scrollTo({ top: 0, behavior: "smooth" }); }} onOpenRewards={() => setView("rewards")} />
+            <HomePromotions matches={matches} onOpenMatch={(match) => { setSelectedMatchId(match.id); setView("event"); }} onOpenRewards={() => setView("rewards")} />
 
             <section className="content-grid" id="events">
               <div className="events-column">
                 <label className="event-search"><Search size={18} /><span><small>BUSCAR EVENTO</small><input value={eventSearch} onChange={(event) => setEventSearch(event.target.value)} placeholder="Digite time, seleção, liga ou competição..." /></span>{eventSearch && <button onClick={() => setEventSearch("")} aria-label="Limpar pesquisa"><X size={16} /></button>}</label>
                 <div className="section-heading"><div><span className="eyebrow">ARENA DE EVENTOS</span><h2>Jogos com odds reais</h2><p>{dataMode === "api" ? feedMessage : `Nenhum jogo fictício é exibido. ${feedMessage}`}</p></div><div className="event-tabs"><button className={matchFilter === "all" ? "active" : ""} onClick={() => setMatchFilter("all")}><BarChart3 size={15} /> Todos</button><button className={matchFilter === "live" ? "active" : ""} onClick={() => setMatchFilter("live")}><Radio size={15} /> Ao vivo</button><button className={matchFilter === "upcoming" ? "active" : ""} onClick={() => setMatchFilter("upcoming")}><Clock3 size={15} /> Próximos</button></div></div>
                 {syncing && <div className="sync-skeleton"><span /><span /><span /></div>}
-                <div className="match-list">{visibleMatches.map((match, index) => <MatchCard key={match.id} match={match} index={index} onOpen={(item) => { setSelectedMatchId(item.id); setView("event"); window.scrollTo({ top: 0, behavior: "smooth" }); }} />)}</div>
+                <div className="match-list">{visibleMatches.map((match, index) => <MatchCard key={match.id} match={match} index={index} onOpen={(item) => { setSelectedMatchId(item.id); setView("event"); }} />)}</div>
                 {!visibleMatches.length && <div className="empty-history">{dataMode === "unavailable" ? feedMessage : eventSearch ? `Nenhum evento encontrado para “${eventSearch}”.` : "Nenhum evento real encontrado neste filtro."}</div>}
               </div>
               <aside className="home-rail">

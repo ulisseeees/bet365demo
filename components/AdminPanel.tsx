@@ -20,12 +20,12 @@ export function AdminPanel() {
       <div className="admin-banner"><span><ShieldCheck size={25} /></span><div><small>ÁREA RESTRITA</small><h1>Painel administrativo</h1><p>Gerencie saldo, acompanhe o feed real e liquide apostas.</p></div><StatusBadge status="approved" /></div>
       <div className="admin-grid feed-admin-grid">
         <section className="admin-card">
-          <div className="admin-card-title"><span><Database size={19} /></span><div><h3>Feed combinado</h3><small>API-Football + The Odds API + Odds-API.io</small></div></div>
+          <div className="admin-card-title"><span><Database size={19} /></span><div><h3>Feed combinado</h3><small>3 fontes de odds • TheSportsDB enriquece os detalhes</small></div></div>
           <div className="admin-feed-stats">
             <div><Activity size={18} /><span><strong>{matches.length}</strong><small>eventos carregados</small></span></div>
             <div><SlidersHorizontal size={18} /><span><strong>{marketCount}</strong><small>mercados disponíveis</small></span></div>
           </div>
-          <p className="admin-feed-note">A criação manual de partidas foi removida. Esta tela agora reflete exclusivamente os dados recebidos da API.</p>
+          <p className="admin-feed-note">Odds e liquidação continuam isoladas dos metadados visuais. A TheSportsDB é consultada somente quando um evento é aberto e utiliza cache persistente.</p>
         </section>
       </div>
       <AdminDatabasePanel />
