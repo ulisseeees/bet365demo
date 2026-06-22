@@ -37,6 +37,48 @@ export interface Match {
   tracking?: { enabled: boolean; lastCheckedAt?: string | null };
 }
 
+export interface LiveMatchEvent {
+  time: string;
+  type: string;
+  teamId?: number;
+  team: string;
+  player?: string;
+  assist?: string;
+}
+
+export interface LiveMatchStatistic {
+  name: string;
+  home: number | null;
+  away: number | null;
+}
+
+export interface LiveTopPlayer {
+  team: "home" | "away";
+  name: string;
+  position?: string;
+  rating?: string;
+}
+
+export interface LiveMatchSnapshot {
+  matchId: string;
+  highlightlyId?: number | null;
+  resolved: boolean;
+  status: MatchStatus | "unresolved";
+  statusLabel: string;
+  home: string;
+  away: string;
+  kickoffAt?: string | null;
+  clock?: number | null;
+  score?: [number, number] | null;
+  events: LiveMatchEvent[];
+  statistics: LiveMatchStatistic[];
+  topPlayers: LiveTopPlayer[];
+  pressure: { home: number; away: number };
+  lastUpdatedAt?: string | null;
+  nextUpdateAt?: string | null;
+  quota?: { remaining: number | null; limit: number | null };
+}
+
 export interface BetSelection {
   id: string;
   matchId: string;

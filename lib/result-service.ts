@@ -5,9 +5,10 @@ import { getApiFootballResults } from "./api-football";
 import { settleBet } from "./account-service";
 import { ensureDatabaseSchema } from "./database";
 import { getCombinedFeed } from "./feed";
+import { refreshHighlightlyTrackedMatches } from "./highlightly";
 import { getOddsApiIoResult } from "./odds-api-io";
 import { getConfiguredOddsApiSportKeys, getOddsApiScores } from "./the-odds-api";
-import type { BetSelection, Match } from "./types";
+import type { BetSelection, LiveMatchEvent, LiveMatchStatistic, Match } from "./types";
 
 interface MatchResult {
   matchId: string;
@@ -19,10 +20,13 @@ interface MatchResult {
   homeGoals: number | null;
   awayGoals: number | null;
   minute?: number | null;
+  events?: LiveMatchEvent[];
+  statistics?: LiveMatchStatistic[];
 }
 
 const finishedStatuses = new Set(["FT", "AET", "PEN", "AWD", "WO"]);
 const cancelledStatuses = new Set(["CANC", "ABD", "PST"]);
+const highlightlyCancelledStatuses = new Set(["postponed", "cancelled", "abandoned"]);
 const liveStatuses = new Set(["1H", "HT", "2H", "ET", "BT", "P", "LIVE"]);
 const normalize = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
@@ -113,6 +117,42 @@ function parseLine(label: string) {
   return result ? Number(result[1]) : null;
 }
 
+function matchStatistic(result: MatchResult, pattern: RegExp) {
+  return result.statistics?.find((item) => pattern.test(normalize(item.name))) ?? null;
+}
+
+function playerScored(selection: BetSelection, result: MatchResult) {
+  const selectedPlayer = normalize(selection.selectionLabel.split(/—| - /)[0].trim());
+  return Boolean(selectedPlayer && result.events?.some((event) => /goal|penalty/i.test(event.type) && !/missed|cancelled|own goal/i.test(event.type) && normalize(event.player ?? "").includes(selectedPlayer)));
+}
+
+function evaluateGuaranteedLiveSelection(selection: BetSelection, result: MatchResult): "green" | "red" | null {
+  if (result.homeGoals == null || result.awayGoals == null) return null;
+  const market = normalize(selection.marketName);
+  const label = normalize(selection.selectionLabel);
+  const total = result.homeGoals + result.awayGoals;
+  if (market.includes("jogador marca") || market.includes("goalscorer") || market.includes("gols do jogador")) return playerScored(selection, result) ? "green" : null;
+  if ((market.includes("total de gols") || market.includes("linha de gols")) && !market.includes("tempo")) {
+    const line = parseLine(label);
+    if (line == null) return null;
+    if (label.includes("mais de") && total > line) return "green";
+    if (label.includes("menos de") && total > line) return "red";
+  }
+  if (market.includes("ambas marcam") && result.homeGoals > 0 && result.awayGoals > 0) {
+    if (label === "sim") return "green";
+    if (label === "nao") return "red";
+  }
+  if (market.includes("escanteio") || market.includes("corner")) {
+    const corners = matchStatistic(result, /corner|escanteio/);
+    const line = parseLine(label);
+    if (!corners || corners.home == null || corners.away == null || line == null) return null;
+    const current = corners.home + corners.away;
+    if (label.includes("mais de") && current > line) return "green";
+    if (label.includes("menos de") && current > line) return "red";
+  }
+  return null;
+}
+
 function evaluateSelection(selection: BetSelection, result: MatchResult): "green" | "red" | "void" | null {
   if (result.cancelled) return "void";
   if (!result.finished || result.homeGoals == null || result.awayGoals == null) return null;
@@ -178,6 +218,16 @@ function evaluateSelection(selection: BetSelection, result: MatchResult): "green
     if (!score) return null;
     return Number(score[1]) === result.homeGoals && Number(score[2]) === result.awayGoals ? "green" : "red";
   }
+  if (market.includes("jogador marca") || market.includes("goalscorer") || market.includes("gols do jogador")) return playerScored(selection, result) ? "green" : "red";
+  if (market.includes("escanteio") || market.includes("corner")) {
+    const corners = matchStatistic(result, /corner|escanteio/);
+    const line = parseLine(label);
+    if (!corners || corners.home == null || corners.away == null || line == null) return null;
+    const current = corners.home + corners.away;
+    if (current === line) return "void";
+    if (label.includes("mais de")) return current > line ? "green" : "red";
+    if (label.includes("menos de")) return current < line ? "green" : "red";
+  }
   return null;
 }
 
@@ -206,24 +256,24 @@ async function persistMatchResult(result: MatchResult) {
 }
 
 async function liquidateFromResult(result: MatchResult) {
-  if (!result.finished && !result.cancelled) return { evaluated: 0, settled: 0, manual: 0 };
   const { rows } = await sql`
     SELECT bs.* FROM bet_selections bs
     JOIN bets b ON b.id = bs.bet_id
-    WHERE bs.match_id = ${result.matchId} AND b.status = 'pending' AND bs.result = 'pending'
+    WHERE bs.match_id = ${result.matchId} AND b.status = 'pending'
   `;
   let evaluated = 0;
   let manual = 0;
   for (const row of rows) {
+    if (String(row.result) !== "pending") continue;
     const selection = {
       id: row.id, matchId: row.match_id, marketId: row.market_id, optionId: row.option_id,
       matchLabel: row.match_label, marketName: row.market_name, selectionLabel: row.selection_label, odd: Number(row.odd),
     } as BetSelection;
-    const outcome = evaluateSelection(selection, result);
+    const outcome = result.finished || result.cancelled ? evaluateSelection(selection, result) : evaluateGuaranteedLiveSelection(selection, result);
     if (outcome) {
       await sql`UPDATE bet_selections SET result = ${outcome} WHERE id = ${selection.id}`;
       evaluated += 1;
-    } else manual += 1;
+    } else if (result.finished || result.cancelled) manual += 1;
   }
   const affected = [...new Set(rows.map((row) => String(row.bet_id)))];
   let settled = 0;
@@ -233,12 +283,41 @@ async function liquidateFromResult(result: MatchResult) {
     if (statuses.includes("red")) {
       await settleBet(betId, "red");
       settled += 1;
-    } else if (statuses.every((status) => status === "green" || status === "void")) {
+    } else if ((result.finished || result.cancelled) && statuses.every((status) => status === "green" || status === "void")) {
       await settleBet(betId, statuses.every((status) => status === "void") ? "void" : "green");
       settled += 1;
     }
   }
   return { evaluated, settled, manual };
+}
+
+export async function updateHighlightlyLiveResults(userId?: string) {
+  await ensureDatabaseSchema();
+  const snapshots = await refreshHighlightlyTrackedMatches({ userId });
+  let evaluated = 0;
+  let settled = 0;
+  let manual = 0;
+  for (const snapshot of snapshots) {
+    const cancelled = highlightlyCancelledStatuses.has(snapshot.statusLabel.toLowerCase());
+    if (snapshot.status !== "live" && snapshot.status !== "finished" && !cancelled) continue;
+    const liquidation = await liquidateFromResult({
+      matchId: snapshot.matchId,
+      status: snapshot.statusLabel,
+      finished: snapshot.status === "finished",
+      cancelled,
+      home: snapshot.home,
+      away: snapshot.away,
+      homeGoals: snapshot.score?.[0] ?? null,
+      awayGoals: snapshot.score?.[1] ?? null,
+      minute: snapshot.clock,
+      events: snapshot.events,
+      statistics: snapshot.statistics,
+    });
+    evaluated += liquidation.evaluated;
+    settled += liquidation.settled;
+    manual += liquidation.manual;
+  }
+  return { snapshots, evaluated, settled, manual };
 }
 
 export async function updateTrackedResults(options: { force?: boolean; matchIds?: string[] } = {}) {

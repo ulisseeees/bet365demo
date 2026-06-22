@@ -13,9 +13,10 @@ async function createSchema() {
       to_regclass('public.tracked_matches') AS tracked_matches,
       to_regclass('public.super_odds') AS super_odds,
       to_regclass('public.missions') AS missions,
-      to_regclass('public.user_missions') AS user_missions
+      to_regclass('public.user_missions') AS user_missions,
+      to_regclass('public.highlightly_tracking') AS highlightly_tracking
   `;
-  if (ready.rows[0]?.wallets && ready.rows[0]?.bets && ready.rows[0]?.provider_cache && ready.rows[0]?.tracked_matches && ready.rows[0]?.super_odds && ready.rows[0]?.missions && ready.rows[0]?.user_missions) return;
+  if (ready.rows[0]?.wallets && ready.rows[0]?.bets && ready.rows[0]?.provider_cache && ready.rows[0]?.tracked_matches && ready.rows[0]?.super_odds && ready.rows[0]?.missions && ready.rows[0]?.user_missions && ready.rows[0]?.highlightly_tracking) return;
 
   await sql`
     CREATE TABLE IF NOT EXISTS users (
@@ -199,6 +200,25 @@ async function createSchema() {
       PRIMARY KEY (user_id, mission_id)
     )
   `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS highlightly_tracking (
+      match_id VARCHAR(255) PRIMARY KEY,
+      highlightly_id BIGINT,
+      home_name VARCHAR(255) NOT NULL,
+      away_name VARCHAR(255) NOT NULL,
+      kickoff_at TIMESTAMPTZ,
+      status VARCHAR(40) NOT NULL DEFAULT 'unresolved',
+      live_data JSONB NOT NULL DEFAULT '{}'::jsonb,
+      resolved_at TIMESTAMPTZ,
+      last_polled_at TIMESTAMPTZ,
+      next_poll_at TIMESTAMPTZ,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+  `;
+
+  await sql`CREATE INDEX IF NOT EXISTS highlightly_tracking_provider_idx ON highlightly_tracking(highlightly_id)`;
+  await sql`CREATE INDEX IF NOT EXISTS highlightly_tracking_poll_idx ON highlightly_tracking(status, next_poll_at)`;
 
   await sql`
     INSERT INTO promotions (id, type, title, description, config)

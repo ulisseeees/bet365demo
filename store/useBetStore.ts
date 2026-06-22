@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { correlationError } from "@/lib/bet-validation";
 import { clampMoney, uid } from "@/lib/utils";
-import type { AccountSnapshot, Bet, BetSelection, BetStatus, LoyaltyLevel, Match, Mission, Promotion, ReceiptData, Sport, ToastMessage, Transaction } from "@/lib/types";
+import type { AccountSnapshot, Bet, BetSelection, BetStatus, LiveMatchSnapshot, LoyaltyLevel, Match, Mission, Promotion, ReceiptData, Sport, ToastMessage, Transaction } from "@/lib/types";
 
 interface BetStore {
   activeUserId: string | null;
@@ -19,6 +19,7 @@ interface BetStore {
   bets: Bet[];
   transactions: Transaction[];
   matches: Match[];
+  liveTracking: Record<string, LiveMatchSnapshot>;
   betSlip: BetSelection[];
   stake: number;
   useFreeBet: boolean;
@@ -27,6 +28,7 @@ interface BetStore {
   lastReceipt: ReceiptData | null;
   activateAccount: (userId: string) => Promise<void>;
   hydrateAccount: () => Promise<void>;
+  hydrateLiveTracking: () => Promise<void>;
   deactivateAccount: () => void;
   setSelectedSport: (sport: Sport) => void;
   setStake: (stake: number) => void;
@@ -88,6 +90,7 @@ export const useBetStore = create<BetStore>((set, get) => ({
   accountLoading: false,
   ...emptyAccount,
   matches: [],
+  liveTracking: {},
   betSlip: [],
   stake: 25,
   useFreeBet: false,
@@ -96,7 +99,7 @@ export const useBetStore = create<BetStore>((set, get) => ({
   lastReceipt: null,
 
   activateAccount: async (userId) => {
-    set({ activeUserId: userId, accountLoading: true, ...emptyAccount, betSlip: [], useFreeBet: false, lastReceipt: null });
+    set({ activeUserId: userId, accountLoading: true, ...emptyAccount, liveTracking: {}, betSlip: [], useFreeBet: false, lastReceipt: null });
     try {
       const legacy = legacyAccount(userId);
       const payload = legacy
@@ -118,7 +121,23 @@ export const useBetStore = create<BetStore>((set, get) => ({
       get().showToast("Falha ao atualizar", error instanceof Error ? error.message : "Tente novamente.", "danger");
     }
   },
-  deactivateAccount: () => set({ activeUserId: null, accountLoading: false, ...emptyAccount, betSlip: [], stake: 25, useFreeBet: false, lastReceipt: null }),
+  hydrateLiveTracking: async () => {
+    if (!get().activeUserId || !get().bets.some((bet) => bet.status === "pending")) {
+      set({ liveTracking: {} });
+      return;
+    }
+    try {
+      const response = await fetch("/api/account/live-tracking", { cache: "no-store" });
+      const payload = await response.json() as { matches?: LiveMatchSnapshot[]; settled?: number };
+      if (response.ok) {
+        set({ liveTracking: Object.fromEntries((payload.matches ?? []).map((match) => [match.matchId, match])) });
+        if ((payload.settled ?? 0) > 0) await get().hydrateAccount();
+      }
+    } catch {
+      // O histórico continua funcional se o provedor ao vivo estiver momentaneamente indisponível.
+    }
+  },
+  deactivateAccount: () => set({ activeUserId: null, accountLoading: false, ...emptyAccount, liveTracking: {}, betSlip: [], stake: 25, useFreeBet: false, lastReceipt: null }),
   setSelectedSport: (selectedSport) => set({ selectedSport }),
   setStake: (stake) => set({ stake: clampMoney(stake) }),
   setUseFreeBet: (useFreeBet) => set({ useFreeBet }),

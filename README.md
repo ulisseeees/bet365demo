@@ -156,6 +156,24 @@ O padrão de 20 eventos em três esportes custa no máximo 9 requisições por a
 
 No plano Free não é usado WebSocket. O painel Admin mostra a cota horária, a última atualização, o número de jogos importados e o custo máximo antes de permitir uma atualização manual.
 
+## Acompanhamento ao vivo: Highlightly
+
+A Highlightly é usada somente para partidas de futebol presentes em apostas pendentes. Ela não adiciona jogos nem odds ao feed; o vínculo é feito por times, data e horário com os eventos já recebidos das APIs de odds.
+
+```env
+HIGHLIGHTLY_API_KEY=sua_chave_aqui
+HIGHLIGHTLY_LIVE_CACHE_SECONDS=120
+HIGHLIGHTLY_RESOLVE_CACHE_SECONDS=21600
+```
+
+- Uma aposta cria automaticamente o registro de rastreamento.
+- O ID da Highlightly é resolvido somente quando o jogo está a menos de 24 horas do início.
+- `GET /matches/{id}` entrega placar, relógio, eventos, estatísticas e destaques em uma chamada.
+- A interface consulta o banco a cada 15 segundos; a API externa respeita cache adaptativo de 2 a 5+ minutos conforme o número de partidas simultâneas.
+- Sem usuário assistindo, o cron mantém o acompanhamento em segundo plano a cada 5 minutos.
+- Partidas sem apostas pendentes não geram chamadas.
+- O plano gratuito não fornece coordenadas da bola. O mapa exibido é um mapa de pressão baseado em posse e finalizações reais.
+
 ## Deploy automático na Vercel
 
 Quando o projeto Vercel está conectado ao repositório GitHub e à branch `main`, cada push gera um novo deploy automaticamente:
@@ -186,12 +204,12 @@ Cada usuário possui carteira, apostas e histórico isolados no Postgres. Contas
 ## Resultados, cash out e contingência
 
 - O acompanhamento é ativado por jogo; partidas não monitoradas não consomem consultas.
-- O cron `/api/cron/results` roda a cada 10 minutos e exige `CRON_SECRET`.
+- O cron `/api/cron/results` roda a cada 5 minutos e exige `CRON_SECRET`.
 - API-Football agrupa até 20 IDs em uma consulta; The Odds API agrupa por competição.
 - Resultado, dupla chance, ambas marcam, total de gols, empate-anula e placar exato possuem liquidação automática.
-- Mercados que exigem estatísticas extras, como escanteios e alguns mercados por tempo, permanecem pendentes para revisão no Admin.
-- O cash out recalcula a oferta pelas odds atuais, trava a aposta no Postgres e credita o saldo atomicamente.
-- Seleções do mesmo jogo são bloqueadas quando não existe uma odd conjunta fornecida pelo provedor, evitando multiplicação artificial de mercados correlacionados.
+- Mercados de escanteios e jogador são avaliados automaticamente quando a Highlightly fornece os eventos/estatísticas necessários; mercados sem dados suficientes continuam disponíveis para revisão no Admin.
+- O cash out combina as odds atuais com placar, minuto, gols, eventos e estado ao vivo, trava a aposta no Postgres e credita o saldo atomicamente.
+- Seleções compatíveis do mesmo jogo podem ser combinadas; duplicidades e combinações impossíveis continuam bloqueadas.
 
 ## O que informar para personalizar o feed
 

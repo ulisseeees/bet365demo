@@ -44,6 +44,7 @@ export function ArenaOddsApp() {
   const activateAccount = useBetStore((state) => state.activateAccount);
   const deactivateAccount = useBetStore((state) => state.deactivateAccount);
   const hydrateAccount = useBetStore((state) => state.hydrateAccount);
+  const hydrateLiveTracking = useBetStore((state) => state.hydrateLiveTracking);
 
   useEffect(() => {
     window.localStorage.removeItem("arenaodds-sim-v1");
@@ -107,6 +108,14 @@ export function ArenaOddsApp() {
     const interval = window.setInterval(() => hydrateAccount(), 60000);
     return () => window.clearInterval(interval);
   }, [user, hydrateAccount]);
+
+  useEffect(() => {
+    if (!user || pendingCount === 0) return;
+    const sync = () => { if (document.visibilityState === "visible") hydrateLiveTracking(); };
+    sync();
+    const interval = window.setInterval(sync, 15000);
+    return () => window.clearInterval(interval);
+  }, [user, pendingCount, hydrateLiveTracking]);
 
   const authenticated = (nextUser: AuthUser) => {
     activateAccount(nextUser.id);

@@ -8,6 +8,7 @@ import { AdminOddsImporter } from "./AdminOddsImporter";
 import { AdminOddsApiIo } from "./AdminOddsApiIo";
 import { AdminOperations } from "./AdminOperations";
 import { AdminDatabasePanel } from "./AdminDatabasePanel";
+import { AdminHighlightlyStatus } from "./AdminHighlightlyStatus";
 
 export function AdminPanel() {
   const matches = useBetStore((state) => state.matches);
@@ -27,6 +28,7 @@ export function AdminPanel() {
         </section>
       </div>
       <AdminDatabasePanel />
+      <AdminHighlightlyStatus />
       <AdminApiFootballImporter />
       <AdminOddsImporter />
       <AdminOddsApiIo />

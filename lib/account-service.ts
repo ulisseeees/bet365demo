@@ -3,7 +3,8 @@ import "server-only";
 import { sql } from "@vercel/postgres";
 import { ensureDatabaseSchema, withTransaction } from "./database";
 import { getCombinedFeed } from "./feed";
-import type { AccountSnapshot, AuthUser, Bet, BetSelection, BetStatus, LoyaltyLevel, Match, Mission, Promotion, ReceiptData, Transaction } from "./types";
+import { refreshHighlightlyTrackedMatches } from "./highlightly";
+import type { AccountSnapshot, AuthUser, Bet, BetSelection, BetStatus, LiveMatchSnapshot, LoyaltyLevel, Match, Mission, Promotion, ReceiptData, Transaction } from "./types";
 import { clampMoney, uid } from "./utils";
 import { correlationError } from "./bet-validation";
 
@@ -228,17 +229,29 @@ export async function placeAccountBet(user: AuthUser, requestSelections: BetSele
       `;
     }
     for (const match of [...matchedById.values()]) {
-      if (!match.external) continue;
-      await client.sql`
-        INSERT INTO tracked_matches (match_id, provider, external_id, sport_key, enabled, check_interval_seconds, last_status)
-        VALUES (${match.id}, ${match.external.provider}, ${match.external.id}, ${match.external.sportKey ?? null}, TRUE, 300, ${match.status})
-        ON CONFLICT (match_id) DO UPDATE SET
-          provider = EXCLUDED.provider,
-          external_id = EXCLUDED.external_id,
-          sport_key = COALESCE(EXCLUDED.sport_key, tracked_matches.sport_key),
-          enabled = TRUE,
-          updated_at = CURRENT_TIMESTAMP
-      `;
+      if (match.external) {
+        await client.sql`
+          INSERT INTO tracked_matches (match_id, provider, external_id, sport_key, enabled, check_interval_seconds, last_status)
+          VALUES (${match.id}, ${match.external.provider}, ${match.external.id}, ${match.external.sportKey ?? null}, TRUE, 300, ${match.status})
+          ON CONFLICT (match_id) DO UPDATE SET
+            provider = EXCLUDED.provider,
+            external_id = EXCLUDED.external_id,
+            sport_key = COALESCE(EXCLUDED.sport_key, tracked_matches.sport_key),
+            enabled = TRUE,
+            updated_at = CURRENT_TIMESTAMP
+        `;
+      }
+      if (match.sport === "Futebol") {
+        await client.sql`
+          INSERT INTO highlightly_tracking (match_id, home_name, away_name, kickoff_at, status, next_poll_at)
+          VALUES (${match.id}, ${match.home}, ${match.away}, ${match.kickoffAt ?? null}, 'unresolved', ${match.kickoffAt ?? null})
+          ON CONFLICT (match_id) DO UPDATE SET
+            home_name = EXCLUDED.home_name,
+            away_name = EXCLUDED.away_name,
+            kickoff_at = COALESCE(EXCLUDED.kickoff_at, highlightly_tracking.kickoff_at),
+            updated_at = CURRENT_TIMESTAMP
+        `;
+      }
     }
     await client.sql`
       INSERT INTO transactions (id, user_id, type, description, amount, metadata)
@@ -290,23 +303,70 @@ async function loadBetForCashout(userId: string, betId: string) {
   return mapBet(row, selectionsResult.rows.map(mapSelection));
 }
 
+const normalizedText = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const trailingLine = (value: string) => {
+  const match = value.replace(",", ".").match(/([+-]?\d+(?:\.\d+)?)\s*$/);
+  return match ? Number(match[1]) : null;
+};
+
+function liveSelectionProbability(selection: BetSelection, snapshot: LiveMatchSnapshot | undefined, base: number) {
+  if (selection.result === "green") return 0.995;
+  if (selection.result === "red") return 0.001;
+  if (!snapshot?.resolved || snapshot.status !== "live" || !snapshot.score) return base;
+  const market = normalizedText(selection.marketName);
+  const label = normalizedText(selection.selectionLabel);
+  const home = normalizedText(snapshot.home);
+  const away = normalizedText(snapshot.away);
+  const [homeGoals, awayGoals] = snapshot.score;
+  const total = homeGoals + awayGoals;
+  const progress = Math.min(1, Math.max(0, Number(snapshot.clock ?? 0) / 90));
+  if (market.includes("jogador marca") || market.includes("goalscorer") || market.includes("gols do jogador")) {
+    const player = label.split(/—| - /)[0].trim();
+    if (snapshot.events.some((event) => /goal|penalty/i.test(event.type) && !/missed|cancelled|own goal/i.test(event.type) && normalizedText(event.player ?? "").includes(player))) return 0.995;
+    return Math.max(0.02, base * (1 - progress * 0.82));
+  }
+  if ((market.includes("total de gols") || market.includes("linha de gols")) && !market.includes("tempo")) {
+    const line = trailingLine(label);
+    if (line != null && label.includes("mais de")) return total > line ? 0.995 : Math.max(0.03, base * (1 - progress * 0.65));
+    if (line != null && label.includes("menos de")) return total > line ? 0.001 : Math.min(0.97, base + progress * (1 - base) * 0.78);
+  }
+  if (market.includes("ambas marcam")) {
+    const both = homeGoals > 0 && awayGoals > 0;
+    if (label === "sim") return both ? 0.995 : Math.max(0.04, base * (1 - progress * 0.55));
+    if (label === "nao") return both ? 0.001 : Math.min(0.96, base + progress * (1 - base) * 0.72);
+  }
+  if (market.includes("resultado da partida") || market === "match winner") {
+    const selectedDiff = label.includes(home) ? homeGoals - awayGoals : label.includes(away) ? awayGoals - homeGoals : -(Math.abs(homeGoals - awayGoals));
+    if (selectedDiff > 0) return Math.min(0.97, base + progress * (1 - base) * 0.82 + Math.min(selectedDiff, 3) * 0.08);
+    if (selectedDiff < 0) return Math.max(0.02, base * (1 - progress * 0.85) / Math.min(Math.abs(selectedDiff) + 0.5, 3));
+    return label.includes("empate") ? Math.min(0.9, base + progress * (1 - base) * 0.5) : Math.max(0.06, base * (1 - progress * 0.45));
+  }
+  return Math.max(0.02, Math.min(0.98, base));
+}
+
 export async function cashoutQuote(user: AuthUser, betId: string) {
   const bet = await loadBetForCashout(user.id, betId);
   if (bet.status !== "pending") throw new Error("Esta aposta não aceita mais cash out");
-  const { matches } = await getCombinedFeed();
+  const matchIds = [...new Set(bet.selections.map((selection) => selection.matchId))];
+  const [{ matches }, liveMatches] = await Promise.all([
+    getCombinedFeed(),
+    refreshHighlightlyTrackedMatches({ userId: user.id, matchIds }),
+  ]);
+  const liveById = new Map(liveMatches.map((match) => [match.matchId, match]));
   let currentTotalOdd = 1;
-  let unavailable = 0;
+  let combinedProbability = 1;
   const updatedSelections = bet.selections.map((selection) => {
     const match = matches.find((item) => item.id === selection.matchId);
     const option = match?.markets.find((item) => item.id === selection.marketId)?.options.find((item) => item.id === selection.optionId);
-    if (!option || match?.status === "finished") unavailable += 1;
+    const live = liveById.get(selection.matchId);
+    if (live?.status === "finished" || ["postponed", "cancelled", "abandoned"].includes(normalizedText(live?.statusLabel ?? ""))) throw new Error("A partida foi encerrada e o bilhete está sendo liquidado");
     const currentOdd = option?.price ?? selection.currentOdd ?? selection.odd;
     currentTotalOdd *= currentOdd;
+    combinedProbability *= liveSelectionProbability(selection, live, Math.min(0.98, Math.max(0.01, 1 / currentOdd)));
     return { ...selection, currentOdd };
   });
-  if (unavailable === bet.selections.length) throw new Error("Cash out temporariamente indisponível");
-  const raw = bet.potentialReturn / Math.max(currentTotalOdd, 1.01) * 0.88;
-  const value = clampMoney(Math.min(bet.potentialReturn * 0.92, Math.max(bet.stake * 0.15, raw)));
+  const value = clampMoney(Math.min(bet.potentialReturn * 0.96, bet.potentialReturn * combinedProbability * 0.9));
+  if (value < 0.01) throw new Error("Cash out indisponível com o andamento atual da partida");
   return { value, currentTotalOdd: Number(currentTotalOdd.toFixed(4)), selections: updatedSelections, expiresInSeconds: 20 };
 }
 

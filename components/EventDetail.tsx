@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import type { Match } from "@/lib/types";
 import { useBetStore } from "@/store/useBetStore";
 import { OddsButton } from "./OddsButton";
+import { LiveMatchCenter } from "./LiveMatchCenter";
 import { StatusBadge } from "./StatusBadge";
 
 type Category = "Principais" | "Gols" | "Escanteios" | "Tempos" | "Especiais";
@@ -21,6 +22,7 @@ function categoryOf(name: string): Category {
 
 export function EventDetail({ match, isAdmin, onBack, onMatchUpdate }: { match: Match; isAdmin: boolean; onBack: () => void; onMatchUpdate: (match: Match) => void }) {
   const selected = useBetStore((state) => state.betSlip);
+  const liveSnapshot = useBetStore((state) => state.liveTracking[match.id]);
   const toggleSelection = useBetStore((state) => state.toggleSelection);
   const hydrateAccount = useBetStore((state) => state.hydrateAccount);
   const showToast = useBetStore((state) => state.showToast);
@@ -74,6 +76,7 @@ export function EventDetail({ match, isAdmin, onBack, onMatchUpdate }: { match: 
         </div>
         <div className="event-hero-actions"><span><ShieldCheck size={14} /> {match.markets.length} mercados verificados</span>{isAdmin && <><button className={tracking ? "btn btn-primary" : "btn btn-secondary"} onClick={toggleTracking} disabled={Boolean(processing)}>{processing === "track" ? <LoaderCircle className="spin" size={15} /> : <BellRing size={15} />} {tracking ? "Desativar acompanhamento" : "Acompanhar ao vivo"}</button><button className="btn btn-secondary" onClick={refreshResult} disabled={Boolean(processing) || !tracking}>{processing === "refresh" ? <LoaderCircle className="spin" size={15} /> : <RefreshCw size={15} />} Atualizar resultado</button></>}</div>
       </section>
+      {liveSnapshot && <LiveMatchCenter snapshot={liveSnapshot} />}
       <div className="event-market-toolbar"><div className="event-category-tabs">{categories.map((item) => <button key={item} className={category === item ? "active" : ""} onClick={() => setCategory(item)}>{item}<span>{counts[item]}</span></button>)}</div><label><Search size={15} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar mercado..." /></label></div>
       <div className="event-market-list">
         {visibleMarkets.map((market) => <section className="event-market-card" key={market.id}><div><span><BarChart3 size={15} /></span><strong>{market.name}</strong>{market.options.some((option) => option.boosted) && <em><Sparkles size={12} /> Super Odds</em>}</div><div className={`event-odds-grid ${market.options.length > 4 ? "many" : ""}`}>{market.options.map((option) => <OddsButton key={option.id} label={option.label} price={option.price} selected={selected.some((item) => item.id === `${match.id}:${market.id}:${option.id}`)} onClick={() => toggleSelection(match, market.id, option.id)} boosted={option.boosted} originalPrice={option.originalPrice} />)}</div></section>)}
