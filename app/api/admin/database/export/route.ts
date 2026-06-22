@@ -6,7 +6,7 @@ import { ensureDatabaseSchema } from "@/lib/database";
 export async function GET() {
   if (!await isAdminRequest()) return NextResponse.json({ error: "Acesso restrito" }, { status: 401 });
   await ensureDatabaseSchema();
-  const [users, wallets, transactions, bets, selections, promotions, superOdds, tracking, highlightlyTracking, missions, userMissions, importedMatches, providerCache] = await Promise.all([
+  const [users, wallets, transactions, bets, selections, promotions, superOdds, tracking, highlightlyTracking, missions, userMissions, banners, importedMatches, providerCache] = await Promise.all([
     sql`SELECT id, name, email, role, created_at FROM users ORDER BY created_at`,
     sql`SELECT * FROM wallets`,
     sql`SELECT * FROM transactions ORDER BY created_at`,
@@ -18,6 +18,7 @@ export async function GET() {
     sql`SELECT * FROM highlightly_tracking`,
     sql`SELECT * FROM missions`,
     sql`SELECT * FROM user_missions`,
+    sql`SELECT * FROM home_banners`,
     sql`SELECT * FROM imported_matches`,
     sql`SELECT * FROM provider_cache`,
   ]);
@@ -35,6 +36,7 @@ export async function GET() {
     highlightlyTracking: highlightlyTracking.rows,
     missions: missions.rows,
     userMissions: userMissions.rows,
+    banners: banners.rows,
     importedMatches: importedMatches.rows,
     providerCache: providerCache.rows,
   };

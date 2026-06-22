@@ -7,11 +7,24 @@ import { useBetStore } from "@/store/useBetStore";
 import { OddsButton } from "./OddsButton";
 import { StatusBadge } from "./StatusBadge";
 
+function previewPriority(name: string) {
+  const normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const priorities = [
+    /resultado|moneyline|vencedor|match winner|1x2/,
+    /total.*gol|gol.*total|over.*under|mais.*menos/,
+    /ambas.*marcam|both teams.*score|btts/,
+    /dupla chance|double chance/,
+    /handicap|spread/,
+  ];
+  const index = priorities.findIndex((pattern) => pattern.test(normalized));
+  return index === -1 ? priorities.length : index;
+}
+
 export function MatchCard({ match, index = 0, onOpen }: { match: Match; index?: number; onOpen?: (match: Match) => void }) {
   const selected = useBetStore((state) => state.betSlip);
   const toggleSelection = useBetStore((state) => state.toggleSelection);
   const previewCount = 3;
-  const markets = match.markets.slice(0, previewCount);
+  const markets = [...match.markets].sort((left, right) => previewPriority(left.name) - previewPriority(right.name)).slice(0, previewCount);
   const hiddenMarketCount = Math.max(0, match.markets.length - previewCount);
   const providerLabel = match.source === "merged" ? "Múltiplas fontes" : match.source === "the-odds-api" ? "The Odds API" : match.source === "odds-api-io" ? "Odds-API.io" : "API-Football";
 

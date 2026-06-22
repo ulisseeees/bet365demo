@@ -14,6 +14,7 @@ interface ApiFixture {
   league?: { name?: string; country?: string };
   teams?: { home?: { name?: string }; away?: { name?: string } };
   goals?: { home?: number | null; away?: number | null };
+  score?: { halftime?: { home?: number | null; away?: number | null }; fulltime?: { home?: number | null; away?: number | null } };
 }
 
 interface ApiOddValue {
@@ -74,6 +75,7 @@ export interface ApiFootballResult {
   away: string;
   homeGoals: number | null;
   awayGoals: number | null;
+  periods?: Record<string, { home: number | null; away: number | null }>;
 }
 
 interface ApiFootballFeedMeta {
@@ -247,6 +249,17 @@ function mapMarkets(bets: ApiBet[] | undefined, home: string, away: string, phas
       const market = mapMarket(bet, home, away, phase);
       return market ? [market] : [];
     });
+}
+
+function marketIdentity(name: string) {
+  return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function mergeLiveMarkets(liveMarkets: Market[], prematchMarkets: Market[]) {
+  const merged = new Map<string, Market>();
+  for (const market of prematchMarkets) merged.set(marketIdentity(market.name), market);
+  for (const market of liveMarkets) merged.set(marketIdentity(market.name), market);
+  return [...merged.values()];
 }
 
 function bestBookmaker(item?: ApiPrematchOdds) {
@@ -434,9 +447,9 @@ async function refreshAutomaticFeed(previous: FeedCache | null): Promise<ReturnT
         away,
       };
       const isLive = liveStatuses.has(normalizedFixture.status) || Boolean(liveOdds);
-      const markets = isLive
-        ? mapMarkets(liveOdds?.odds, home, away, "live")
-        : mapMarkets(bestBookmaker(prematchOdds)?.bets, home, away, "prematch");
+      const prematchMarkets = mapMarkets(bestBookmaker(prematchOdds)?.bets, home, away, "prematch");
+      const liveMarkets = mapMarkets(liveOdds?.odds, home, away, "live");
+      const markets = isLive ? mergeLiveMarkets(liveMarkets, prematchMarkets) : prematchMarkets;
       if (!markets.length) return [];
       return [buildMatch({ ...normalizedFixture, status: isLive ? "LIVE" : normalizedFixture.status }, markets, liveOdds?.fixture?.status?.minute)];
     }).sort((left, right) => {
@@ -573,7 +586,9 @@ export async function discoverApiFootballMarkets(date: string, fixtureId: number
   if (isLive) {
     const result = await fetchApi<ApiLiveOdds>(`/odds/live?fixture=${fixtureId}`, "Odds ao vivo da partida");
     const item = result.payload.response?.find((entry) => entry.fixture?.id === fixtureId);
-    markets = mapMarkets(item?.odds, fixture.home, fixture.away, "live");
+    const automatic = await loadFeedCache();
+    const retainedMarkets = cached?.match.markets ?? automatic?.matches.find((match) => match.id === `api-${fixtureId}`)?.markets ?? [];
+    markets = mergeLiveMarkets(mapMarkets(item?.odds, fixture.home, fixture.away, "live"), retainedMarkets);
     minute = item?.fixture?.status?.minute;
     quota = result.quota;
   } else {
@@ -619,6 +634,7 @@ export async function getApiFootballResults(fixtureIds: number[]) {
       away,
       homeGoals: item.goals?.home ?? null,
       awayGoals: item.goals?.away ?? null,
+      periods: item.score?.halftime ? { p1: { home: item.score.halftime.home ?? null, away: item.score.halftime.away ?? null } } : undefined,
     }];
   });
   return { results, quota: response.quota, requestsSpent: 1 };

@@ -4,7 +4,8 @@ import { sql } from "@vercel/postgres";
 import { ensureDatabaseSchema, withTransaction } from "./database";
 import { getCombinedFeed } from "./feed";
 import { refreshHighlightlyTrackedMatches } from "./highlightly";
-import type { AccountSnapshot, AuthUser, Bet, BetSelection, BetStatus, LiveMatchSnapshot, LoyaltyLevel, Match, Mission, Promotion, ReceiptData, Transaction } from "./types";
+import type { AccountSnapshot, AuthUser, Bet, BetSelection, BetStatus, HomeBanner, LiveMatchSnapshot, LoyaltyLevel, Match, Mission, Promotion, ReceiptData, Transaction } from "./types";
+import { providerTrackingInterval } from "./tracking-policy";
 import { clampMoney, uid } from "./utils";
 import { correlationError } from "./bet-validation";
 
@@ -92,9 +93,15 @@ export async function getPromotions(): Promise<Promotion[]> {
   return rows.map((row) => ({ id: row.id, type: row.type, title: row.title, description: row.description, config: row.config ?? {}, active: row.active }));
 }
 
+export async function getHomeBanners(): Promise<HomeBanner[]> {
+  await ensureDatabaseSchema();
+  const { rows } = await sql`SELECT * FROM home_banners WHERE active = TRUE ORDER BY sort_order, created_at`;
+  return rows.map((row) => ({ id: String(row.id), kind: String(row.kind) as HomeBanner["kind"], title: String(row.title), subtitle: String(row.subtitle), ctaLabel: String(row.cta_label), tone: String(row.tone) as HomeBanner["tone"], sortOrder: Number(row.sort_order), active: Boolean(row.active), config: (row.config ?? {}) as Record<string, unknown> }));
+}
+
 export async function getAccountSnapshot(user: AuthUser): Promise<AccountSnapshot> {
   await ensureWallet(user);
-  const [walletResult, betsResult, selectionsResult, transactionsResult, missionsResult, promotions] = await Promise.all([
+  const [walletResult, betsResult, selectionsResult, transactionsResult, missionsResult, promotions, banners] = await Promise.all([
     sql`SELECT * FROM wallets WHERE user_id = ${user.id} LIMIT 1`,
     sql`SELECT * FROM bets WHERE user_id = ${user.id} ORDER BY placed_at DESC LIMIT 200`,
     sql`SELECT bs.* FROM bet_selections bs JOIN bets b ON b.id = bs.bet_id WHERE b.user_id = ${user.id} ORDER BY bs.id`,
@@ -109,6 +116,7 @@ export async function getAccountSnapshot(user: AuthUser): Promise<AccountSnapsho
       ORDER BY m.created_at
     `,
     getPromotions(),
+    getHomeBanners(),
   ]);
   const wallet = walletResult.rows[0];
   const selectionGroups = new Map<string, BetSelection[]>();
@@ -138,6 +146,7 @@ export async function getAccountSnapshot(user: AuthUser): Promise<AccountSnapsho
     transactions: transactionsResult.rows.map(mapTransaction),
     promotions,
     missions,
+    banners,
   };
 }
 
@@ -230,14 +239,16 @@ export async function placeAccountBet(user: AuthUser, requestSelections: BetSele
     }
     for (const match of [...matchedById.values()]) {
       if (match.external) {
+        const trackingInterval = providerTrackingInterval(match.external.provider);
         await client.sql`
           INSERT INTO tracked_matches (match_id, provider, external_id, sport_key, enabled, check_interval_seconds, last_status)
-          VALUES (${match.id}, ${match.external.provider}, ${match.external.id}, ${match.external.sportKey ?? null}, TRUE, 300, ${match.status})
+          VALUES (${match.id}, ${match.external.provider}, ${match.external.id}, ${match.external.sportKey ?? null}, TRUE, ${trackingInterval}, ${match.status})
           ON CONFLICT (match_id) DO UPDATE SET
             provider = EXCLUDED.provider,
             external_id = EXCLUDED.external_id,
             sport_key = COALESCE(EXCLUDED.sport_key, tracked_matches.sport_key),
             enabled = TRUE,
+            check_interval_seconds = EXCLUDED.check_interval_seconds,
             updated_at = CURRENT_TIMESTAMP
         `;
       }
@@ -304,6 +315,14 @@ async function loadBetForCashout(userId: string, betId: string) {
 }
 
 const normalizedText = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const samePlayerName = (left: string, right: string) => {
+  const tokens = (value: string) => normalizedText(value).replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(Boolean);
+  const a = tokens(left);
+  const b = tokens(right);
+  if (!a.length || !b.length || a.at(-1) !== b.at(-1)) return false;
+  if (a.length === 1 || b.length === 1) return true;
+  return a[0][0] === b[0][0];
+};
 const trailingLine = (value: string) => {
   const match = value.replace(",", ".").match(/([+-]?\d+(?:\.\d+)?)\s*$/);
   return match ? Number(match[1]) : null;
@@ -321,8 +340,8 @@ function liveSelectionProbability(selection: BetSelection, snapshot: LiveMatchSn
   const total = homeGoals + awayGoals;
   const progress = Math.min(1, Math.max(0, Number(snapshot.clock ?? 0) / 90));
   if (market.includes("jogador marca") || market.includes("goalscorer") || market.includes("gols do jogador")) {
-    const player = label.split(/—| - /)[0].trim();
-    if (snapshot.events.some((event) => /goal|penalty/i.test(event.type) && !/missed|cancelled|own goal/i.test(event.type) && normalizedText(event.player ?? "").includes(player))) return 0.995;
+    const player = selection.selectionLabel.split(/—| - /)[0].replace(/\([^)]*\)/g, "").trim();
+    if (snapshot.events.some((event) => /goal|penalty/i.test(event.type) && !/missed|cancelled|own goal/i.test(event.type) && samePlayerName(player, event.player ?? ""))) return 0.995;
     return Math.max(0.02, base * (1 - progress * 0.82));
   }
   if ((market.includes("total de gols") || market.includes("linha de gols")) && !market.includes("tempo")) {

@@ -14,9 +14,10 @@ async function createSchema() {
       to_regclass('public.super_odds') AS super_odds,
       to_regclass('public.missions') AS missions,
       to_regclass('public.user_missions') AS user_missions,
-      to_regclass('public.highlightly_tracking') AS highlightly_tracking
+      to_regclass('public.highlightly_tracking') AS highlightly_tracking,
+      to_regclass('public.home_banners') AS home_banners
   `;
-  if (ready.rows[0]?.wallets && ready.rows[0]?.bets && ready.rows[0]?.provider_cache && ready.rows[0]?.tracked_matches && ready.rows[0]?.super_odds && ready.rows[0]?.missions && ready.rows[0]?.user_missions && ready.rows[0]?.highlightly_tracking) return;
+  if (ready.rows[0]?.wallets && ready.rows[0]?.bets && ready.rows[0]?.provider_cache && ready.rows[0]?.tracked_matches && ready.rows[0]?.super_odds && ready.rows[0]?.missions && ready.rows[0]?.user_missions && ready.rows[0]?.highlightly_tracking && ready.rows[0]?.home_banners) return;
 
   await sql`
     CREATE TABLE IF NOT EXISTS users (
@@ -136,7 +137,7 @@ async function createSchema() {
       external_id VARCHAR(255) NOT NULL,
       sport_key VARCHAR(255),
       enabled BOOLEAN NOT NULL DEFAULT TRUE,
-      check_interval_seconds INTEGER NOT NULL DEFAULT 300,
+      check_interval_seconds INTEGER NOT NULL DEFAULT 60,
       last_status VARCHAR(30),
       last_score_home INTEGER,
       last_score_away INTEGER,
@@ -221,6 +222,22 @@ async function createSchema() {
   await sql`CREATE INDEX IF NOT EXISTS highlightly_tracking_poll_idx ON highlightly_tracking(status, next_poll_at)`;
 
   await sql`
+    CREATE TABLE IF NOT EXISTS home_banners (
+      id VARCHAR(255) PRIMARY KEY,
+      kind VARCHAR(40) NOT NULL,
+      title VARCHAR(255) NOT NULL,
+      subtitle TEXT NOT NULL,
+      cta_label VARCHAR(100) NOT NULL DEFAULT 'Ver oferta',
+      tone VARCHAR(30) NOT NULL DEFAULT 'orange',
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      config JSONB NOT NULL DEFAULT '{}'::jsonb,
+      active BOOLEAN NOT NULL DEFAULT TRUE,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+  `;
+
+  await sql`
     INSERT INTO promotions (id, type, title, description, config)
     VALUES
       ('PROMO-ACC-5', 'accumulator_boost', 'Múltipla Turbo', 'Bônus progressivo para múltiplas elegíveis.', '{"tiers":[{"minOdd":5,"minSelections":3,"percent":5},{"minOdd":10,"minSelections":4,"percent":10},{"minOdd":20,"minSelections":5,"percent":15}]}'::jsonb),
@@ -247,6 +264,15 @@ async function createSchema() {
       reward = EXCLUDED.reward,
       config = EXCLUDED.config,
       active = TRUE
+  `;
+
+  await sql`
+    INSERT INTO home_banners (id, kind, title, subtitle, cta_label, tone, sort_order)
+    VALUES
+      ('BANNER-SUPER', 'super_odd', 'Super Odd ativa', 'As melhores cotações destacadas em um só lugar.', 'Ver mercado', 'orange', 1),
+      ('BANNER-VIP', 'vip', 'Arena Club', 'Cashback, níveis e benefícios exclusivos.', 'Abrir clube', 'gold', 2),
+      ('BANNER-MISSION', 'mission', 'Missão da semana', 'Complete desafios e desbloqueie Free Bets.', 'Ver missão', 'cyan', 3)
+    ON CONFLICT (id) DO NOTHING
   `;
 
   const adminEmail = (process.env.ADMIN_EMAIL || "admin@arenaodds.local").toLowerCase();

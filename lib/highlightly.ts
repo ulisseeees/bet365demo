@@ -48,7 +48,7 @@ const integerEnv = (name: string, fallback: number, min: number, max: number) =>
   return Number.isInteger(value) ? Math.min(max, Math.max(min, value)) : fallback;
 };
 
-const liveCacheSeconds = integerEnv("HIGHLIGHTLY_LIVE_CACHE_SECONDS", 120, 60, 600);
+const liveCacheSeconds = integerEnv("HIGHLIGHTLY_LIVE_CACHE_SECONDS", 60, 60, 600);
 const resolveCacheSeconds = integerEnv("HIGHLIGHTLY_RESOLVE_CACHE_SECONDS", 21600, 1800, 86400);
 
 const normalize = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\b(fc|sc|ac|cf|fk|afc|futebol clube|football club)\b/g, "").replace(/[^a-z0-9]+/g, "").replace(/^unitedstates(ofamerica)?$/, "usa").replace(/^korearepublic$/, "southkorea");
@@ -151,6 +151,7 @@ function mapDetailedMatch(matchId: string, match: ApiMatch, quota: Quota): LiveM
     clock: match.state?.clock ?? null,
     score: scorePair(match.state?.score?.current),
     events: (match.events ?? []).map((event): LiveMatchEvent => ({ time: event.time ?? "", type: event.type ?? "Evento", teamId: event.team?.id, team: event.team?.name ?? "", player: event.player, assist: event.assist })),
+    eventsComplete: Array.isArray(match.events),
     statistics,
     topPlayers: topPlayers(match),
     pressure: pressure(match, statistics),
@@ -172,6 +173,7 @@ function unresolvedSnapshot(row: TrackingRow, quota?: Quota): LiveMatchSnapshot 
     clock: null,
     score: null,
     events: [],
+    eventsComplete: false,
     statistics: [],
     topPlayers: [],
     pressure: { home: 50, away: 50 },
@@ -280,9 +282,7 @@ async function resolveRows(rows: TrackingRow[]) {
 }
 
 function pollingInterval(activeCount: number) {
-  if (activeCount <= 1) return liveCacheSeconds;
-  if (activeCount === 2) return Math.max(180, liveCacheSeconds);
-  return Math.max(activeCount * 100, liveCacheSeconds);
+  return Math.max(liveCacheSeconds, activeCount * 60);
 }
 
 async function refreshRow(row: TrackingRow, intervalSeconds: number) {

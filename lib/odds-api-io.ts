@@ -10,7 +10,7 @@ const DEFAULT_PRIORITY_TERMS = ["world cup", "copa", "libertadores", "champions"
 const MULTI_EVENT_LIMIT = 10;
 
 interface ApiNamedSlug { name?: string; slug?: string }
-interface ApiScore { home?: number; away?: number }
+interface ApiScore { home?: number; away?: number; periods?: Record<string, { home?: number; away?: number }> }
 interface ApiClock { minute?: number; playedSeconds?: number; period?: number; running?: boolean; statusDetail?: string }
 
 interface ApiEvent {

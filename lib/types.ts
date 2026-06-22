@@ -71,6 +71,7 @@ export interface LiveMatchSnapshot {
   clock?: number | null;
   score?: [number, number] | null;
   events: LiveMatchEvent[];
+  eventsComplete?: boolean;
   statistics: LiveMatchStatistic[];
   topPlayers: LiveTopPlayer[];
   pressure: { home: number; away: number };
@@ -164,6 +165,18 @@ export interface Mission {
   endsAt?: string | null;
 }
 
+export interface HomeBanner {
+  id: string;
+  kind: "super_odd" | "vip" | "cashback" | "mission" | "custom";
+  title: string;
+  subtitle: string;
+  ctaLabel: string;
+  tone: "orange" | "gold" | "cyan" | "violet" | "green";
+  sortOrder: number;
+  active: boolean;
+  config: Record<string, unknown>;
+}
+
 export interface AccountSnapshot {
   balance: number;
   bonus: number;
@@ -175,4 +188,5 @@ export interface AccountSnapshot {
   transactions: Transaction[];
   promotions: Promotion[];
   missions: Mission[];
+  banners: HomeBanner[];
 }

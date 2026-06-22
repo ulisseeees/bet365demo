@@ -162,15 +162,17 @@ A Highlightly é usada somente para partidas de futebol presentes em apostas pen
 
 ```env
 HIGHLIGHTLY_API_KEY=sua_chave_aqui
-HIGHLIGHTLY_LIVE_CACHE_SECONDS=120
+HIGHLIGHTLY_LIVE_CACHE_SECONDS=60
 HIGHLIGHTLY_RESOLVE_CACHE_SECONDS=21600
 ```
 
 - Uma aposta cria automaticamente o registro de rastreamento.
 - O ID da Highlightly é resolvido somente quando o jogo está a menos de 24 horas do início.
 - `GET /matches/{id}` entrega placar, relógio, eventos, estatísticas e destaques em uma chamada.
-- A interface consulta o banco a cada 15 segundos; a API externa respeita cache adaptativo de 2 a 5+ minutos conforme o número de partidas simultâneas.
-- Sem usuário assistindo, o cron mantém o acompanhamento em segundo plano a cada 5 minutos.
+- A interface consulta o banco a cada 15 segundos; a Highlightly atualiza a evidência decisiva em intervalos adaptativos a partir de 60 segundos.
+- Sem usuário assistindo, o cron mantém a liquidação em segundo plano a cada minuto.
+- API-Football e Odds-API.io confirmam placares a cada 3 minutos; The Odds API usa 5 minutos para proteger a cota mensal.
+- Uma trava compartilhada impede navegador e cron de repetirem a mesma consulta externa simultaneamente.
 - Partidas sem apostas pendentes não geram chamadas.
 - O plano gratuito não fornece coordenadas da bola. O mapa exibido é um mapa de pressão baseado em posse e finalizações reais.
 

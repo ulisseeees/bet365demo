@@ -15,7 +15,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   if (!await isAdminRequest()) return NextResponse.json({ error: "Acesso restrito" }, { status: 401 });
-  const body = await request.json().catch(() => null) as { action?: string; matchId?: string; marketId?: string; optionId?: string; boostedPrice?: number; tiers?: unknown } | null;
+  const body = await request.json().catch(() => null) as { action?: string; id?: string; matchId?: string; marketId?: string; optionId?: string; boostedPrice?: number; tiers?: unknown } | null;
   await ensureDatabaseSchema();
   try {
     if (body?.action === "super-odd") {
@@ -35,6 +35,10 @@ export async function POST(request: Request) {
     if (body?.action === "accumulator") {
       if (!Array.isArray(body.tiers)) throw new Error("Faixas inválidas");
       await sql`UPDATE promotions SET config = ${JSON.stringify({ tiers: body.tiers })}::jsonb, updated_at = CURRENT_TIMESTAMP WHERE id = 'PROMO-ACC-5'`;
+      return NextResponse.json({ ok: true });
+    }
+    if (body?.action === "remove-super-odd" && body.id) {
+      await sql`DELETE FROM super_odds WHERE id = ${body.id}`;
       return NextResponse.json({ ok: true });
     }
     throw new Error("Ação inválida");

@@ -8,15 +8,22 @@ import { OddsButton } from "./OddsButton";
 import { LiveMatchCenter } from "./LiveMatchCenter";
 import { StatusBadge } from "./StatusBadge";
 
-type Category = "Principais" | "Gols" | "Escanteios" | "Tempos" | "Especiais";
-const categories: Category[] = ["Principais", "Gols", "Escanteios", "Tempos", "Especiais"];
+type Category = "Principais" | "Gols" | "Jogadores" | "Escanteios" | "Cartões" | "1º Tempo" | "Handicaps" | "Especiais";
+const categories: Category[] = ["Principais", "Gols", "Jogadores", "Escanteios", "Cartões", "1º Tempo", "Handicaps", "Especiais"];
+
+function normalizeMarketName(name: string) {
+  return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
 
 function categoryOf(name: string): Category {
-  const normalized = name.toLowerCase();
-  if (normalized.includes("escanteio")) return "Escanteios";
-  if (normalized.includes("tempo") || normalized.includes("half")) return "Tempos";
-  if (normalized.includes("gol") || normalized.includes("marcam") || normalized.includes("placar")) return "Gols";
-  if (normalized.includes("resultado") || normalized.includes("chance") || normalized.includes("handicap") || normalized.includes("vencedor")) return "Principais";
+  const normalized = normalizeMarketName(name);
+  if (/jogador|player|goalscorer|goal scorer|scorer|marcador|finaliz|chute|shot|assist|passe|pass|desarme|tackle/.test(normalized)) return "Jogadores";
+  if (/escanteio|corner/.test(normalized)) return "Escanteios";
+  if (/cartao|card|booking|expuls/.test(normalized)) return "Cartões";
+  if (/1[ºo°]? tempo|primeiro tempo|first half|1st half|half time|\bht\b|\bh1\b/.test(normalized)) return "1º Tempo";
+  if (/handicap|spread|linha asiatica|asian/.test(normalized)) return "Handicaps";
+  if (/gol|goal|total|marcam|both teams|placar|score|par\/impar|odd\/even/.test(normalized)) return "Gols";
+  if (/resultado|result|moneyline|vencedor|winner|dupla chance|double chance|empate anula|draw no bet|qualifica|classifica/.test(normalized)) return "Principais";
   return "Especiais";
 }
 
@@ -30,13 +37,13 @@ export function EventDetail({ match, isAdmin, onBack, onMatchUpdate }: { match: 
   const [search, setSearch] = useState("");
   const [tracking, setTracking] = useState(Boolean(match.tracking?.enabled));
   const [processing, setProcessing] = useState<"track" | "refresh" | null>(null);
-  const counts = useMemo(() => categories.reduce<Record<Category, number>>((result, item) => ({ ...result, [item]: match.markets.filter((market) => categoryOf(market.name) === item).length }), { Principais: 0, Gols: 0, Escanteios: 0, Tempos: 0, Especiais: 0 }), [match.markets]);
+  const counts = useMemo(() => categories.reduce<Record<Category, number>>((result, item) => ({ ...result, [item]: match.markets.filter((market) => categoryOf(market.name) === item).length }), { Principais: 0, Gols: 0, Jogadores: 0, Escanteios: 0, Cartões: 0, "1º Tempo": 0, Handicaps: 0, Especiais: 0 }), [match.markets]);
   const visibleMarkets = useMemo(() => match.markets.filter((market) => categoryOf(market.name) === category && market.name.toLowerCase().includes(search.trim().toLowerCase())), [match.markets, category, search]);
 
   const toggleTracking = async () => {
     setProcessing("track");
     try {
-      const response = await fetch("/api/admin/tracking", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ matchId: match.id, enabled: !tracking, intervalSeconds: 300 }) });
+      const response = await fetch("/api/admin/tracking", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ matchId: match.id, enabled: !tracking, intervalSeconds: 60 }) });
       const payload = await response.json() as { match?: Match; error?: string };
       if (!response.ok) throw new Error(payload.error ?? "Falha ao alterar acompanhamento");
       setTracking(!tracking);
