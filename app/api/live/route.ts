@@ -4,16 +4,16 @@ import { getCombinedFeed } from "@/lib/feed";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const { matches, football, oddsApi, imported, cacheSeconds } = await getCombinedFeed();
+  const { matches, football, oddsApi, oddsApiIo, imported, cacheSeconds } = await getCombinedFeed();
   return NextResponse.json({
     mode: matches.length ? "api" : "unavailable",
     matches,
-    message: matches.length ? `Feed combinado: ${matches.length} jogos reais de duas APIs.` : football.error ?? "Nenhuma fonte de odds está disponível",
+    message: matches.length ? `Feed combinado: ${matches.length} jogos reais de até três APIs.` : football.error ?? oddsApi.error ?? oddsApiIo.error ?? "Nenhuma fonte de odds está disponível",
     meta: {
       cacheSeconds,
       oddsPagesLoaded: football.meta?.oddsPagesLoaded ?? 0,
       totalOddsPages: football.meta?.totalOddsPages ?? 0,
-      sources: { apiFootball: football.matches.length, theOddsApi: oddsApi.matches.length, imported: imported.length },
+      sources: { apiFootball: football.matches.length, theOddsApi: oddsApi.matches.length, oddsApiIo: oddsApiIo.matches.length, imported: imported.length },
       apiFootballQuota: football.meta?.quota ?? null,
       apiFootballCached: football.cached,
       apiFootballStale: football.stale ?? false,
@@ -24,7 +24,12 @@ export async function GET() {
       oddsApiStale: oddsApi.stale ?? false,
       oddsApiUpdatedAt: oddsApi.updatedAt,
       oddsApiError: oddsApi.error ?? null,
+      oddsApiIoQuota: oddsApiIo.quota,
+      oddsApiIoCached: oddsApiIo.cached,
+      oddsApiIoStale: oddsApiIo.stale ?? false,
+      oddsApiIoUpdatedAt: oddsApiIo.updatedAt,
+      oddsApiIoError: oddsApiIo.error ?? null,
     },
-    updatedAt: [football.updatedAt, oddsApi.updatedAt].filter(Boolean).sort().at(-1) ?? null,
+    updatedAt: [football.updatedAt, oddsApi.updatedAt, oddsApiIo.updatedAt].filter(Boolean).sort().at(-1) ?? null,
   }, { status: matches.length ? 200 : 503 });
 }

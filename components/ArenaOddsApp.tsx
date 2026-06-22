@@ -32,7 +32,7 @@ export function ArenaOddsApp() {
   const [matchFilter, setMatchFilter] = useState<MatchFilter>("all");
   const [syncing, setSyncing] = useState(true);
   const [dataMode, setDataMode] = useState<"loading" | "api" | "unavailable">("loading");
-  const [feedMessage, setFeedMessage] = useState("Conectando à API-Football...");
+  const [feedMessage, setFeedMessage] = useState("Conectando aos provedores de odds...");
   const [feedCacheSeconds, setFeedCacheSeconds] = useState(3600);
   const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
   const matches = useBetStore((state) => state.matches);
@@ -56,13 +56,13 @@ export function ArenaOddsApp() {
         if (!alive) return;
         setDataMode(payload.mode);
         setLiveMatches(payload.matches ?? []);
-        setFeedMessage(payload.message ?? "Eventos e mercados recebidos da API-Football.");
+        setFeedMessage(payload.message ?? "Eventos e mercados recebidos dos provedores de odds.");
         if (payload.meta?.cacheSeconds) setFeedCacheSeconds(payload.meta.cacheSeconds);
       } catch {
         if (alive) {
           setDataMode("unavailable");
           setLiveMatches([]);
-          setFeedMessage("Não foi possível conectar à API-Football agora.");
+          setFeedMessage("Não foi possível conectar aos provedores de odds agora.");
         }
       } finally {
         if (alive) setSyncing(false);
@@ -129,7 +129,7 @@ export function ArenaOddsApp() {
                 <div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" />
               </div>
               <div className="hero-side">
-                <div className="signal-card"><div><span className="signal-icon"><Radio size={20} /></span><span><small>Sinal de dados</small><strong>{dataMode === "api" ? "API-Football conectada" : dataMode === "loading" ? "Conectando..." : "API-Football indisponível"}</strong></span></div>{syncing ? <RefreshCw size={17} className="spin" /> : <StatusBadge status={dataMode === "api" ? "api" : "offline"} />}</div>
+                <div className="signal-card"><div><span className="signal-icon"><Radio size={20} /></span><span><small>Sinal de dados</small><strong>{dataMode === "api" ? "Feed multi-API conectado" : dataMode === "loading" ? "Conectando..." : "Provedores indisponíveis"}</strong></span></div>{syncing ? <RefreshCw size={17} className="spin" /> : <StatusBadge status={dataMode === "api" ? "api" : "offline"} />}</div>
                 <div className="mini-stat-grid"><div><span><Flame size={18} /></span><strong>{matches.filter((item) => item.status === "live").length}</strong><small>jogos ao vivo</small></div><div><span><CircleDot size={18} /></span><strong>{totalMarkets}</strong><small>mercados reais</small></div><div><span><Activity size={18} /></span><strong>{refreshLabel}</strong><small>cache da API</small></div><div><span><Trophy size={18} /></span><strong>{pendingCount}</strong><small>palpites pendentes</small></div></div>
               </div>
             </section>

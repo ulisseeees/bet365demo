@@ -1,6 +1,6 @@
 # ArenaOdds
 
-Sportsbook local construído com Next.js, TypeScript, Zustand e Framer Motion. O projeto possui autenticação, cadastro, carteira, apostas, históricos, painel administrativo e feed combinado da API-Football com a The Odds API V4.
+Sportsbook local construído com Next.js, TypeScript, Zustand e Framer Motion. O projeto possui autenticação, cadastro, carteira, apostas, históricos, painel administrativo e feed combinado da API-Football, The Odds API V4 e Odds-API.io v3.
 
 > Ambiente sandbox local: depósitos, saques e apostas não processam dinheiro real.
 
@@ -139,6 +139,38 @@ No painel Admin, a seção **Importar jogo sob demanda** permite:
 6. publicar o jogo imediatamente no feed principal.
 
 O custo de importação é `mercados retornados × regiões`. Eventos importados ficam em `data/imported-odds.json` e são preservados entre reinicializações.
+
+## Terceira fonte: Odds-API.io v3
+
+A terceira integração usa HTTP no plano Free e consulta odds em lotes de até 10 eventos. Configure no máximo dois bookmakers que já estejam selecionados na sua conta da Odds-API.io:
+
+```env
+ODDS_API_IO_KEY=sua_chave_aqui
+ODDS_API_IO_BOOKMAKERS=BookmakerUm,BookmakerDois
+ODDS_API_IO_SPORTS=football,basketball,tennis
+ODDS_API_IO_CACHE_SECONDS=600
+ODDS_API_IO_MAX_EVENTS_PER_SPORT=20
+```
+
+O padrão de 20 eventos em três esportes custa no máximo 9 requisições por atualização: uma busca de eventos e até duas chamadas `/odds/multi` por esporte. O cache de 10 minutos limita o consumo teórico a 54 requisições por hora, bem abaixo do limite documentado de 5.000 requisições por hora. Todas as visitas ao site durante o cache consultam apenas o Postgres e não repetem chamadas externas.
+
+No plano Free não é usado WebSocket. O painel Admin mostra a cota horária, a última atualização, o número de jogos importados e o custo máximo antes de permitir uma atualização manual.
+
+## Deploy automático na Vercel
+
+Quando o projeto Vercel está conectado ao repositório GitHub e à branch `main`, cada push gera um novo deploy automaticamente:
+
+```powershell
+git add .
+git commit -m "descrição da alteração"
+git push origin main
+```
+
+As chaves devem ser cadastradas em **Vercel → Project → Settings → Environment Variables** para Production, Preview e Development. Depois de adicionar ou alterar uma chave, faça um novo deploy. Para forçar um deploy direto da pasta atual:
+
+```powershell
+npx vercel --prod --force
+```
 
 ## Acesso administrativo local
 

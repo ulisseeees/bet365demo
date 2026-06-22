@@ -13,7 +13,7 @@ export function MatchCard({ match, index = 0, onOpen }: { match: Match; index?: 
   const previewCount = 3;
   const markets = match.markets.slice(0, previewCount);
   const hiddenMarketCount = Math.max(0, match.markets.length - previewCount);
-  const providerLabel = match.source === "merged" ? "2 fontes" : match.source === "the-odds-api" ? "Odds API" : "API-Football";
+  const providerLabel = match.source === "merged" ? "Múltiplas fontes" : match.source === "the-odds-api" ? "The Odds API" : match.source === "odds-api-io" ? "Odds-API.io" : "API-Football";
 
   return (
     <motion.article className={`match-card ${match.status === "live" ? "match-live" : ""}`} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(index * 0.045, 0.3) }}>

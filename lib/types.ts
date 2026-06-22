@@ -32,8 +32,8 @@ export interface Match {
   minute?: number;
   score?: [number, number];
   markets: Market[];
-  source?: "api-football" | "the-odds-api" | "merged";
-  external?: { provider: "api-football" | "the-odds-api"; id: string; sportKey?: string };
+  source?: "api-football" | "the-odds-api" | "odds-api-io" | "merged";
+  external?: { provider: "api-football" | "the-odds-api" | "odds-api-io"; id: string; sportKey?: string };
   tracking?: { enabled: boolean; lastCheckedAt?: string | null };
 }
 

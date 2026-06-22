@@ -4,6 +4,7 @@ import { sql } from "@vercel/postgres";
 import { apiFootballCacheSeconds, getApiFootballFeed } from "./api-football";
 import { ensureDatabaseSchema } from "./database";
 import { readImportedOdds } from "./imported-odds-store";
+import { getOddsApiIoFeed, oddsApiIoCacheSeconds } from "./odds-api-io";
 import { getAutomaticOddsFeed } from "./the-odds-api";
 import type { Market, Match } from "./types";
 
@@ -94,21 +95,24 @@ async function decorateMatches(matches: Match[]) {
 }
 
 export async function getCombinedFeed() {
-  const [footballResult, oddsApiResult, importedResult] = await Promise.all([
+  const [footballResult, oddsApiResult, oddsApiIoResult, importedResult] = await Promise.all([
     getApiFootballFeed(),
     getAutomaticOddsFeed().catch(() => ({ matches: [] as Match[], quota: { last: null, remaining: null, used: null }, updatedAt: null, expiresAt: null, cached: false, stale: true, error: "The Odds API indisponível" })),
+    getOddsApiIoFeed().catch(() => ({ matches: [] as Match[], quota: { limit: null, remaining: null, resetAt: null }, requestsSpent: 0, updatedAt: new Date(0).toISOString(), expiresAt: 0, cached: false, stale: true, error: "Odds-API.io indisponível" })),
     readImportedOdds().catch(() => [] as Match[]),
   ]);
   const football = { ...footballResult, matches: currentEvents(footballResult.matches) };
   const oddsApi = { ...oddsApiResult, matches: currentEvents(oddsApiResult.matches) };
+  const oddsApiIo = { ...oddsApiIoResult, matches: currentEvents(oddsApiIoResult.matches) };
   const imported = currentEvents(importedResult);
-  const rawMatches = mergeFeeds(football.matches, oddsApi.matches, imported);
+  const rawMatches = mergeFeeds(football.matches, oddsApi.matches, oddsApiIo.matches, imported);
   const matches = await decorateMatches(rawMatches);
   return {
     matches,
     football,
     oddsApi,
+    oddsApiIo,
     imported,
-    cacheSeconds: football.meta?.cacheSeconds ?? apiFootballCacheSeconds,
+    cacheSeconds: Math.min(football.meta?.cacheSeconds ?? apiFootballCacheSeconds, oddsApiIoCacheSeconds),
   };
 }

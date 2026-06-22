@@ -5,6 +5,7 @@ import { getApiFootballResults } from "./api-football";
 import { settleBet } from "./account-service";
 import { ensureDatabaseSchema } from "./database";
 import { getCombinedFeed } from "./feed";
+import { getOddsApiIoResult } from "./odds-api-io";
 import { getOddsApiScores } from "./the-odds-api";
 import type { BetSelection, Match } from "./types";
 
@@ -29,6 +30,7 @@ function externalFromMatch(match: Match) {
   if (match.external) return match.external;
   if (match.id.startsWith("api-")) return { provider: "api-football" as const, id: match.id.slice(4) };
   if (match.id.startsWith("odds-")) return { provider: "the-odds-api" as const, id: match.id.slice(5) };
+  if (match.id.startsWith("oddsio-")) return { provider: "odds-api-io" as const, id: match.id.slice(7) };
   return null;
 }
 
@@ -212,6 +214,30 @@ export async function updateTrackedResults(options: { force?: boolean; matchIds?
       const awayGoals = Number(item.scores?.find((score) => score.name === item.away_team)?.score ?? NaN);
       results.push({ matchId: trackedMatch.matchId, status: item.completed ? "FT" : "LIVE", finished: item.completed, cancelled: false, home: item.home_team, away: item.away_team, homeGoals: Number.isFinite(homeGoals) ? homeGoals : null, awayGoals: Number.isFinite(awayGoals) ? awayGoals : null });
     });
+  }
+  const oddsApiIo = due.filter((item) => item.provider === "odds-api-io");
+  for (const item of oddsApiIo) {
+    try {
+      requestsSpent += 1;
+      const response = await getOddsApiIoResult(item.externalId);
+      const event = response.event;
+      const status = String(event.status ?? "pending").toLowerCase();
+      const finished = ["settled", "finished"].includes(status);
+      const cancelled = ["cancelled", "canceled", "abandoned"].includes(status);
+      results.push({
+        matchId: item.matchId,
+        status: finished ? "FT" : cancelled ? "CANC" : status === "live" ? "LIVE" : "NS",
+        finished,
+        cancelled,
+        home: event.home ?? "Mandante",
+        away: event.away ?? "Visitante",
+        homeGoals: event.scores?.home ?? null,
+        awayGoals: event.scores?.away ?? null,
+        minute: event.clock?.minute ?? null,
+      });
+    } catch {
+      // Uma falha isolada não impede a atualização dos demais jogos rastreados.
+    }
   }
   let evaluated = 0;
   let settled = 0;
