@@ -327,6 +327,35 @@ const trailingLine = (value: string) => {
   const match = value.replace(",", ".").match(/([+-]?\d+(?:\.\d+)?)\s*$/);
   return match ? Number(match[1]) : null;
 };
+const selectedPlayerName = (label: string) => label
+  .split(/\s[—–-]\s|â€”| - /)[0]
+  .replace(/\([^)]*(?:\d|score|assist|goal|gol|shot|chute|target|alvo|over|under|mais|menos)[^)]*\)/gi, "")
+  .replace(/\s+/g, " ")
+  .trim();
+const validGoalEvent = (type: string) => /goal|gol|penalty|penalti/i.test(type) && !/missed|cancelled|canceled|disallowed|own goal|contra/i.test(type);
+const statNumber = (value: unknown) => {
+  const number = typeof value === "string" ? Number(value.replace("%", "").replace(",", ".")) : Number(value);
+  return Number.isFinite(number) ? number : null;
+};
+const playerStat = (snapshot: LiveMatchSnapshot, player: string, pattern: RegExp) => {
+  const topPlayer = snapshot.topPlayers.find((item) => samePlayerName(player, item.name));
+  const stat = topPlayer?.statistics?.find((item) => pattern.test(normalizedText(item.name)));
+  return statNumber(stat?.value);
+};
+const livePlayerPropValue = (selection: BetSelection, snapshot: LiveMatchSnapshot, market: string) => {
+  const player = selectedPlayerName(selection.selectionLabel);
+  if (!player) return null;
+  const goals = snapshot.events.filter((event) => validGoalEvent(event.type) && samePlayerName(player, event.player ?? "")).length;
+  const assists = snapshot.events.filter((event) => validGoalEvent(event.type) && samePlayerName(player, event.assist ?? "")).length;
+  if (market.includes("score or assist") || (market.includes("score") && market.includes("assist")) || market.includes("gol ou assist")) return goals + assists;
+  if (market.includes("jogador marca") || market.includes("goalscorer") || market.includes("gols do jogador") || market.includes("player goals")) return goals;
+  if (market.includes("assist")) return assists || playerStat(snapshot, player, /assist/);
+  if (market.includes("alvo") || market.includes("on target")) return playerStat(snapshot, player, /shots? on target|finaliza.*alvo|chutes? no alvo/);
+  if (market.includes("finaliza") || market.includes("shot")) return playerStat(snapshot, player, /total shots?|shots(?!.*target)|finaliza|chutes?/);
+  if (market.includes("passe") || market.includes("pass")) return playerStat(snapshot, player, /pass/);
+  if (market.includes("desarme") || market.includes("tackle")) return playerStat(snapshot, player, /tackle|desarme/);
+  return null;
+};
 
 function liveSelectionProbability(selection: BetSelection, snapshot: LiveMatchSnapshot | undefined, base: number) {
   if (selection.result === "green") return 0.995;
@@ -339,6 +368,13 @@ function liveSelectionProbability(selection: BetSelection, snapshot: LiveMatchSn
   const [homeGoals, awayGoals] = snapshot.score;
   const total = homeGoals + awayGoals;
   const progress = Math.min(1, Math.max(0, Number(snapshot.clock ?? 0) / 90));
+  if (/jogador|player|goalscorer|scorer|finaliza|shot|assist|passe|pass|desarme|tackle/.test(market)) {
+    const value = livePlayerPropValue(selection, snapshot, market);
+    const line = trailingLine(label) ?? 0.5;
+    if (value != null && (label.includes("mais de") || label.includes("over") || label === "sim") && value > line) return 0.995;
+    if (value != null && (label.includes("menos de") || label.includes("under") || label === "nao" || label === "não") && value > line) return 0.001;
+    return Math.max(0.02, base * (1 - progress * 0.82));
+  }
   if (market.includes("jogador marca") || market.includes("goalscorer") || market.includes("gols do jogador")) {
     const player = selection.selectionLabel.split(/—| - /)[0].replace(/\([^)]*\)/g, "").trim();
     if (snapshot.events.some((event) => /goal|penalty/i.test(event.type) && !/missed|cancelled|own goal/i.test(event.type) && samePlayerName(player, event.player ?? ""))) return 0.995;

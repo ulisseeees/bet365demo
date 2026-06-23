@@ -155,6 +155,7 @@ async function request<T>(endpoint: string, parameters: Record<string, string | 
 function marketName(key: string) {
   const direct: Record<string, string> = {
     h2h: "Resultado da partida",
+    h2h_lay: "Resultado da partida",
     spreads: "Handicap",
     totals: "Total de gols",
     btts: "Ambas marcam",

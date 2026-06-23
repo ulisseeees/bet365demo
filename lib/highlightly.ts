@@ -110,6 +110,14 @@ function mappedStatistics(match: ApiMatch): LiveMatchStatistic[] {
   }));
 }
 
+function playerStatistics(player: ApiTopPlayer): LiveTopPlayer["statistics"] {
+  return (player.statistics ?? []).flatMap((stat) => {
+    if (!stat.name) return [];
+    const value = typeof stat.value === "number" || typeof stat.value === "string" ? stat.value : null;
+    return [{ name: stat.name, value }];
+  });
+}
+
 function rating(player: ApiTopPlayer) {
   const item = player.statistics?.find((stat) => /rating|nota/i.test(stat.name ?? ""));
   const value = item?.value;
@@ -118,8 +126,8 @@ function rating(player: ApiTopPlayer) {
 
 function topPlayers(match: ApiMatch): LiveTopPlayer[] {
   return [
-    ...(match.homeTeam.topPlayers ?? []).slice(0, 3).flatMap((player): LiveTopPlayer[] => player.name ? [{ team: "home", name: player.name, position: player.position, rating: rating(player) }] : []),
-    ...(match.awayTeam.topPlayers ?? []).slice(0, 3).flatMap((player): LiveTopPlayer[] => player.name ? [{ team: "away", name: player.name, position: player.position, rating: rating(player) }] : []),
+    ...(match.homeTeam.topPlayers ?? []).slice(0, 8).flatMap((player): LiveTopPlayer[] => player.name ? [{ team: "home", name: player.name, position: player.position, rating: rating(player), statistics: playerStatistics(player) }] : []),
+    ...(match.awayTeam.topPlayers ?? []).slice(0, 8).flatMap((player): LiveTopPlayer[] => player.name ? [{ team: "away", name: player.name, position: player.position, rating: rating(player), statistics: playerStatistics(player) }] : []),
   ];
 }
 
@@ -285,12 +293,12 @@ function pollingInterval(activeCount: number) {
   return Math.max(liveCacheSeconds, activeCount * 60);
 }
 
-async function refreshRow(row: TrackingRow, intervalSeconds: number) {
+async function refreshRow(row: TrackingRow, intervalSeconds: number, force = false) {
   if (!row.highlightly_id) return;
   const lock = await withProviderRefreshLock(`highlightly:live:${row.match_id}`, async () => {
     const currentResult = await sql`SELECT * FROM highlightly_tracking WHERE match_id = ${row.match_id} LIMIT 1`;
     const current = currentResult.rows[0] as unknown as TrackingRow | undefined;
-    if (!current?.highlightly_id || (current.next_poll_at && new Date(current.next_poll_at).getTime() > Date.now())) return null;
+    if (!current?.highlightly_id || (!force && current.next_poll_at && new Date(current.next_poll_at).getTime() > Date.now())) return null;
     try {
       const response = await request<ApiMatch[]>(`/matches/${current.highlightly_id}`);
       const detailed = response.data[0];
@@ -314,7 +322,7 @@ async function refreshRow(row: TrackingRow, intervalSeconds: number) {
   return lock.acquired ? lock.value : null;
 }
 
-export async function refreshHighlightlyTrackedMatches(options: { userId?: string; matchIds?: string[] } = {}) {
+export async function refreshHighlightlyTrackedMatches(options: { userId?: string; matchIds?: string[]; force?: boolean } = {}) {
   await ensureHighlightlyTracking(options.userId);
   let rows = await pendingTrackingRows(options.userId);
   if (options.matchIds?.length) {
@@ -329,12 +337,14 @@ export async function refreshHighlightlyTrackedMatches(options: { userId?: strin
   }
   const now = Date.now();
   const active = rows.filter((row) => {
-    if (!row.highlightly_id || !row.kickoff_at || row.status === "finished") return false;
+    if (!row.highlightly_id || !row.kickoff_at) return false;
+    if (options.force) return true;
+    if (row.status === "finished") return false;
     const kickoff = new Date(row.kickoff_at).getTime();
     return now >= kickoff - 10 * 60 * 1000 && now <= kickoff + 4 * 60 * 60 * 1000 && (!row.next_poll_at || new Date(row.next_poll_at).getTime() <= now);
   });
   const interval = pollingInterval(active.length);
-  await Promise.all(active.map((row) => refreshRow(row, interval)));
+  await Promise.all(active.map((row) => refreshRow(row, interval, options.force === true)));
   const refreshed = await pendingTrackingRows(options.userId);
   const wanted = options.matchIds?.length ? new Set(options.matchIds) : null;
   const quotaEntry = await readProviderCache<Quota>(QUOTA_CACHE_KEY).catch(() => null);

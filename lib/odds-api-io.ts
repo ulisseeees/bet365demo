@@ -189,9 +189,16 @@ function allowedKeys(rawName: string) {
   return ["home", "draw", "away", "over", "under", "yes", "no", "1X", "12", "X2", "odd", "even", "none"];
 }
 
+function cleanParticipant(value: string | undefined, rawMarketName: string) {
+  if (!value) return undefined;
+  let cleaned = value.trim().replace(/\s*\((?:1|2|home|away)\)\s*$/i, "");
+  if (/score or assist/i.test(rawMarketName)) cleaned = cleaned.replace(/\s*\([^)]*score[^)]*assist[^)]*\)/gi, "");
+  return cleaned.replace(/\s+/g, " ").trim() || undefined;
+}
+
 function optionLabel(key: string, row: ApiOddsRow, event: ApiEvent, rawMarketName: string) {
   const line = row.hdp == null ? "" : ` ${row.hdp}`;
-  const participant = row.label?.trim();
+  const participant = cleanParticipant(row.label?.trim(), rawMarketName);
   const kind = marketKind(rawMarketName);
   const labels: Record<string, string> = {
     home: event.home ?? "Mandante",
@@ -209,6 +216,9 @@ function optionLabel(key: string, row: ApiOddsRow, event: ApiEvent, rawMarketNam
     none: "Nenhuma equipe",
   };
   let base = labels[key] ?? key;
+  if (kind === "player" && ["over", "under"].includes(key) && !line.trim()) {
+    base = /goalscorer|scorer|score or assist/i.test(rawMarketName) ? (key === "over" ? "Sim" : "Não") : `${key === "over" ? "Mais de" : "Menos de"} 0.5`;
+  }
   if (participant && ["over", "under"].includes(key)) base = `${participant} — ${base}`;
   if (participant && ["yes", "no"].includes(key)) {
     base = kind === "player" && key === "yes" ? participant : `${participant} — ${base}`;

@@ -10,7 +10,7 @@ import { getOddsApiIoResult } from "./odds-api-io";
 import { withProviderRefreshLock } from "./provider-cache";
 import { getConfiguredOddsApiSportKeys, getOddsApiScores } from "./the-odds-api";
 import { providerTrackingInterval } from "./tracking-policy";
-import type { BetSelection, LiveMatchEvent, LiveMatchStatistic, Match } from "./types";
+import type { BetSelection, LiveMatchEvent, LiveMatchStatistic, LiveTopPlayer, Match } from "./types";
 
 interface MatchResult {
   matchId: string;
@@ -25,6 +25,7 @@ interface MatchResult {
   events?: LiveMatchEvent[];
   eventsComplete?: boolean;
   statistics?: LiveMatchStatistic[];
+  topPlayers?: LiveTopPlayer[];
   periods?: Record<string, { home: number | null; away: number | null }>;
   source?: "highlightly" | "api-football" | "the-odds-api" | "odds-api-io";
 }
@@ -148,9 +149,87 @@ function samePlayer(left: string, right: string) {
   return a[0][0] === b[0][0];
 }
 
-function playerScored(selection: BetSelection, result: MatchResult) {
-  const selectedPlayer = selection.selectionLabel.split(/—| - /)[0].replace(/\([^)]*\)/g, "").trim();
-  return Boolean(selectedPlayer && result.events?.some((event) => /goal|penalty/i.test(event.type) && !/missed|cancelled|own goal/i.test(event.type) && samePlayer(selectedPlayer, event.player ?? "")));
+function selectedPlayerName(selection: BetSelection) {
+  const label = selection.selectionLabel.split(/\s[—–-]\s|â€”| - /)[0] ?? selection.selectionLabel;
+  return label
+    .replace(/\([^)]*(?:\d|score|assist|goal|gol|shot|chute|target|alvo|over|under|mais|menos)[^)]*\)/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function validGoalEvent(event: LiveMatchEvent) {
+  return /goal|gol|penalty|penalti/i.test(event.type) && !/missed|cancelled|canceled|disallowed|own goal|contra/i.test(event.type);
+}
+
+function playerGoalCount(player: string, result: MatchResult) {
+  if (!player) return null;
+  return (result.events ?? []).filter((event) => validGoalEvent(event) && samePlayer(player, event.player ?? "")).length;
+}
+
+function playerAssistCount(player: string, result: MatchResult) {
+  if (!player) return null;
+  return (result.events ?? []).filter((event) => validGoalEvent(event) && samePlayer(player, event.assist ?? "")).length;
+}
+
+function numberValue(value: unknown) {
+  const number = typeof value === "string" ? Number(value.replace("%", "").replace(",", ".")) : Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function playerStatistic(selection: BetSelection, result: MatchResult, pattern: RegExp) {
+  const player = selectedPlayerName(selection);
+  const topPlayer = result.topPlayers?.find((item) => samePlayer(player, item.name));
+  const stat = topPlayer?.statistics?.find((item) => pattern.test(normalize(item.name)));
+  return numberValue(stat?.value);
+}
+
+function playerLine(label: string, fallback = 0.5) {
+  return parseLine(label) ?? fallback;
+}
+
+function compareOverUnder(label: string, current: number, line: number, final = false): "green" | "red" | "void" | null {
+  if (label.includes("mais de") || label.includes("over")) return current > line ? "green" : final ? "red" : null;
+  if (label.includes("menos de") || label.includes("under")) return current > line ? "red" : final ? current === line ? "void" : "green" : null;
+  if (label === "sim" || label.includes(" yes")) return current > 0 ? "green" : final ? "red" : null;
+  if (label === "nao" || label === "não" || label.includes(" no")) return current > 0 ? "red" : final ? "green" : null;
+  return current > line ? "green" : final ? "red" : null;
+}
+
+function playerPropValue(selection: BetSelection, result: MatchResult) {
+  const market = normalize(selection.marketName);
+  const player = selectedPlayerName(selection);
+  if (!player) return null;
+  if (market.includes("score or assist") || market.includes("marca ou assiste") || market.includes("gol ou assist") || (market.includes("score") && market.includes("assist"))) {
+    const goals = playerGoalCount(player, result);
+    const assists = playerAssistCount(player, result);
+    return goals == null || assists == null ? null : goals + assists;
+  }
+  if (market.includes("jogador marca") || market.includes("goalscorer") || market.includes("gols do jogador") || market.includes("player goals")) {
+    return playerGoalCount(player, result);
+  }
+  if (market.includes("assist")) return playerAssistCount(player, result) ?? playerStatistic(selection, result, /assist/);
+  if (market.includes("alvo") || market.includes("on target")) return playerStatistic(selection, result, /shots? on target|finaliza.*alvo|chutes? no alvo/);
+  if (market.includes("finaliza") || market.includes("shot")) return playerStatistic(selection, result, /total shots?|shots(?!.*target)|finaliza|chutes?/);
+  if (market.includes("passe") || market.includes("pass")) return playerStatistic(selection, result, /pass/);
+  if (market.includes("desarme") || market.includes("tackle")) return playerStatistic(selection, result, /tackle|desarme/);
+  return null;
+}
+
+function isPlayerMarket(market: string) {
+  return /jogador|player|goalscorer|scorer|finaliza|shot|assist|passe|pass|desarme|tackle/.test(market);
+}
+
+function evaluatePlayerSelection(selection: BetSelection, result: MatchResult, final: boolean): "green" | "red" | "void" | null {
+  const market = normalize(selection.marketName);
+  if (!isPlayerMarket(market)) return null;
+  const label = normalize(selection.selectionLabel);
+  const current = playerPropValue(selection, result);
+  if (current == null) return null;
+  return compareOverUnder(label, current, playerLine(label), final);
+}
+
+function isMatchWinnerMarket(market: string) {
+  return (market.includes("resultado da partida") || market === "match winner" || market === "h2h" || market.includes("h2h")) && !market.includes("tempo") && !market.includes("half");
 }
 
 function firstHalfGoals(result: MatchResult) {
@@ -179,6 +258,8 @@ function evaluateGuaranteedLiveSelection(selection: BetSelection, result: MatchR
   const market = normalize(selection.marketName);
   const label = normalize(selection.selectionLabel);
   const total = result.homeGoals + result.awayGoals;
+  const playerOutcome = evaluatePlayerSelection(selection, result, false);
+  if (playerOutcome === "green" || playerOutcome === "red") return playerOutcome;
   if (isFirstHalfTotal(market)) {
     const goals = firstHalfGoals(result);
     const line = parseLine(label);
@@ -186,7 +267,6 @@ function evaluateGuaranteedLiveSelection(selection: BetSelection, result: MatchR
     if (label.includes("mais de")) return goals > line ? "green" : firstHalfClosed(result) ? "red" : null;
     if (label.includes("menos de")) return goals > line ? "red" : firstHalfClosed(result) ? "green" : null;
   }
-  if (market.includes("jogador marca") || market.includes("goalscorer") || market.includes("gols do jogador")) return playerScored(selection, result) ? "green" : null;
   if ((market.includes("total de gols") || market.includes("linha de gols")) && !market.includes("tempo")) {
     const line = parseLine(label);
     if (line == null) return null;
@@ -219,6 +299,8 @@ function evaluateSelection(selection: BetSelection, result: MatchResult): "green
   const awayWon = result.awayGoals > result.homeGoals;
   const draw = result.homeGoals === result.awayGoals;
   const total = result.homeGoals + result.awayGoals;
+  const playerOutcome = evaluatePlayerSelection(selection, result, true);
+  if (playerOutcome) return playerOutcome;
 
   if (isFirstHalfTotal(market)) {
     const goals = firstHalfGoals(result);
@@ -229,7 +311,7 @@ function evaluateSelection(selection: BetSelection, result: MatchResult): "green
     if (label.includes("menos de")) return goals < line ? "green" : "red";
   }
 
-  if ((market.includes("resultado da partida") || market === "match winner") && !market.includes("tempo")) {
+  if (isMatchWinnerMarket(market)) {
     if (label.includes("empate")) return draw ? "green" : "red";
     if (label.includes(home)) return homeWon ? "green" : "red";
     if (label.includes(away)) return awayWon ? "green" : "red";
@@ -281,10 +363,6 @@ function evaluateSelection(selection: BetSelection, result: MatchResult): "green
     const score = label.match(/(\d+)\D+(\d+)/);
     if (!score) return null;
     return Number(score[1]) === result.homeGoals && Number(score[2]) === result.awayGoals ? "green" : "red";
-  }
-  if (market.includes("jogador marca") || market.includes("goalscorer") || market.includes("gols do jogador")) {
-    if (result.events == null || result.eventsComplete !== true) return null;
-    return playerScored(selection, result) ? "green" : "red";
   }
   if (market.includes("escanteio") || market.includes("corner")) {
     const corners = matchStatistic(result, /corner|escanteio/);
@@ -358,9 +436,12 @@ async function liquidateFromResult(result: MatchResult) {
   return { evaluated, settled, manual };
 }
 
-export async function updateHighlightlyLiveResults(userId?: string) {
+export async function updateHighlightlyLiveResults(options: string | { userId?: string; matchIds?: string[]; force?: boolean } = {}) {
   await ensureDatabaseSchema();
-  const snapshots = await refreshHighlightlyTrackedMatches({ userId });
+  const userId = typeof options === "string" ? options : options.userId;
+  const matchIds = typeof options === "string" ? undefined : options.matchIds;
+  const force = typeof options === "string" ? false : options.force === true;
+  const snapshots = await refreshHighlightlyTrackedMatches({ userId, matchIds, force });
   let evaluated = 0;
   let settled = 0;
   let manual = 0;
@@ -380,6 +461,7 @@ export async function updateHighlightlyLiveResults(userId?: string) {
       events: snapshot.events,
       eventsComplete: snapshot.eventsComplete,
       statistics: snapshot.statistics,
+      topPlayers: snapshot.topPlayers,
       source: "highlightly",
     });
     evaluated += liquidation.evaluated;

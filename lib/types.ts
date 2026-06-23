@@ -77,6 +77,7 @@ export interface LiveTopPlayer {
   name: string;
   position?: string;
   rating?: string;
+  statistics?: Array<{ name: string; value: number | string | null }>;
 }
 
 export interface LiveMatchSnapshot {
